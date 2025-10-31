@@ -1,0 +1,2095 @@
+2025-10-28 16:37:20,865 - root - INFO - 所有任务已停止
+2025-10-28 16:37:51,221 - root - INFO - 所有任务已停止
+2025-10-28 16:43:57,195 - root - INFO - 开始调度 1 个任务，线程数: 2
+2025-10-28 16:43:57,195 - root - INFO - 调度 1 个新任务，可用槽位: 2
+2025-10-28 16:43:57,196 - root - INFO - 启动任务 1, 当前运行任务数: 1
+2025-10-28 16:44:03,200 - root - INFO - 任务 1 完成, 成功: True, 已完成: 1/1
+2025-10-28 16:44:03,200 - root - INFO - 所有任务已完成
+2025-10-28 17:00:42,732 - root - INFO - 开始循环执行任务，最大并发数: 2
+2025-10-28 17:00:42,733 - root - INFO - 启动任务 1, 总启动任务数: 1
+2025-10-28 17:00:42,733 - root - INFO - 启动任务 2, 总启动任务数: 2
+2025-10-28 17:00:48,736 - root - INFO - 任务 1 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:00:48,737 - root - INFO - 任务 2 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:00:49,230 - root - INFO - 启动任务 3, 总启动任务数: 3
+2025-10-28 17:00:49,230 - root - INFO - 启动任务 4, 总启动任务数: 4
+2025-10-28 17:00:55,234 - root - INFO - 任务 4 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:00:55,235 - root - INFO - 任务 3 完成, 执行时间: 6.01秒, 成功: True
+2025-10-28 17:00:55,410 - root - INFO - 启动任务 5, 总启动任务数: 5
+2025-10-28 17:00:55,410 - root - INFO - 启动任务 6, 总启动任务数: 6
+2025-10-28 17:00:59,875 - root - INFO - 所有任务已暂停
+2025-10-28 17:01:00,235 - root - INFO - 启动任务 7, 总启动任务数: 7
+2025-10-28 17:01:00,235 - root - INFO - 启动任务 8, 总启动任务数: 8
+2025-10-28 17:01:06,240 - root - INFO - 任务 7 完成, 执行时间: 6.01秒, 成功: True
+2025-10-28 17:01:06,240 - root - INFO - 任务 8 完成, 执行时间: 6.01秒, 成功: True
+2025-10-28 17:01:06,732 - root - INFO - 启动任务 9, 总启动任务数: 9
+2025-10-28 17:01:06,732 - root - INFO - 启动任务 10, 总启动任务数: 10
+2025-10-28 17:01:12,736 - root - INFO - 任务 9 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:01:12,737 - root - INFO - 任务 10 完成, 执行时间: 6.01秒, 成功: True
+2025-10-28 17:01:13,230 - root - INFO - 启动任务 11, 总启动任务数: 11
+2025-10-28 17:01:13,230 - root - INFO - 启动任务 12, 总启动任务数: 12
+2025-10-28 17:01:19,234 - root - INFO - 任务 12 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:01:19,235 - root - INFO - 任务 11 完成, 执行时间: 6.01秒, 成功: True
+2025-10-28 17:01:19,729 - root - INFO - 启动任务 13, 总启动任务数: 13
+2025-10-28 17:01:19,729 - root - INFO - 启动任务 14, 总启动任务数: 14
+2025-10-28 17:01:25,733 - root - INFO - 任务 13 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:01:25,734 - root - INFO - 任务 14 完成, 执行时间: 6.01秒, 成功: True
+2025-10-28 17:01:26,234 - root - INFO - 启动任务 15, 总启动任务数: 15
+2025-10-28 17:01:26,234 - root - INFO - 启动任务 16, 总启动任务数: 16
+2025-10-28 17:01:32,236 - root - INFO - 任务 15 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:01:32,238 - root - INFO - 任务 16 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:01:32,733 - root - INFO - 启动任务 17, 总启动任务数: 17
+2025-10-28 17:01:32,734 - root - INFO - 启动任务 18, 总启动任务数: 18
+2025-10-28 17:01:38,738 - root - INFO - 任务 18 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:01:38,738 - root - INFO - 任务 17 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:01:39,230 - root - INFO - 启动任务 19, 总启动任务数: 19
+2025-10-28 17:01:39,230 - root - INFO - 启动任务 20, 总启动任务数: 20
+2025-10-28 17:01:44,257 - root - INFO - 所有任务已停止。总创建任务: 20, 总完成: 16
+2025-10-28 17:06:01,920 - root - INFO - 开始循环执行任务，最大并发数: 2
+2025-10-28 17:06:01,920 - root - INFO - 启动任务 1, 总启动任务数: 1
+2025-10-28 17:06:01,920 - root - INFO - 启动任务 2, 总启动任务数: 2
+2025-10-28 17:06:07,925 - root - INFO - 任务 1 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:06:07,925 - root - INFO - 任务 2 完成, 执行时间: 6.01秒, 成功: True
+2025-10-28 17:06:08,411 - root - INFO - 启动任务 3, 总启动任务数: 3
+2025-10-28 17:06:08,411 - root - INFO - 启动任务 4, 总启动任务数: 4
+2025-10-28 17:06:14,415 - root - INFO - 任务 4 完成, 执行时间: 6.00秒, 成功: True
+2025-10-28 17:06:14,416 - root - INFO - 启动任务 5, 总启动任务数: 5
+2025-10-28 17:06:14,416 - root - INFO - 启动任务 6, 总启动任务数: 6
+2025-10-28 17:06:14,417 - root - INFO - 任务 3 完成, 执行时间: 6.01秒, 成功: True
+2025-10-28 17:06:16,440 - root - INFO - 已暂停 2 个运行中的任务
+2025-10-28 17:06:16,440 - root - INFO - 任务调度已暂停，不会启动新任务
+2025-10-28 17:06:25,895 - root - INFO - 已恢复 2 个暂停的任务
+2025-10-28 17:06:25,895 - root - INFO - 任务调度已恢复
+2025-10-28 17:06:28,960 - root - INFO - 任务 5 完成, 执行时间: 14.54秒, 成功: True
+2025-10-28 17:06:28,963 - root - INFO - 任务 6 完成, 执行时间: 14.55秒, 成功: True
+2025-10-28 17:06:29,394 - root - INFO - 启动任务 7, 总启动任务数: 7
+2025-10-28 17:06:29,394 - root - INFO - 启动任务 8, 总启动任务数: 8
+2025-10-28 17:06:34,314 - root - INFO - 已暂停 2 个运行中的任务
+2025-10-28 17:06:34,314 - root - INFO - 任务调度已暂停，不会启动新任务
+2025-10-28 17:06:42,747 - root - INFO - 所有任务已停止。总创建任务: 8, 总完成: 6
+2025-10-28 17:40:36,863 - root - INFO - 开始循环执行任务，最大并发数: 1
+2025-10-28 17:40:36,863 - root - INFO - 启动任务 1, 总启动任务数: 1
+2025-10-28 17:40:43,869 - root - INFO - 任务 1 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 17:40:44,351 - root - INFO - 启动任务 2, 总启动任务数: 2
+2025-10-28 17:40:46,631 - root - INFO - 已暂停 1 个运行中的任务
+2025-10-28 17:40:46,631 - root - INFO - 任务调度已暂停，不会启动新任务
+2025-10-28 17:40:51,674 - root - INFO - 所有任务已停止。总创建任务: 2, 总完成: 1
+2025-10-28 17:40:55,931 - root - INFO - 开始循环执行任务，最大并发数: 1
+2025-10-28 17:40:55,931 - root - INFO - 启动任务 3, 总启动任务数: 1
+2025-10-28 17:41:00,935 - root - INFO - 所有任务已停止。总创建任务: 1, 总完成: 0
+2025-10-28 21:55:33,844 - root - INFO - 开始循环执行任务，最大并发数: 1
+2025-10-28 21:55:33,850 - root - INFO - 启动任务 1, 总启动任务数: 1
+2025-10-28 21:55:40,860 - root - INFO - 任务 1 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 21:55:40,896 - root - INFO - 启动任务 2, 总启动任务数: 2
+2025-10-28 21:55:47,902 - root - INFO - 任务 2 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 21:55:47,935 - root - INFO - 启动任务 3, 总启动任务数: 3
+2025-10-28 21:55:48,523 - root - INFO - 已暂停 1 个运行中的任务
+2025-10-28 21:55:48,524 - root - INFO - 任务调度已暂停，不会启动新任务
+2025-10-28 21:55:51,158 - root - INFO - 已恢复 1 个暂停的任务
+2025-10-28 21:55:51,159 - root - INFO - 任务调度已恢复
+2025-10-28 21:55:54,259 - root - INFO - 所有任务已停止。总创建任务: 3, 总完成: 2
+2025-10-28 22:00:43,158 - root - INFO - 开始循环执行任务，最大并发数: 2
+2025-10-28 22:00:43,160 - root - INFO - 启动任务 4, 总启动任务数: 1
+2025-10-28 22:00:43,162 - root - INFO - 启动任务 5, 总启动任务数: 2
+2025-10-28 22:00:59,175 - root - INFO - 所有任务已停止。总创建任务: 2, 总完成: 0
+2025-10-28 22:14:55,567 - root - INFO - 开始循环执行任务，最大并发数: 2
+2025-10-28 22:14:55,569 - root - INFO - 启动任务 6, 总启动任务数: 1
+2025-10-28 22:14:55,570 - root - INFO - 启动任务 7, 总启动任务数: 2
+2025-10-28 22:15:02,576 - root - INFO - 任务 7 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:02,583 - root - INFO - 任务 6 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:02,603 - root - INFO - 启动任务 8, 总启动任务数: 3
+2025-10-28 22:15:02,606 - root - INFO - 启动任务 9, 总启动任务数: 4
+2025-10-28 22:15:09,611 - root - INFO - 任务 8 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:09,615 - root - INFO - 任务 9 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:09,637 - root - INFO - 启动任务 10, 总启动任务数: 5
+2025-10-28 22:15:09,638 - root - INFO - 启动任务 11, 总启动任务数: 6
+2025-10-28 22:15:16,645 - root - INFO - 任务 10 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:16,652 - root - INFO - 任务 11 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:16,693 - root - INFO - 启动任务 12, 总启动任务数: 7
+2025-10-28 22:15:16,694 - root - INFO - 启动任务 13, 总启动任务数: 8
+2025-10-28 22:15:23,699 - root - INFO - 任务 12 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:23,705 - root - INFO - 任务 13 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:23,749 - root - INFO - 启动任务 14, 总启动任务数: 9
+2025-10-28 22:15:23,749 - root - INFO - 启动任务 15, 总启动任务数: 10
+2025-10-28 22:15:30,755 - root - INFO - 任务 14 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:30,763 - root - INFO - 任务 15 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:30,821 - root - INFO - 启动任务 16, 总启动任务数: 11
+2025-10-28 22:15:30,821 - root - INFO - 启动任务 17, 总启动任务数: 12
+2025-10-28 22:15:37,828 - root - INFO - 任务 16 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:37,833 - root - INFO - 任务 17 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:37,866 - root - INFO - 启动任务 18, 总启动任务数: 13
+2025-10-28 22:15:37,867 - root - INFO - 启动任务 19, 总启动任务数: 14
+2025-10-28 22:15:44,874 - root - INFO - 任务 18 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:44,880 - root - INFO - 任务 19 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:44,932 - root - INFO - 启动任务 20, 总启动任务数: 15
+2025-10-28 22:15:44,933 - root - INFO - 启动任务 21, 总启动任务数: 16
+2025-10-28 22:15:51,938 - root - INFO - 任务 20 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:51,943 - root - INFO - 任务 21 完成, 执行时间: 7.01秒, 成功: True
+2025-10-28 22:15:52,010 - root - INFO - 启动任务 22, 总启动任务数: 17
+2025-10-28 22:15:52,011 - root - INFO - 启动任务 23, 总启动任务数: 18
+2025-10-28 22:15:55,626 - root - INFO - 已暂停 2 个运行中的任务
+2025-10-28 22:15:55,627 - root - INFO - 任务调度已暂停，不会启动新任务
+2025-10-28 22:15:58,745 - root - INFO - 所有任务已停止。总创建任务: 18, 总完成: 16
+2025-10-29 00:42:21,742 - root - INFO - 开始循环执行任务，最大并发数: 2
+2025-10-29 00:42:21,743 - root - INFO - 启动任务 24, 总启动任务数: 1
+2025-10-29 00:42:21,744 - root - INFO - 启动任务 25, 总启动任务数: 2
+2025-10-29 00:42:28,752 - root - INFO - 任务 24 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 00:42:28,761 - root - INFO - 启动任务 26, 总启动任务数: 3
+2025-10-29 00:42:28,778 - root - INFO - 启动任务 27, 总启动任务数: 4
+2025-10-29 00:42:28,784 - root - INFO - 任务 25 完成, 执行时间: 7.04秒, 成功: True
+2025-10-29 00:42:35,790 - root - INFO - 任务 26 完成, 执行时间: 7.03秒, 成功: True
+2025-10-29 00:42:35,793 - root - INFO - 任务 27 完成, 执行时间: 7.02秒, 成功: True
+2025-10-29 00:42:36,152 - root - INFO - 启动任务 28, 总启动任务数: 5
+2025-10-29 00:42:36,153 - root - INFO - 启动任务 29, 总启动任务数: 6
+2025-10-29 00:42:38,161 - root - INFO - 所有任务已停止。总创建任务: 6, 总完成: 4
+2025-10-29 09:47:31,445 - root - INFO - 添加新任务窗口: 云云1111
+2025-10-29 09:47:39,239 - root - INFO - 添加新任务窗口: 22222
+2025-10-29 09:47:50,548 - root - INFO - 关闭任务窗口: 云云1111
+2025-10-29 09:48:37,524 - root - INFO - 删除任务窗口: 22222
+2025-10-29 09:49:06,630 - root - INFO - 添加新任务窗口: 窗口11111
+2025-10-29 09:49:14,422 - root - INFO - 添加新任务窗口: 窗口22222
+2025-10-29 09:50:09,499 - root - INFO - 开始循环执行任务，最大并发数: 1
+2025-10-29 09:50:09,502 - root - INFO - 启动任务 1, 总启动任务数: 1
+2025-10-29 09:50:15,511 - root - INFO - 所有任务已停止。总创建任务: 1, 总完成: 0
+2025-10-29 09:50:23,427 - root - INFO - 删除任务窗口: 窗口22222
+2025-10-29 10:49:35,439 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-29 10:49:39,500 - root - INFO - 关闭任务窗口: 任务窗口_1
+2025-10-29 11:07:17,112 - root - INFO - 添加新任务窗口: 13123
+2025-10-29 11:07:45,215 - root - INFO - 开始循环执行任务，最大并发数: 1
+2025-10-29 11:07:45,217 - root - INFO - 启动任务 1, 总启动任务数: 1
+2025-10-29 11:07:50,226 - root - INFO - 所有任务已停止。总创建任务: 1, 总完成: 0, 总运行时间: 5.01秒
+2025-10-29 11:25:02,521 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-29 11:27:54,964 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-29 11:31:46,142 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-29 11:31:49,130 - root - INFO - 关闭任务窗口: 任务窗口_1
+2025-10-29 11:32:47,792 - root - INFO - 添加新任务窗口: 任务窗口_2
+2025-10-29 14:36:26,920 - root - INFO - 添加新任务窗口: 任务窗口_3
+2025-10-29 14:36:36,896 - root - INFO - 关闭任务窗口: 任务窗口_2
+2025-10-29 14:36:38,039 - root - INFO - 关闭任务窗口: 任务窗口_3
+2025-10-29 14:42:35,810 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-29 14:43:14,490 - root - INFO - 开始10分钟任务，目标完成 14 个进程
+2025-10-29 14:43:14,490 - root - INFO - 启动任务 1, 已调度: 1/14
+2025-10-29 14:43:14,588 - root - INFO - 启动任务 2, 已调度: 2/14
+2025-10-29 14:43:14,697 - root - INFO - 启动任务 3, 已调度: 3/14
+2025-10-29 14:43:14,806 - root - INFO - 启动任务 4, 已调度: 4/14
+2025-10-29 14:43:21,824 - root - INFO - 任务 2 完成, 执行时间: 7.24秒, 成功: True
+2025-10-29 14:43:24,747 - root - INFO - 任务 1 完成, 执行时间: 10.26秒, 成功: True
+2025-10-29 14:43:24,748 - root - INFO - 任务 4 完成, 执行时间: 9.94秒, 成功: True
+2025-10-29 14:43:25,376 - root - INFO - 任务 3 完成, 执行时间: 10.68秒, 成功: True
+2025-10-29 14:43:25,427 - root - INFO - 启动任务 5, 已调度: 5/14
+2025-10-29 14:43:25,527 - root - INFO - 启动任务 6, 已调度: 6/14
+2025-10-29 14:43:25,634 - root - INFO - 启动任务 7, 已调度: 7/14
+2025-10-29 14:43:25,746 - root - INFO - 启动任务 8, 已调度: 8/14
+2025-10-29 14:43:25,859 - root - INFO - 启动任务 9, 已调度: 9/14
+2025-10-29 14:43:25,970 - root - INFO - 启动任务 10, 已调度: 10/14
+2025-10-29 14:43:26,083 - root - INFO - 启动任务 11, 已调度: 11/14
+2025-10-29 14:43:26,192 - root - INFO - 启动任务 12, 已调度: 12/14
+2025-10-29 14:43:26,301 - root - INFO - 启动任务 13, 已调度: 13/14
+2025-10-29 14:43:26,402 - root - INFO - 启动任务 14, 已调度: 14/14
+2025-10-29 14:43:33,942 - root - INFO - 任务 7 完成, 执行时间: 8.31秒, 成功: True
+2025-10-29 14:43:34,337 - root - INFO - 任务 14 完成, 执行时间: 7.93秒, 成功: True
+2025-10-29 14:43:34,402 - root - INFO - 任务 6 完成, 执行时间: 8.87秒, 成功: True
+2025-10-29 14:43:34,555 - root - INFO - 任务 12 完成, 执行时间: 8.36秒, 成功: True
+2025-10-29 14:43:34,829 - root - INFO - 任务 11 完成, 执行时间: 8.75秒, 成功: True
+2025-10-29 14:43:35,033 - root - INFO - 任务 10 完成, 执行时间: 9.06秒, 成功: True
+2025-10-29 14:43:35,630 - root - INFO - 任务 13 完成, 执行时间: 9.33秒, 成功: True
+2025-10-29 14:43:35,919 - root - INFO - 任务 8 完成, 执行时间: 10.17秒, 成功: True
+2025-10-29 14:43:36,830 - root - INFO - 任务 9 完成, 执行时间: 10.97秒, 成功: True
+2025-10-29 14:43:36,845 - root - INFO - 任务 5 完成, 执行时间: 11.42秒, 成功: True
+2025-10-29 14:43:36,846 - root - INFO - 已完成所有目标进程: 14/14
+2025-10-29 14:43:36,846 - root - INFO - 任务停止。目标: 14, 完成: 14, 完成率: 100.0%, 用时: 22.4秒
+2025-10-29 14:46:28,116 - root - INFO - 开始10分钟任务，目标完成 14 个进程
+2025-10-29 14:46:28,116 - root - INFO - 启动任务 1, 已调度: 1/14
+2025-10-29 14:46:35,126 - root - INFO - 启动任务 2, 已调度: 2/14
+2025-10-29 14:46:35,126 - root - INFO - 任务 1 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:46:42,130 - root - INFO - 任务 2 完成, 执行时间: 7.00秒, 成功: True
+2025-10-29 14:46:42,230 - root - INFO - 启动任务 3, 已调度: 3/14
+2025-10-29 14:46:49,233 - root - INFO - 任务 3 完成, 执行时间: 7.00秒, 成功: True
+2025-10-29 14:46:49,338 - root - INFO - 启动任务 4, 已调度: 4/14
+2025-10-29 14:46:56,344 - root - INFO - 任务 4 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:46:56,449 - root - INFO - 启动任务 5, 已调度: 5/14
+2025-10-29 14:47:03,453 - root - INFO - 启动任务 6, 已调度: 6/14
+2025-10-29 14:47:03,454 - root - INFO - 任务 5 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:47:10,461 - root - INFO - 任务 6 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:47:10,563 - root - INFO - 启动任务 7, 已调度: 7/14
+2025-10-29 14:47:17,566 - root - INFO - 启动任务 8, 已调度: 8/14
+2025-10-29 14:47:17,567 - root - INFO - 任务 7 完成, 执行时间: 7.00秒, 成功: True
+2025-10-29 14:47:24,573 - root - INFO - 任务 8 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:47:24,676 - root - INFO - 启动任务 9, 已调度: 9/14
+2025-10-29 14:47:31,681 - root - INFO - 任务 9 完成, 执行时间: 7.00秒, 成功: True
+2025-10-29 14:47:31,775 - root - INFO - 启动任务 10, 已调度: 10/14
+2025-10-29 14:47:38,782 - root - INFO - 启动任务 11, 已调度: 11/14
+2025-10-29 14:47:38,783 - root - INFO - 任务 10 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:47:45,786 - root - INFO - 任务 11 完成, 执行时间: 7.00秒, 成功: True
+2025-10-29 14:47:45,891 - root - INFO - 启动任务 12, 已调度: 12/14
+2025-10-29 14:47:52,898 - root - INFO - 任务 12 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:47:52,996 - root - INFO - 启动任务 13, 已调度: 13/14
+2025-10-29 14:48:00,002 - root - INFO - 任务 13 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:48:00,107 - root - INFO - 启动任务 14, 已调度: 14/14
+2025-10-29 14:48:07,116 - root - INFO - 任务 14 完成, 执行时间: 7.01秒, 成功: True
+2025-10-29 14:48:07,117 - root - INFO - 已完成所有目标进程: 14/14
+2025-10-29 14:48:07,117 - root - INFO - 任务停止。目标: 14, 完成: 14, 完成率: 100.0%, 用时: 99.0秒
+2025-10-29 14:56:08,008 - root - INFO - 添加新任务窗口: 任务窗口_2
+2025-10-29 15:09:16,453 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-29 15:10:05,291 - root - INFO - 开始任务: 15个进程在14分钟内完成
+2025-10-29 15:10:05,292 - root - INFO - 线程数: 1, 总时间: 840秒
+2025-10-29 15:10:05,292 - root - INFO - 理论循环次数: 15, 平均每轮时间: 56.0秒
+2025-10-29 15:10:05,292 - root - INFO - 启动任务 1, 已调度: 1/15
+2025-10-29 15:10:05,292 - root - INFO - 第一轮启动 1 个任务
+2025-10-29 15:11:08,330 - root - INFO - 任务 1 完成, 执行时间: 63.04秒, 成功: True
+2025-10-29 15:11:14,801 - root - INFO - 启动任务 2, 已调度: 2/15
+2025-10-29 15:11:57,824 - root - INFO - 任务 2 完成, 执行时间: 43.02秒, 成功: True
+2025-10-29 15:12:01,793 - root - INFO - 启动任务 3, 已调度: 3/15
+2025-10-29 15:12:50,820 - root - INFO - 任务 3 完成, 执行时间: 49.03秒, 成功: True
+2025-10-29 15:12:51,794 - root - INFO - 启动任务 4, 已调度: 4/15
+2025-10-29 15:13:34,817 - root - INFO - 任务 4 完成, 执行时间: 43.02秒, 成功: True
+2025-10-29 15:13:36,293 - root - INFO - 启动任务 5, 已调度: 5/15
+2025-10-29 15:14:05,309 - root - INFO - 任务 5 完成, 执行时间: 29.02秒, 成功: True
+2025-10-29 15:14:06,792 - root - INFO - 启动任务 6, 已调度: 6/15
+2025-10-29 15:15:05,950 - root - INFO - 任务 6 完成, 执行时间: 59.16秒, 成功: True
+2025-10-29 15:15:07,333 - root - INFO - 启动任务 7, 已调度: 7/15
+2025-10-29 15:15:35,349 - root - INFO - 任务 7 完成, 执行时间: 28.02秒, 成功: True
+2025-10-29 15:15:35,827 - root - INFO - 启动任务 8, 已调度: 8/15
+2025-10-29 15:16:36,861 - root - INFO - 任务 8 完成, 执行时间: 61.03秒, 成功: True
+2025-10-29 15:16:37,328 - root - INFO - 启动任务 9, 已调度: 9/15
+2025-10-29 15:17:23,359 - root - INFO - 任务 9 完成, 执行时间: 46.03秒, 成功: True
+2025-10-29 15:17:23,833 - root - INFO - 启动任务 10, 已调度: 10/15
+2025-10-29 15:18:01,857 - root - INFO - 任务 10 完成, 执行时间: 38.02秒, 成功: True
+2025-10-29 15:18:02,322 - root - INFO - 启动任务 11, 已调度: 11/15
+2025-10-29 15:18:37,341 - root - INFO - 任务 11 完成, 执行时间: 35.02秒, 成功: True
+2025-10-29 15:18:38,330 - root - INFO - 启动任务 12, 已调度: 12/15
+2025-10-29 15:19:14,349 - root - INFO - 任务 12 完成, 执行时间: 36.02秒, 成功: True
+2025-10-29 15:19:14,836 - root - INFO - 启动任务 13, 已调度: 13/15
+2025-10-29 15:19:57,860 - root - INFO - 任务 13 完成, 执行时间: 43.02秒, 成功: True
+2025-10-29 15:19:58,335 - root - INFO - 启动任务 14, 已调度: 14/15
+2025-10-29 15:21:07,378 - root - INFO - 任务 14 完成, 执行时间: 69.04秒, 成功: True
+2025-10-29 15:21:07,841 - root - INFO - 启动任务 15, 已调度: 15/15
+2025-10-29 15:22:03,871 - root - INFO - 任务 15 完成, 执行时间: 56.03秒, 成功: True
+2025-10-29 15:22:03,872 - root - INFO - 已完成所有目标进程: 15/15
+2025-10-29 15:22:03,872 - root - INFO - 任务停止。目标: 15, 完成: 15, 完成率: 100.0%, 实际用时: 718.6秒
+2025-10-29 15:44:14,184 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-29 15:44:39,941 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-29 15:44:39,944 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_jiryb6oc
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--disable-blink-features=AutomationControlled
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-timer-throttling
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-features=TranslateUI
+	--disable-ipc-flooding-protection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=49235
+2025-10-29 15:44:39,956 - root - INFO - 手动检测任务开始执行
+2025-10-29 15:44:39,957 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-29 15:44:39,957 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-29 15:44:40,745 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-29 15:44:40,749 - root - INFO - 浏览器启动成功
+2025-10-29 15:44:40,750 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-29 15:44:42,802 - root - INFO - 手动检测进度: 访问目标: http://www.baidu.com
+2025-10-29 15:44:42,942 - root - ERROR - 访问URL失败 http://www.baidu.com: "Tab" has no attribute "wait_for_navigation"
+2025-10-29 15:44:42,943 - root - ERROR - 任务 0 异步执行错误: 页面访问失败
+2025-10-29 15:44:42,943 - root - ERROR - 关闭浏览器失败: 'Browser' object has no attribute 'close'
+2025-10-29 15:44:42,943 - root - ERROR - 手动检测错误: 页面访问失败
+2025-10-29 15:50:07,002 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-29 15:50:09,326 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-29 15:50:09,329 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_0vyd4cse
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--disable-blink-features=AutomationControlled
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-timer-throttling
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-features=TranslateUI
+	--disable-ipc-flooding-protection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=50718
+2025-10-29 15:50:09,340 - root - INFO - 手动检测任务开始执行
+2025-10-29 15:50:09,340 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-29 15:50:09,340 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-29 15:50:10,134 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-29 15:50:10,142 - root - INFO - 浏览器启动成功
+2025-10-29 15:50:10,142 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-29 15:50:12,054 - root - INFO - 手动检测进度: 访问目标: http://www.baidu.com
+2025-10-29 15:50:12,223 - root - ERROR - 访问URL失败 http://www.baidu.com: "Tab" has no attribute "wait_for_navigation"
+2025-10-29 15:50:12,223 - root - ERROR - 任务 0 异步执行错误: 页面访问失败
+2025-10-29 15:50:12,223 - nodriver.core.browser - INFO - terminated browser with pid 5876 successfully
+2025-10-29 15:50:12,223 - root - ERROR - 手动检测错误: 页面访问失败
+2025-10-29 15:50:12,224 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-29 15:50:12,225 - root - INFO - 浏览器已强制关闭
+2025-10-29 15:50:44,863 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-29 15:50:44,864 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_ab0kpm_d
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--disable-blink-features=AutomationControlled
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-timer-throttling
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-features=TranslateUI
+	--disable-ipc-flooding-protection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=50813
+2025-10-29 15:50:44,864 - root - INFO - 手动检测任务开始执行
+2025-10-29 15:50:44,865 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-29 15:50:44,866 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-29 15:50:45,641 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-29 15:50:45,645 - root - INFO - 浏览器启动成功
+2025-10-29 15:50:45,646 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-29 15:50:47,522 - root - INFO - 手动检测进度: 访问目标: http://www.baidu.com
+2025-10-29 15:50:47,683 - root - ERROR - 访问URL失败 http://www.baidu.com: "Tab" has no attribute "wait_for_navigation"
+2025-10-29 15:50:47,683 - root - ERROR - 任务 0 异步执行错误: 页面访问失败
+2025-10-29 15:50:47,684 - nodriver.core.browser - INFO - terminated browser with pid 19536 successfully
+2025-10-29 15:50:47,684 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-29 15:50:47,684 - root - INFO - 浏览器已强制关闭
+2025-10-29 15:50:47,684 - root - ERROR - 手动检测错误: 页面访问失败
+2025-10-29 17:21:24,609 - nodriver.core.browser - INFO - terminated browser with pid 5876 successfully
+2025-10-29 17:21:24,640 - nodriver.core.browser - INFO - terminated browser with pid 19536 successfully
+2025-10-30 14:15:25,210 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-30 14:15:45,995 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 14:15:45,999 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_7p6mx0qx
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--disable-blink-features=AutomationControlled
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-timer-throttling
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-features=TranslateUI
+	--disable-ipc-flooding-protection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=50470
+2025-10-30 14:15:46,008 - root - INFO - 手动检测任务开始执行
+2025-10-30 14:15:46,008 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 14:15:46,009 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-30 14:15:46,357 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 14:15:46,384 - root - INFO - 浏览器启动成功
+2025-10-30 14:15:46,384 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 14:15:48,361 - root - INFO - 手动检测进度: 访问目标: http://www.baidu.com
+2025-10-30 14:15:48,516 - root - ERROR - 访问URL失败 http://www.baidu.com: "Tab" has no attribute "wait_for_navigation"
+2025-10-30 14:15:48,517 - root - ERROR - 任务 0 异步执行错误: 页面访问失败
+2025-10-30 14:15:48,517 - nodriver.core.browser - INFO - terminated browser with pid 6748 successfully
+2025-10-30 14:15:48,517 - root - ERROR - 手动检测错误: 页面访问失败
+2025-10-30 14:15:48,518 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 14:15:48,519 - root - INFO - 浏览器已强制关闭
+2025-10-30 14:22:10,889 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-30 14:22:15,398 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 14:22:15,399 - root - INFO - 正在启动浏览器...
+2025-10-30 14:22:15,401 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_mm93q1bc
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=50977
+2025-10-30 14:22:15,411 - root - INFO - 手动检测任务开始执行
+2025-10-30 14:22:15,412 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 14:22:15,412 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-30 14:22:15,740 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 14:22:15,765 - root - INFO - 浏览器启动成功
+2025-10-30 14:22:15,766 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 14:22:18,143 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 14:22:18,143 - root - INFO - 手动检测进度: 访问目标: http://www.baidu.com
+2025-10-30 14:22:18,378 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:19,387 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:20,395 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:21,406 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:22,414 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:23,429 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:24,433 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:25,442 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:25,999 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-30' coro=<Browser.update_targets() done, defined at C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py:561> exception=ConnectionRefusedError(22, '远程计算机拒绝网络连接。', None, 1225, None)>
+Traceback (most recent call last):
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 564, in update_targets
+    targets = await self._get_targets()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 558, in _get_targets
+    info = await self.connection.send(cdp.target.get_targets(), _is_update=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 510, in send
+    await self.connect()
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 325, in connect
+    self._websocket = await websockets.connect(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 541, in __await_impl__
+    self.connection = await self.create_connection()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 467, in create_connection
+    _, connection = await loop.create_connection(factory, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1166, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1141, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        exceptions, addrinfo, laddr_infos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1044, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 726, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 600, in finish_connect
+    ov.getresult()
+    ~~~~~~~~~~~~^^
+ConnectionRefusedError: [WinError 1225] 远程计算机拒绝网络连接。
+2025-10-30 14:22:26,006 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-29' coro=<Browser.update_targets() done, defined at C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py:561> exception=ConnectionRefusedError(22, '远程计算机拒绝网络连接。', None, 1225, None)>
+Traceback (most recent call last):
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 564, in update_targets
+    targets = await self._get_targets()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 558, in _get_targets
+    info = await self.connection.send(cdp.target.get_targets(), _is_update=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 510, in send
+    await self.connect()
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 325, in connect
+    self._websocket = await websockets.connect(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 541, in __await_impl__
+    self.connection = await self.create_connection()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 467, in create_connection
+    _, connection = await loop.create_connection(factory, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1166, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1141, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        exceptions, addrinfo, laddr_infos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1044, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 726, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 600, in finish_connect
+    ov.getresult()
+    ~~~~~~~~~~~~^^
+ConnectionRefusedError: [WinError 1225] 远程计算机拒绝网络连接。
+2025-10-30 14:22:26,448 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:27,456 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:28,458 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:29,467 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:30,469 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:31,474 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:32,483 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:33,492 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:34,506 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:35,507 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:36,521 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:37,535 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:38,545 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:39,549 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:40,564 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:41,572 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:42,576 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:43,587 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:44,596 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:45,603 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:46,607 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:47,619 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:22:50,634 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 14:22:50,634 - root - INFO - 手动检测进度: 页面访问成功
+2025-10-30 14:22:50,635 - root - INFO - 手动检测进度: 执行正常验证流程
+2025-10-30 14:22:52,636 - root - INFO - 手动检测进度: 执行平台特定操作
+2025-10-30 14:22:54,649 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 14:22:54,649 - root - INFO - 手动检测进度: 任务执行完成
+2025-10-30 14:22:54,649 - root - INFO - 浏览器已强制关闭
+2025-10-30 14:22:54,649 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 14:32:27,919 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-30 14:32:35,518 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 14:32:35,518 - root - INFO - 正在启动浏览器...
+2025-10-30 14:32:35,520 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_q2guqer6
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=51333
+2025-10-30 14:32:35,530 - root - INFO - 手动检测任务开始执行
+2025-10-30 14:32:35,530 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 14:32:35,531 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-30 14:32:35,874 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 14:32:35,897 - root - INFO - 浏览器启动成功
+2025-10-30 14:32:35,898 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 14:32:37,754 - root - INFO - 手动检测：正在访问 http://www.baidu.com
+2025-10-30 14:32:37,754 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 14:32:37,877 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:38,884 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:39,898 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:40,900 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:41,906 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:42,912 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:43,917 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:44,933 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:45,939 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:46,653 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-40' coro=<Browser.update_targets() done, defined at C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py:561> exception=ConnectionRefusedError(22, '远程计算机拒绝网络连接。', None, 1225, None)>
+Traceback (most recent call last):
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 564, in update_targets
+    targets = await self._get_targets()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 558, in _get_targets
+    info = await self.connection.send(cdp.target.get_targets(), _is_update=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 510, in send
+    await self.connect()
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 325, in connect
+    self._websocket = await websockets.connect(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 541, in __await_impl__
+    self.connection = await self.create_connection()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 467, in create_connection
+    _, connection = await loop.create_connection(factory, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1166, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1141, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        exceptions, addrinfo, laddr_infos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1044, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 726, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 600, in finish_connect
+    ov.getresult()
+    ~~~~~~~~~~~~^^
+ConnectionRefusedError: [WinError 1225] 远程计算机拒绝网络连接。
+2025-10-30 14:32:46,656 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-39' coro=<Browser.update_targets() done, defined at C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py:561> exception=ConnectionRefusedError(22, '远程计算机拒绝网络连接。', None, 1225, None)>
+Traceback (most recent call last):
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 564, in update_targets
+    targets = await self._get_targets()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 558, in _get_targets
+    info = await self.connection.send(cdp.target.get_targets(), _is_update=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 510, in send
+    await self.connect()
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 325, in connect
+    self._websocket = await websockets.connect(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 541, in __await_impl__
+    self.connection = await self.create_connection()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 467, in create_connection
+    _, connection = await loop.create_connection(factory, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1166, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1141, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        exceptions, addrinfo, laddr_infos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1044, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 726, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 600, in finish_connect
+    ov.getresult()
+    ~~~~~~~~~~~~^^
+ConnectionRefusedError: [WinError 1225] 远程计算机拒绝网络连接。
+2025-10-30 14:32:46,948 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:47,952 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:48,960 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:49,968 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:50,974 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:51,978 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:52,985 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:54,000 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:55,002 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:56,012 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:57,019 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:58,027 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:32:59,036 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:00,044 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:01,054 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:02,067 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:03,081 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:04,096 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:05,106 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:06,115 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:07,119 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:10,142 - root - ERROR - 手动检测失败: 页面访问失败: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:10,143 - root - INFO - 手动检测进度: 手动检测失败：页面访问失败: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:10,145 - root - INFO - 手动检测完成，结果: 失败
+2025-10-30 14:33:53,151 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 14:33:53,152 - root - INFO - 正在启动浏览器...
+2025-10-30 14:33:53,152 - root - INFO - 手动检测任务开始执行
+2025-10-30 14:33:53,153 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 14:33:53,153 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-30 14:33:53,154 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_76g_1s78
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=51489
+2025-10-30 14:33:53,913 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 14:33:53,917 - root - INFO - 浏览器启动成功
+2025-10-30 14:33:53,918 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 14:33:55,460 - root - INFO - 手动检测：正在访问 http://www.baidu.com
+2025-10-30 14:33:55,460 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 14:33:55,644 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:56,649 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:57,663 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:58,679 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:33:59,682 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:00,686 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:01,701 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:02,704 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:03,706 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:04,707 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:05,713 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:06,729 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:07,734 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:08,738 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:09,742 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:10,748 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:11,752 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:12,757 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:13,763 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:14,769 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:15,776 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:16,782 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:17,788 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:18,791 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:19,797 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:20,805 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:21,818 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:22,829 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:23,835 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:24,841 - root - WARNING - 检查页面状态时出错: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:27,848 - root - ERROR - 手动检测失败: 页面访问失败: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:27,848 - root - INFO - 手动检测进度: 手动检测失败：页面访问失败: 'Browser' object has no attribute 'evaluate'
+2025-10-30 14:34:27,849 - root - INFO - 手动检测完成，结果: 失败
+2025-10-30 14:37:25,748 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-30 14:37:28,548 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 14:37:28,549 - root - INFO - 正在启动浏览器...
+2025-10-30 14:37:28,551 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_tu5_8kc3
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=51693
+2025-10-30 14:37:28,560 - root - INFO - 手动检测任务开始执行
+2025-10-30 14:37:28,561 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 14:37:28,561 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-30 14:37:28,921 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 14:37:28,945 - root - INFO - 浏览器启动成功
+2025-10-30 14:37:28,945 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 14:37:31,563 - root - INFO - 手动检测：正在访问 http://www.baidu.com
+2025-10-30 14:37:31,564 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 14:37:33,748 - root - INFO - 手动检测成功：页面标题='无法获取标题', URL='http://www.baidu.com'
+2025-10-30 14:37:33,749 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 14:37:33,752 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 14:37:33,753 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 14:37:33,754 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 14:47:03,116 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 14:47:03,116 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 14:48:21,040 - root - INFO - 添加新任务窗口: 任务窗口_2
+2025-10-30 14:48:38,046 - root - INFO - 关闭任务窗口: 任务窗口_2
+2025-10-30 15:17:00,176 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 15:17:00,176 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 15:40:13,021 - root - INFO - 统计文件不存在，创建新的统计
+2025-10-30 15:40:51,204 - root - INFO - 统计文件不存在，创建新的统计
+2025-10-30 15:45:01,423 - root - INFO - 统计文件不存在，创建新的统计
+2025-10-30 15:45:27,450 - root - INFO - 统计文件不存在，创建新的统计
+2025-10-30 15:45:34,205 - root - INFO - 添加新任务窗口: 任务窗口_1
+2025-10-30 15:46:38,198 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 15:46:38,199 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 15:46:51,971 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 15:46:51,972 - root - INFO - 正在启动浏览器...
+2025-10-30 15:46:51,973 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_8xo5qr_k
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=55478
+2025-10-30 15:46:51,987 - root - INFO - 手动检测任务开始执行
+2025-10-30 15:46:51,988 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 15:46:51,989 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-30 15:46:52,764 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 15:46:52,772 - root - INFO - 浏览器启动成功
+2025-10-30 15:46:52,773 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 15:46:54,817 - root - INFO - 手动检测：正在访问 http://www.baidu.com
+2025-10-30 15:46:54,818 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 15:46:56,971 - root - INFO - 手动检测成功：页面标题='无法获取标题', URL='http://www.baidu.com'
+2025-10-30 15:46:56,971 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 15:46:56,972 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 15:46:56,972 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 15:46:56,973 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 16:02:40,358 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 16:02:40,359 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 16:02:50,552 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 16:02:50,553 - root - INFO - 正在启动浏览器...
+2025-10-30 16:02:50,555 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_75bpz5pa
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=56126
+2025-10-30 16:02:50,569 - root - INFO - 手动检测任务开始执行
+2025-10-30 16:02:50,569 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 16:02:50,570 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-30 16:02:51,359 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:02:51,366 - root - INFO - 浏览器启动成功
+2025-10-30 16:02:51,366 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 16:02:52,437 - root - INFO - 手动检测：正在访问 http://www.baidu.com
+2025-10-30 16:02:52,437 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 16:02:54,587 - root - INFO - 手动检测成功：页面标题='无法获取标题', URL='http://www.baidu.com'
+2025-10-30 16:02:54,587 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 16:02:54,588 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 16:02:54,589 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 16:02:54,589 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 16:10:01,538 - root - INFO - 添加新任务窗口: 任务窗口_2
+2025-10-30 16:10:14,950 - root - INFO - 关闭任务窗口: 任务窗口_2
+2025-10-30 16:10:38,505 - nodriver.core.browser - INFO - terminated browser with pid 17304 successfully
+2025-10-30 16:10:42,676 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 16:10:42,676 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 16:10:58,396 - root - INFO - 添加新任务窗口: 任务窗口_2
+2025-10-30 16:11:07,705 - root - INFO - 关闭任务窗口: 任务窗口_2
+2025-10-30 16:41:55,124 - root - INFO - 开始批量任务: 15个进程在15分钟内完成
+2025-10-30 16:41:55,124 - root - INFO - 启动任务 1, 已调度: 1/15
+2025-10-30 16:41:55,125 - root - INFO - 第一轮启动 1 个任务
+2025-10-30 16:41:55,126 - root - INFO - 正在启动浏览器...
+2025-10-30 16:41:55,128 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_nstmb7bl
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=57267
+2025-10-30 16:41:55,909 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:41:55,921 - root - INFO - 浏览器启动成功
+2025-10-30 16:41:57,848 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:42:00,017 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:42:04,038 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:42:04,038 - root - INFO - 任务 1 完成, 执行时间: 8.91秒, 成功: True
+2025-10-30 16:42:08,635 - root - INFO - 启动任务 2, 已调度: 2/15
+2025-10-30 16:42:08,636 - root - INFO - 正在启动浏览器...
+2025-10-30 16:42:08,637 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_z0422v79
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=57380
+2025-10-30 16:42:09,396 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:42:09,400 - root - INFO - 浏览器启动成功
+2025-10-30 16:42:10,911 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:42:13,031 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:42:17,035 - nodriver.core.browser - INFO - terminated browser with pid 2224 successfully
+2025-10-30 16:42:17,039 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:42:17,039 - root - INFO - 任务 2 完成, 执行时间: 8.40秒, 成功: True
+2025-10-30 16:42:27,632 - root - INFO - 启动任务 3, 已调度: 3/15
+2025-10-30 16:42:27,633 - root - INFO - 正在启动浏览器...
+2025-10-30 16:42:27,635 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_lmf4jx5h
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=57462
+2025-10-30 16:42:28,394 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:42:28,398 - root - INFO - 浏览器启动成功
+2025-10-30 16:42:30,007 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:42:32,140 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:42:34,140 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:42:34,141 - root - INFO - 任务停止。目标: 15, 完成: 2, 完成率: 13.3%, 实际用时: 39.0秒
+2025-10-30 16:43:43,681 - root - INFO - 开始批量任务: 15个进程在15分钟内完成
+2025-10-30 16:43:43,681 - root - INFO - 启动任务 1, 已调度: 1/15
+2025-10-30 16:43:43,681 - root - INFO - 第一轮启动 1 个任务
+2025-10-30 16:43:43,682 - root - INFO - 正在启动浏览器...
+2025-10-30 16:43:43,683 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_h0svaycx
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=57590
+2025-10-30 16:43:44,454 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:43:44,459 - root - INFO - 浏览器启动成功
+2025-10-30 16:43:46,714 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:43:49,030 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:43:53,049 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:43:53,050 - root - INFO - 任务 1 完成, 执行时间: 9.37秒, 成功: True
+2025-10-30 16:44:22,678 - root - INFO - 启动任务 2, 已调度: 2/15
+2025-10-30 16:44:22,679 - root - INFO - 正在启动浏览器...
+2025-10-30 16:44:22,681 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_6jw4djc3
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=57698
+2025-10-30 16:44:23,444 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:44:23,447 - root - INFO - 浏览器启动成功
+2025-10-30 16:44:25,304 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:44:27,512 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:44:31,515 - nodriver.core.browser - INFO - terminated browser with pid 17004 successfully
+2025-10-30 16:44:31,517 - root - INFO - 任务 2 完成, 执行时间: 8.84秒, 成功: True
+2025-10-30 16:44:31,517 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:44:35,685 - root - INFO - 启动任务 3, 已调度: 3/15
+2025-10-30 16:44:35,686 - root - INFO - 正在启动浏览器...
+2025-10-30 16:44:35,687 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_9g2ur06i
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=57780
+2025-10-30 16:44:36,448 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:44:36,452 - root - INFO - 浏览器启动成功
+2025-10-30 16:44:38,346 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:44:40,495 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:44:43,324 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-169' coro=<Browser.update_targets() done, defined at C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py:561> exception=ConnectionRefusedError(22, '远程计算机拒绝网络连接。', None, 1225, None)>
+Traceback (most recent call last):
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 564, in update_targets
+    targets = await self._get_targets()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 558, in _get_targets
+    info = await self.connection.send(cdp.target.get_targets(), _is_update=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 510, in send
+    await self.connect()
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 325, in connect
+    self._websocket = await websockets.connect(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 541, in __await_impl__
+    self.connection = await self.create_connection()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 467, in create_connection
+    _, connection = await loop.create_connection(factory, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1166, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1141, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        exceptions, addrinfo, laddr_infos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1044, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 726, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 600, in finish_connect
+    ov.getresult()
+    ~~~~~~~~~~~~^^
+ConnectionRefusedError: [WinError 1225] 远程计算机拒绝网络连接。
+2025-10-30 16:44:43,330 - asyncio - ERROR - Task exception was never retrieved
+future: <Task finished name='Task-168' coro=<Browser.update_targets() done, defined at C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py:561> exception=ConnectionRefusedError(22, '远程计算机拒绝网络连接。', None, 1225, None)>
+Traceback (most recent call last):
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 564, in update_targets
+    targets = await self._get_targets()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\browser.py", line 558, in _get_targets
+    info = await self.connection.send(cdp.target.get_targets(), _is_update=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 510, in send
+    await self.connect()
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\nodriver\core\connection.py", line 325, in connect
+    self._websocket = await websockets.connect(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 541, in __await_impl__
+    self.connection = await self.create_connection()
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\PycharmProjects\task_manager_app\.venv\Lib\site-packages\websockets\asyncio\client.py", line 467, in create_connection
+    _, connection = await loop.create_connection(factory, **kwargs)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1166, in create_connection
+    raise exceptions[0]
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1141, in create_connection
+    sock = await self._connect_sock(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+        exceptions, addrinfo, laddr_infos)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\base_events.py", line 1044, in _connect_sock
+    await self.sock_connect(sock, address)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\proactor_events.py", line 726, in sock_connect
+    return await self._proactor.connect(sock, address)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 804, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\Administrator\AppData\Local\Programs\Python\Python313\Lib\asyncio\windows_events.py", line 600, in finish_connect
+    ov.getresult()
+    ~~~~~~~~~~~~^^
+ConnectionRefusedError: [WinError 1225] 远程计算机拒绝网络连接。
+2025-10-30 16:44:44,497 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:44:44,498 - root - INFO - 任务 3 完成, 执行时间: 8.81秒, 成功: True
+2025-10-30 16:44:50,680 - root - INFO - 启动任务 4, 已调度: 4/15
+2025-10-30 16:44:50,681 - root - INFO - 正在启动浏览器...
+2025-10-30 16:44:50,683 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_6yd_amdl
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=57887
+2025-10-30 16:44:51,448 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:44:51,452 - root - INFO - 浏览器启动成功
+2025-10-30 16:44:53,046 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:44:55,182 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:44:59,185 - nodriver.core.browser - INFO - terminated browser with pid 17700 successfully
+2025-10-30 16:44:59,189 - root - INFO - 任务 4 完成, 执行时间: 8.51秒, 成功: True
+2025-10-30 16:44:59,189 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:45:00,187 - root - INFO - 启动任务 5, 已调度: 5/15
+2025-10-30 16:45:00,189 - root - INFO - 正在启动浏览器...
+2025-10-30 16:45:00,192 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_bi60cgyg
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=57987
+2025-10-30 16:45:00,954 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:45:00,957 - root - INFO - 浏览器启动成功
+2025-10-30 16:45:01,961 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:45:04,078 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:45:08,080 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:45:08,080 - root - INFO - 任务 5 完成, 执行时间: 7.89秒, 成功: True
+2025-10-30 16:45:08,187 - root - INFO - 启动任务 6, 已调度: 6/15
+2025-10-30 16:45:08,189 - root - INFO - 正在启动浏览器...
+2025-10-30 16:45:08,190 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc__4bu0bon
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=58078
+2025-10-30 16:45:08,963 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:45:08,966 - root - INFO - 浏览器启动成功
+2025-10-30 16:45:11,458 - root - INFO - 正在访问: http://www.baidu.com
+2025-10-30 16:45:13,609 - root - INFO - 成功访问: http://www.baidu.com
+2025-10-30 16:45:15,610 - root - ERROR - 关闭浏览器失败: object NoneType can't be used in 'await' expression
+2025-10-30 16:45:15,611 - root - INFO - 任务停止。目标: 15, 完成: 5, 完成率: 33.3%, 实际用时: 91.9秒
+2025-10-30 16:46:55,502 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 16:46:55,503 - root - INFO - 正在启动浏览器...
+2025-10-30 16:46:55,504 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=C:\Users\Administrator\AppData\Local\Temp\uc_k3kwzp6b
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=58204
+2025-10-30 16:46:55,505 - root - INFO - 手动检测任务开始执行
+2025-10-30 16:46:55,506 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 16:46:55,506 - root - INFO - 手动检测进度: 设置浏览器UA类型
+2025-10-30 16:46:56,265 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 16:46:56,273 - root - INFO - 浏览器启动成功
+2025-10-30 16:46:56,274 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 16:46:58,339 - root - INFO - 手动检测：正在访问 http://www.baidu.com
+2025-10-30 16:46:58,339 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 16:47:00,481 - root - INFO - 手动检测成功：页面标题='无法获取标题', URL='http://www.baidu.com'
+2025-10-30 16:47:00,482 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 16:47:00,483 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 16:47:00,484 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 16:47:00,485 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 17:08:25,896 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 17:08:25,897 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 17:08:34,424 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 17:08:34,427 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 17:08:34,427 - root - INFO - 正在启动浏览器...
+2025-10-30 17:08:34,428 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=360,800
+	--device-scale-factor=3.0
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=58766
+2025-10-30 17:08:34,440 - root - INFO - 手动检测任务开始执行
+2025-10-30 17:08:34,441 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 17:08:35,239 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 17:08:35,243 - root - INFO - 浏览器启动成功
+2025-10-30 17:08:35,243 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 17:08:37,055 - root - INFO - 手动检测：正在访问 http://www.baidu.com
+2025-10-30 17:08:37,056 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 17:08:39,311 - root - INFO - 手动检测成功：页面标题='无法获取标题', URL='http://www.baidu.com'
+2025-10-30 17:08:39,311 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 17:08:39,312 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 17:08:39,312 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 17:08:39,313 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 17:45:49,208 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 17:45:49,208 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 17:45:54,635 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 17:45:54,637 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 17:45:54,637 - root - INFO - 正在启动浏览器...
+2025-10-30 17:45:54,637 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=390,844
+	--device-scale-factor=2.0
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=59852
+2025-10-30 17:45:54,650 - root - INFO - 手动检测任务开始执行
+2025-10-30 17:45:54,650 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 17:45:55,004 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 17:45:55,026 - root - INFO - 浏览器启动成功
+2025-10-30 17:45:55,027 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 17:45:57,770 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 17:46:11,707 - root - ERROR - 任务 0 异步执行错误: 'Browser' object has no attribute 'close'
+2025-10-30 17:46:11,708 - root - ERROR - 手动检测错误: 'Browser' object has no attribute 'close'
+2025-10-30 17:52:30,555 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 17:52:30,555 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 17:52:34,299 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 17:52:34,300 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 17:52:34,300 - root - INFO - 正在启动浏览器...
+2025-10-30 17:52:34,301 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=360,800
+	--device-scale-factor=2.625
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=60484
+2025-10-30 17:52:34,312 - root - INFO - 手动检测任务开始执行
+2025-10-30 17:52:34,313 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 17:52:47,281 - root - ERROR - 浏览器启动失败: 
+                ---------------------
+                Failed to connect to browser
+                ---------------------
+                One of the causes could be when you are running as root.
+                In that case you need to pass no_sandbox=True 
+                
+2025-10-30 17:52:47,281 - root - ERROR - 任务 0 异步执行错误: 浏览器启动失败
+2025-10-30 17:52:47,282 - root - ERROR - 手动检测错误: 浏览器启动失败
+2025-10-30 17:53:14,212 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 17:53:14,213 - root - INFO - 手动检测任务开始执行
+2025-10-30 17:53:14,213 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 17:53:14,214 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 17:53:14,214 - root - INFO - 正在启动浏览器...
+2025-10-30 17:53:14,214 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=393,851
+	--device-scale-factor=3.0
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=60568
+2025-10-30 17:53:27,173 - root - ERROR - 浏览器启动失败: 
+                ---------------------
+                Failed to connect to browser
+                ---------------------
+                One of the causes could be when you are running as root.
+                In that case you need to pass no_sandbox=True 
+                
+2025-10-30 17:53:27,173 - root - ERROR - 任务 0 异步执行错误: 浏览器启动失败
+2025-10-30 17:53:27,173 - root - ERROR - 手动检测错误: 浏览器启动失败
+2025-10-30 17:53:57,070 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 17:53:57,070 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 17:53:59,639 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 17:53:59,641 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 17:53:59,641 - root - INFO - 正在启动浏览器...
+2025-10-30 17:53:59,642 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=390,844
+	--device-scale-factor=2.0
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=60638
+2025-10-30 17:53:59,652 - root - INFO - 手动检测任务开始执行
+2025-10-30 17:53:59,653 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 17:54:12,642 - root - ERROR - 浏览器启动失败: 
+                ---------------------
+                Failed to connect to browser
+                ---------------------
+                One of the causes could be when you are running as root.
+                In that case you need to pass no_sandbox=True 
+                
+2025-10-30 17:54:12,643 - root - ERROR - 任务 0 异步执行错误: 浏览器启动失败
+2025-10-30 17:54:12,643 - root - ERROR - 手动检测错误: 浏览器启动失败
+2025-10-30 17:54:51,987 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 17:54:51,988 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 17:54:51,988 - root - INFO - 手动检测任务开始执行
+2025-10-30 17:54:51,989 - root - INFO - 正在启动浏览器...
+2025-10-30 17:54:51,989 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 17:54:51,990 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=412,915
+	--device-scale-factor=2.625
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=60734
+2025-10-30 17:54:52,770 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 17:54:52,773 - root - INFO - 浏览器启动成功
+2025-10-30 17:54:52,774 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 17:54:54,796 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 17:55:08,665 - nodriver.core.browser - INFO - terminated browser with pid 9900 successfully
+2025-10-30 17:55:08,665 - root - ERROR - 任务 0 异步执行错误: object NoneType can't be used in 'await' expression
+2025-10-30 17:55:08,668 - root - ERROR - 手动检测错误: object NoneType can't be used in 'await' expression
+2025-10-30 17:56:47,546 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 17:56:47,546 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 17:56:50,283 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 17:56:50,285 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 17:56:50,285 - root - INFO - 正在启动浏览器...
+2025-10-30 17:56:50,286 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=390,844
+	--device-scale-factor=3.0
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=60910
+2025-10-30 17:56:50,300 - root - INFO - 手动检测任务开始执行
+2025-10-30 17:56:50,301 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 17:56:51,084 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 17:56:51,088 - root - INFO - 浏览器启动成功
+2025-10-30 17:56:51,088 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 17:56:52,958 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 17:57:06,777 - root - INFO - 手动检测模式：浏览器保持打开，请用户手动关闭
+2025-10-30 17:57:06,778 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 17:57:06,779 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 17:57:06,780 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 17:57:06,780 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 18:02:49,477 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 18:02:49,478 - root - INFO - 手动检测任务开始执行
+2025-10-30 18:02:49,480 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 18:02:49,480 - root - INFO - 正在启动浏览器...
+2025-10-30 18:02:49,481 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 18:02:49,481 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=393,851
+	--device-scale-factor=2.625
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=61171
+2025-10-30 18:02:50,250 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 18:02:50,254 - root - INFO - 浏览器启动成功
+2025-10-30 18:02:50,255 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 18:02:52,303 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 18:03:06,121 - root - INFO - 手动检测模式：浏览器保持打开，请用户手动关闭
+2025-10-30 18:03:06,121 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 18:03:06,122 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 18:03:06,122 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 18:03:06,123 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 21:28:29,527 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 21:28:29,528 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 21:29:37,367 - root - INFO - 添加新任务窗口: 任务窗口_2
+2025-10-30 21:29:45,164 - root - INFO - 关闭任务窗口: 任务窗口_2
+2025-10-30 21:30:07,555 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 21:30:07,559 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 21:30:07,559 - root - INFO - 正在启动浏览器...
+2025-10-30 21:30:07,560 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=412,915
+	--device-scale-factor=3.0
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=49868
+2025-10-30 21:30:07,570 - root - INFO - 手动检测任务开始执行
+2025-10-30 21:30:07,571 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 21:30:08,377 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 21:30:08,381 - root - INFO - 浏览器启动成功
+2025-10-30 21:30:08,381 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 21:30:10,802 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 21:30:24,621 - root - INFO - 手动检测模式：浏览器保持打开，请用户手动关闭
+2025-10-30 21:30:24,621 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 21:30:24,623 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 21:30:24,624 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 21:30:24,624 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 21:30:31,374 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 21:30:31,376 - root - INFO - 手动检测任务开始执行
+2025-10-30 21:30:31,376 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 21:30:31,377 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 21:30:31,377 - root - INFO - 正在启动浏览器...
+2025-10-30 21:30:31,378 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=412,915
+	--device-scale-factor=2.75
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=49999
+2025-10-30 21:30:33,175 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 21:30:33,178 - root - INFO - 浏览器启动成功
+2025-10-30 21:30:33,179 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 21:30:35,435 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 21:30:56,275 - root - INFO - 手动检测模式：浏览器保持打开，请用户手动关闭
+2025-10-30 21:30:56,275 - root - ERROR - 任务 0 异步执行错误: name 'message' is not defined
+2025-10-30 21:30:56,275 - root - ERROR - 手动检测错误: name 'message' is not defined
+2025-10-30 21:31:02,998 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 21:31:03,000 - root - INFO - 手动检测任务开始执行
+2025-10-30 21:31:03,000 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 21:31:03,001 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 21:31:03,001 - root - INFO - 正在启动浏览器...
+2025-10-30 21:31:03,002 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=390,844
+	--device-scale-factor=3.0
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=50112
+2025-10-30 21:31:03,784 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 21:31:03,786 - root - INFO - 浏览器启动成功
+2025-10-30 21:31:03,786 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 21:31:05,193 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 21:31:19,034 - root - INFO - 手动检测模式：浏览器保持打开，请用户手动关闭
+2025-10-30 21:31:19,035 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 21:31:19,035 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 21:31:19,035 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 21:31:19,038 - root - INFO - 手动检测完成，结果: 成功
+2025-10-30 21:35:47,962 - root - ERROR - 从配置创建任务窗口失败 任务窗口_1: name 'browser_group' is not defined
+2025-10-30 21:35:47,963 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 21:36:07,461 - root - INFO - 成功加载任务窗口: 任务窗口_1
+2025-10-30 21:36:07,461 - root - INFO - 加载已存在任务: 任务窗口_1
+2025-10-30 21:36:27,286 - root - INFO - 开始手动检测 - 执行单个任务
+2025-10-30 21:36:27,289 - root - INFO - Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+2025-10-30 21:36:27,289 - root - INFO - 正在启动浏览器...
+2025-10-30 21:36:27,289 - nodriver.core.browser - INFO - starting
+	executable :C:\Program Files\Google\Chrome\Application\chrome.exe
+
+arguments:
+--remote-allow-origins=*
+	--no-first-run
+	--no-service-autorun
+	--no-default-browser-check
+	--homepage=about:blank
+	--no-pings
+	--password-store=basic
+	--disable-infobars
+	--disable-breakpad
+	--disable-dev-shm-usage
+	--disable-session-crashed-bubble
+	--disable-search-engine-choice-screen
+	--user-data-dir=./mobile_stealth_data
+	--disable-session-crashed-bubble
+	--disable-features=IsolateOrigins,site-per-process
+	--no-sandbox
+	--disable-blink-features=AutomationControlled
+	--disable-features=TranslateUI,VizDisplayCompositor
+	--disable-ipc-flooding-protection
+	--disable-renderer-backgrounding
+	--disable-backgrounding-occluded-windows
+	--disable-background-timer-throttling
+	--disable-component-extensions-with-background-pages
+	--disable-default-apps
+	--disable-extensions
+	--disable-plugins
+	--disable-translate
+	--disable-background-networking
+	--disable-sync
+	--metrics-recording-only
+	--safebrowsing-disable-auto-update
+	--remote-debugging-port=0
+	--disable-remote-fonts
+	--disable-logging
+	--disable-crash-reporter
+	--user-agent=Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1
+	--window-size=360,800
+	--device-scale-factor=2.625
+	--hide-scrollbars
+	--disable-web-security
+	--disable-popup-blocking
+	--disable-hang-monitor
+	--disable-client-side-phishing-detection
+	--remote-debugging-host=127.0.0.1
+	--remote-debugging-port=50334
+2025-10-30 21:36:27,300 - root - INFO - 手动检测任务开始执行
+2025-10-30 21:36:27,301 - root - INFO - 手动检测进度: 任务开始执行
+2025-10-30 21:36:27,628 - nodriver.core.browser - INFO - enabling autodiscover targets
+2025-10-30 21:36:27,643 - root - INFO - 浏览器启动成功
+2025-10-30 21:36:27,645 - root - INFO - 手动检测进度: 浏览器启动成功
+2025-10-30 21:36:29,968 - root - INFO - 手动检测进度: 手动检测：正在访问目标网站 http://www.baidu.com
+2025-10-30 21:36:43,680 - root - INFO - 手动检测模式：浏览器保持打开，请用户手动关闭
+2025-10-30 21:36:43,681 - root - INFO - 手动检测进度: 手动检测成功：页面访问正常
+2025-10-30 21:36:43,682 - root - INFO - 手动检测进度: 浏览器保持打开，请手动检查页面内容
+2025-10-30 21:36:43,682 - root - INFO - 手动检测进度: 检查完成后请手动关闭浏览器窗口
+2025-10-30 21:36:43,683 - root - INFO - 手动检测完成，结果: 成功
