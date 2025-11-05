@@ -33,7 +33,7 @@ class ProxyManager:
                 auth = (pool_config['username'], pool_config['password'])
 
             response = requests.get(
-                pool_config['api_url'] if is_mobile else pool_config['mobile_api_url'],
+                pool_config['mobile_api_url'] if is_mobile else pool_config['api_url'],
                 headers=headers,
                 auth=auth,
                 timeout=10
