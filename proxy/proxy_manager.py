@@ -16,7 +16,7 @@ class ProxyManager:
         self.valid_proxies = []
         self.failed_proxies = set()
 
-    def get_proxy_from_pool(self, pool_name: str) -> Optional[Dict]:
+    def get_proxy_from_pool(self, pool_name: str,is_mobile=False) -> Optional[Dict]:
         """从指定代理池获取代理"""
         if pool_name not in self.proxy_pools:
             logger.error(f"代理池 {pool_name} 不存在")
@@ -33,7 +33,7 @@ class ProxyManager:
                 auth = (pool_config['username'], pool_config['password'])
 
             response = requests.get(
-                pool_config['api_url'],
+                pool_config['api_url'] if is_mobile else pool_config['mobile_api_url'],
                 headers=headers,
                 auth=auth,
                 timeout=10
@@ -123,7 +123,7 @@ class ProxyManager:
             logger.error(f"代理验证出错: {str(e)}")
             return False
 
-    def get_valid_proxy(self, pool_name: str = None) -> Optional[Dict]:
+    def get_valid_proxy(self, pool_name: str = None,is_mobile=False) -> Optional[Dict]:
         """获取有效的代理"""
         max_retries = 3
 
@@ -136,7 +136,7 @@ class ProxyManager:
             random.shuffle(pools_to_try)
 
             for pool in pools_to_try:
-                proxy_config = self.get_proxy_from_pool(pool)
+                proxy_config = self.get_proxy_from_pool(pool,is_mobile)
                 if proxy_config and self.validate_proxy(proxy_config, 'https://www.ip138.com'):
                     return proxy_config
 

@@ -18,8 +18,9 @@ class Worker(QObject):
     error = pyqtSignal(int, str)  # 任务错误，参数：任务ID, 错误消息
     paused = pyqtSignal(int)  # 任务暂停，参数：任务ID
     resumed = pyqtSignal(int)  # 任务恢复，参数：任务ID
+    manual_test_result = pyqtSignal(bool, str, str)  # 手动检测结果: 是否成功, 消息, 设备类型
 
-    def __init__(self, task_id: int, config: Dict[str, Any]):
+    def __init__(self, task_id: int, config: Dict[str, Any], config_manager=None, stats_manager=None):
         super().__init__()
         self.task_id = task_id
         self.config = config
@@ -28,6 +29,8 @@ class Worker(QObject):
         self.current_step = 0
         self.should_stop = False
         self.browser_manager = None
+        self.config_manager = config_manager
+        self.stats_manager = stats_manager
 
     def run(self):
         """执行任务"""
@@ -116,15 +119,17 @@ class Worker(QObject):
         """启动浏览器"""
         self.current_step = 1
 
-        ua_type = self.config.get('ua_type', 'BROWSER')
-        # if ua_type == 'wechat':
-        #     self.progress.emit(self.task_id, "设置微信UA类型")
-        # else:
-        #     self.progress.emit(self.task_id, "设置浏览器UA类型")
-
-        success = await self.browser_manager.start_browser(ua_type,is_manual_test)
+        ua_type = self.config.get('ua_type', 'mobile')
+        success = await self.browser_manager.start_browser(
+            ua_type,
+            is_manual_test,
+            config_manager=self.config_manager,
+            stats_manager=self.stats_manager
+        )
         if success:
-            self.progress.emit(self.task_id, "浏览器启动成功")
+            device_type = self.browser_manager.get_current_device_type()
+            network_type = self.browser_manager.get_current_network_type()
+            self.progress.emit(self.task_id, f"浏览器启动成功 - 设备类型: {device_type.upper()}, 网络类型: {network_type.upper()}")
             await asyncio.sleep(random.uniform(1, 3))
         else:
             raise Exception("浏览器启动失败")
@@ -136,19 +141,24 @@ class Worker(QObject):
         target_url = self.config['target_url']
         self.progress.emit(self.task_id, f"手动检测：正在访问目标网站 {target_url}")
 
-
         # 使用专门的页面访问检查方法
-        # success, message = await self.browser_manager.check_page_access(target_url)
-
-        success = await self.browser_manager.take_screenshot(target_url)
+        success, device_type, network_type = await self.browser_manager.take_screenshot(
+            target_url,
+            self.config_manager,
+            self.stats_manager
+        )
 
         if success:
-            self.progress.emit(self.task_id, "手动检测成功：页面访问正常")
+            message = f"手动检测成功：页面访问正常 - 设备类型: {device_type.upper()}, 网络类型: {network_type.upper()}"
+            self.progress.emit(self.task_id, message)
             self.progress.emit(self.task_id, "浏览器保持打开，请手动检查页面内容")
             self.progress.emit(self.task_id, "检查完成后请手动关闭浏览器窗口")
+            self.manual_test_result.emit(True, message, device_type)
             self.finished.emit(self.task_id, True)
         else:
-            self.progress.emit(self.task_id, f"手动检测失败：{message}")
+            message = f"手动检测失败 - 设备类型: {device_type.upper()}, 网络类型: {network_type.upper()}"
+            self.progress.emit(self.task_id, message)
+            self.manual_test_result.emit(False, message, device_type)
             self.finished.emit(self.task_id, False)
 
     async def _visit_target(self):
@@ -159,10 +169,14 @@ class Worker(QObject):
         self.progress.emit(self.task_id, f"访问目标: {target_url}")
 
         # 启动应用隐身，并导航到页面
-        success = await self.browser_manager.take_screenshot(target_url)
+        success, device_type, network_type = await self.browser_manager.take_screenshot(
+            target_url,
+            self.config_manager,
+            self.stats_manager
+        )
 
         if success:
-            self.progress.emit(self.task_id, "页面访问成功")
+            self.progress.emit(self.task_id, f"页面访问成功 - 设备类型: {device_type.upper()}, 网络类型: {network_type.upper()}")
         else:
             raise Exception("页面访问失败")
 

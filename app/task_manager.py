@@ -51,7 +51,7 @@ class TaskManager(QObject):
         self.time_limit_timer.timeout.connect(self.on_time_reached)
         self.scheduler_timer.timeout.connect(self.schedule_tasks)
 
-    def start_manual_test(self, config: TaskConfig):
+    def start_manual_test(self, config: TaskConfig, config_manager=None, stats_manager=None):
         """开始手动检测 - 执行单个任务"""
         if self.is_manual_test_running:
             self.manual_test_completed.emit(False, "手动检测正在运行中")
@@ -70,7 +70,7 @@ class TaskManager(QObject):
         task_config = self._create_task_config(config)
 
         # 创建手动检测工作线程
-        self.manual_test_worker = Worker(0, task_config)  # 使用0作为手动检测的任务ID
+        self.manual_test_worker = Worker(0, task_config, config_manager, stats_manager)  # 使用0作为手动检测的任务ID
         self.manual_test_thread = QThread()
 
         # 移动worker到线程
@@ -82,6 +82,7 @@ class TaskManager(QObject):
         self.manual_test_worker.progress.connect(self.on_manual_test_progress)
         self.manual_test_worker.finished.connect(self.on_manual_test_finished)
         self.manual_test_worker.error.connect(self.on_manual_test_error)
+        self.manual_test_worker.manual_test_result.connect(self.on_manual_test_result)
 
         # 启动线程
         self.manual_test_thread.start()
@@ -104,6 +105,10 @@ class TaskManager(QObject):
             'auto_message_ratio': config.auto_message_ratio,
             'headless_mode': config.headless_mode,
             'browser_timeout': config.browser_timeout,
+            'android_ratio': config.android_ratio,
+            'ios_ratio': config.ios_ratio,
+            'mobile_data_ratio': config.mobile_data_ratio,
+            'wifi_ratio': config.wifi_ratio,
             'is_manual_test': True  # 标记为手动检测
         }
 
@@ -125,8 +130,6 @@ class TaskManager(QObject):
         self._cleanup_manual_test()
 
         # 发射完成信号
-        status_msg = "手动检测完成 - 成功" if success else "手动检测完成 - 失败"
-        self.manual_test_completed.emit(success, status_msg)
         self.task_finished.emit(task_id, success)
 
     def on_manual_test_error(self, task_id: int, error_msg: str):
@@ -140,6 +143,11 @@ class TaskManager(QObject):
         self.manual_test_completed.emit(False, f"手动检测错误: {error_msg}")
         self.task_error.emit(task_id, error_msg)
 
+    def on_manual_test_result(self, success: bool, message: str, device_type: str):
+        """手动检测结果"""
+        status_msg = f"{message} - 设备类型: {device_type.upper()}"
+        self.manual_test_completed.emit(success, status_msg)
+
     def _cleanup_manual_test(self):
         """清理手动检测资源"""
         self.is_manual_test_running = False
@@ -151,6 +159,7 @@ class TaskManager(QObject):
                 self.manual_test_worker.progress.disconnect()
                 self.manual_test_worker.finished.disconnect()
                 self.manual_test_worker.error.disconnect()
+                self.manual_test_worker.manual_test_result.disconnect()
 
                 # 停止线程
                 if self.manual_test_thread.isRunning():
@@ -170,8 +179,8 @@ class TaskManager(QObject):
             self._cleanup_manual_test()
             logging.info("手动检测已停止")
 
-    # 原有的批量任务方法保持不变
-    def start_tasks(self, config: TaskConfig):
+    # 原有的批量任务方法
+    def start_tasks(self, config: TaskConfig, config_manager=None, stats_manager=None):
         """启动批量任务"""
         if self.is_running:
             logging.warning("任务管理器正在运行，无法启动新任务")
@@ -190,6 +199,8 @@ class TaskManager(QObject):
         self.completed_processes = 0
         self.scheduled_processes = 0
         self.next_task_id = 1
+        self.config_manager = config_manager
+        self.stats_manager = stats_manager
 
         logging.info(f"开始批量任务: {self.total_processes}个进程在{config.total_minutes}分钟内完成")
 
@@ -289,13 +300,17 @@ class TaskManager(QObject):
             'auto_message_ratio': self.current_config.auto_message_ratio,
             'headless_mode': self.current_config.headless_mode,
             'browser_timeout': self.current_config.browser_timeout,
+            'android_ratio': self.current_config.android_ratio,
+            'ios_ratio': self.current_config.ios_ratio,
+            'mobile_data_ratio': self.current_config.mobile_data_ratio,
+            'wifi_ratio': self.current_config.wifi_ratio,
             'total_seconds': self.total_seconds,
             'total_processes': self.total_processes,
             'is_manual_test': False  # 标记为批量任务
         }
 
         # 创建并启动工作线程
-        worker = Worker(task_id, task_config)
+        worker = Worker(task_id, task_config, self.config_manager, self.stats_manager)
         thread = QThread()
 
         # 移动worker到线程

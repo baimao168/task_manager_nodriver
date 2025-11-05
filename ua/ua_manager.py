@@ -4,7 +4,7 @@ import random
 
 
 class OptimizedUserAgentManager:
-    """优化的 User-Agent 管理器（移动端和微信完全分离）"""
+    """优化的 User-Agent 管理器（移动端和微信完全分离，支持操作系统控制）"""
 
     def __init__(self, ua_file_path='user_agents.txt', cache_size=1000):
         self.ua_file_path = ua_file_path
@@ -136,24 +136,57 @@ class OptimizedUserAgentManager:
         wechat_keywords = ['micromessenger']
         return any(keyword in ua.lower() for keyword in wechat_keywords)
 
-    def get_random_ua(self, device_type='mobile'):
-        """获取随机 User-Agent（优化版）"""
+    def _match_os_type(self, ua, os_type):
+        """判断 User-Agent 是否匹配指定的操作系统类型"""
+        ua_lower = ua.lower()
+
+        if os_type == 'android':
+            return 'android' in ua_lower and 'iphone' not in ua_lower and 'ipad' not in ua_lower
+        elif os_type == 'ios':
+            return 'iphone' in ua_lower or 'ipad' in ua_lower
+        return True
+
+    def get_random_ua(self, device_type='mobile', os_type='any'):
+        """获取随机 User-Agent（增强版）
+
+        参数:
+            device_type: 设备类型
+                - 'mobile': 纯移动端（不含微信）
+                - 'wechat': 微信浏览器
+                - 'desktop': 桌面端
+                - 'any': 任意类型
+            os_type: 操作系统类型
+                - 'android': 安卓设备
+                - 'ios': 苹果设备(iPhone/iPad)
+                - 'any': 任意操作系统
+        """
         if not self.cache_loaded:
-            # 如果缓存未加载，使用默认
-            return self._get_fallback_ua(device_type)
+            return self._get_fallback_ua(device_type, os_type)
 
+        # 根据设备类型选择缓存池
         if device_type == 'wechat' and self.wechat_cache:
-            return random.choice(self.wechat_cache)
+            cache_pool = self.wechat_cache
         elif device_type == 'mobile' and self.mobile_cache:
-            return random.choice(self.mobile_cache)
+            cache_pool = self.mobile_cache
         elif device_type == 'desktop' and self.desktop_cache:
-            return random.choice(self.desktop_cache)
+            cache_pool = self.desktop_cache
         elif device_type == 'any' and self.all_cache:
-            return random.choice(self.all_cache)
+            cache_pool = self.all_cache
         else:
-            return self._get_fallback_ua(device_type)
+            return self._get_fallback_ua(device_type, os_type)
 
-    def get_random_ua_from_file(self, device_type='mobile'):
+        # 根据操作系统类型过滤
+        if os_type != 'any':
+            filtered_pool = [ua for ua in cache_pool if self._match_os_type(ua, os_type)]
+            if filtered_pool:
+                return random.choice(filtered_pool)
+            else:
+                # 如果没有匹配的，回退到不按操作系统过滤
+                return random.choice(cache_pool) if cache_pool else self._get_fallback_ua(device_type, os_type)
+        else:
+            return random.choice(cache_pool) if cache_pool else self._get_fallback_ua(device_type, os_type)
+
+    def get_random_ua_from_file(self, device_type='mobile', os_type='any'):
         """直接从文件随机读取 User-Agent（不加载到内存）"""
         try:
             max_attempts = 100  # 最大尝试次数
@@ -163,48 +196,85 @@ class OptimizedUserAgentManager:
                 line = linecache.getline(self.ua_file_path, line_num).strip()
 
                 if line and not line.startswith('#'):
+                    # 设备类型匹配
+                    device_match = False
                     if device_type == 'wechat' and self._is_wechat_ua(line):
-                        return line
+                        device_match = True
                     elif device_type == 'mobile' and self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                        return line
+                        device_match = True
                     elif device_type == 'desktop' and not self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                        return line
+                        device_match = True
                     elif device_type == 'any':
+                        device_match = True
+
+                    # 操作系统类型匹配
+                    os_match = self._match_os_type(line, os_type) if device_match else False
+
+                    if device_match and os_match:
                         return line
 
             # 如果没找到合适的，回退到缓存
-            return self.get_random_ua(device_type)
+            return self.get_random_ua(device_type, os_type)
 
         except Exception as e:
             print(f"❌ 从文件读取 User-Agent 失败: {e}")
-            return self.get_random_ua(device_type)
+            return self.get_random_ua(device_type, os_type)
 
-    def _get_fallback_ua(self, device_type):
-        """获取备用 User-Agent"""
+    def _get_fallback_ua(self, device_type='mobile', os_type='any'):
+        """获取备用 User-Agent（增强版）"""
         fallback_agents = {
-            'mobile': [
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
-                'Mozilla/5.0 (Linux; Android 13; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-                'Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (iPad; CPU OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1'
-            ],
-            'desktop': [
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'
-            ],
-            'wechat': [
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.42(0x18002a29) NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (Linux; Android 13; SM-G991B Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.42(0x18002a29) WeChat/arm64 Weixin Android Tablet NetType/WIFI Language/zh_CN'
-            ]
+            'mobile': {
+                'android': [
+                    'Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                    'Mozilla/5.0 (Linux; Android 13; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
+                    'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                    'Mozilla/5.0 (Linux; Android 13; 2201123G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36'
+                ],
+                'ios': [
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
+                    'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.7 Mobile/15E148 Safari/604.1'
+                ],
+                'any': [
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
+                    'Mozilla/5.0 (Linux; Android 13; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36'
+                ]
+            },
+            'wechat': {
+                'android': [
+                    'Mozilla/5.0 (Linux; Android 13; SM-G991B Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.42(0x18002a29) WeChat/arm64 Weixin Android Tablet NetType/WIFI Language/zh_CN',
+                    'Mozilla/5.0 (Linux; Android 14; SM-S911B Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0.6099.210 Mobile Safari/537.36 MicroMessenger/8.0.43(0x18002b31) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN',
+                    'Mozilla/5.0 (Linux; Android 13; 2201123C Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.41(0x18002921) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN'
+                ],
+                'ios': [
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.42(0x18002a29) NetType/WIFI Language/zh_CN',
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.40(0x18002831) NetType/WIFI Language/zh_CN',
+                    'Mozilla/5.0 (iPad; CPU OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.41(0x18002921) NetType/WIFI Language/zh_CN',
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.38(0x18002621) NetType/WIFI Language/zh_CN'
+                ],
+                'any': [
+                    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.42(0x18002a29) NetType/WIFI Language/zh_CN',
+                    'Mozilla/5.0 (Linux; Android 13; SM-G991B Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.42(0x18002a29) WeChat/arm64 Weixin Android Tablet NetType/WIFI Language/zh_CN'
+                ]
+            },
+            'desktop': {
+                'any': [
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
+                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'
+                ]
+            }
         }
 
         if device_type in fallback_agents:
-            return random.choice(fallback_agents[device_type])
+            if os_type in fallback_agents[device_type]:
+                return random.choice(fallback_agents[device_type][os_type])
+            else:
+                return random.choice(fallback_agents[device_type]['any'])
         else:
-            return fallback_agents['mobile'][0]
+            return random.choice(fallback_agents['mobile']['any'])
 
     def create_default_ua_file(self):
         """创建默认 User-Agent 文件（移动端和微信完全分离）"""
@@ -382,7 +452,7 @@ class OptimizedUserAgentManager:
                     self.wechat_count += 1
                 elif device_type == 'mobile' or (
                         device_type == 'auto' and self._is_mobile_ua(user_agent) and not self._is_wechat_ua(
-                        user_agent)):
+                    user_agent)):
                     self.mobile_cache.append(user_agent)
                     self.mobile_count += 1
                 else:
@@ -395,3 +465,33 @@ class OptimizedUserAgentManager:
         except Exception as e:
             print(f"❌ 添加 User-Agent 失败: {e}")
             return False
+
+
+# 使用示例
+if __name__ == "__main__":
+    # 初始化管理器
+    ua_manager = OptimizedUserAgentManager()
+
+    # 获取安卓纯移动端 UA
+    android_mobile_ua = ua_manager.get_random_ua(device_type='mobile', os_type='android')
+    print(f"📱 安卓纯移动端: {android_mobile_ua}")
+
+    # 获取苹果微信 UA
+    ios_wechat_ua = ua_manager.get_random_ua(device_type='wechat', os_type='ios')
+    print(f"💬 苹果微信: {ios_wechat_ua}")
+
+    # 获取任意移动端 UA（不区分操作系统）
+    any_mobile_ua = ua_manager.get_random_ua(device_type='mobile', os_type='any')
+    print(f"📱 任意移动端: {any_mobile_ua}")
+
+    # 获取桌面端 UA（桌面端不区分安卓/iOS）
+    desktop_ua = ua_manager.get_random_ua(device_type='desktop', os_type='any')
+    print(f"💻 桌面端: {desktop_ua}")
+
+    # 获取安卓微信 UA
+    android_wechat_ua = ua_manager.get_random_ua(device_type='wechat', os_type='android')
+    print(f"💬 安卓微信: {android_wechat_ua}")
+
+    # 获取苹果纯移动端 UA
+    ios_mobile_ua = ua_manager.get_random_ua(device_type='mobile', os_type='ios')
+    print(f"📱 苹果纯移动端: {ios_mobile_ua}")

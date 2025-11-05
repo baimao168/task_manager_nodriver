@@ -13,6 +13,7 @@ from utils.nodriver_result_parser import NodriverResultParser
 # 初始化管理器
 proxy_manager = ProxyManager(Config.PROXY_POOLS)
 
+
 class BrowserManager:
     """浏览器管理器 - 适配最新版nodriver"""
 
@@ -27,22 +28,56 @@ class BrowserManager:
         self.current_ua = None
         self.use_file_reading = None
         self.is_manual_test = False  # 标记是否为手动检测模式
+        self.current_device_type = None  # 当前使用的设备类型（android/ios）
+        self.current_network_type = None  # 当前使用的网络类型（mobile_data/wifi）
+        self.stats_manager = None  # 统计管理器
+
         # 设备配置库
         self.device_profiles = {
-            'random_mobile': {
-                'viewport': random.choice([(390, 844), (360, 800), (393, 851), (412, 915)]),
-                'device_scale_factor': random.choice([2.0, 2.625, 2.75, 3.0]),
-                'platform': random.choice(['iPhone', 'Linux armv8l', 'Linux aarch64']),
-                'vendor': random.choice(['Apple Computer, Inc.', 'Google Inc.']),
+            'android': {
+                'viewport': random.choice([(360, 800), (412, 915), (393, 851)]),
+                'device_scale_factor': random.choice([2.0, 2.625, 2.75]),
+                'platform': random.choice(['Linux armv8l', 'Linux aarch64']),
+                'vendor': random.choice(['Google Inc.', 'Samsung']),
+                'touch_points': 5
+            },
+            'ios': {
+                'viewport': random.choice([(390, 844), (414, 896), (375, 812)]),
+                'device_scale_factor': random.choice([2.0, 3.0]),
+                'platform': 'iPhone',
+                'vendor': 'Apple Computer, Inc.',
                 'touch_points': 5
             }
         }
 
-    async def start_browser(self,device = 'mobile',is_manual_test: bool = False,use_file_reading = None):
+    async def start_browser(self, device='mobile', is_manual_test: bool = False, use_file_reading=None,
+                            config_manager=None, stats_manager=None):
         """启动浏览器"""
+        self.is_manual_test = is_manual_test
+        self.config_manager = config_manager
+        self.stats_manager = stats_manager
 
-        # 获取移动端基本参数
-        config = self.device_profiles.get('random_mobile', self.device_profiles['random_mobile'])
+        # 根据配置比例选择设备类型
+        if config_manager:
+            self.current_device_type = config_manager.get_device_type_by_ratio()
+        else:
+            # 如果没有配置管理器，使用默认比例
+            android_ratio = self.config.get('android_ratio', 50)
+            self.current_device_type = 'android' if random.randint(1, 100) <= android_ratio else 'ios'
+
+        # 根据配置比例选择网络类型
+        if config_manager:
+            self.current_network_type = config_manager.get_network_type_by_ratio()
+        else:
+            # 如果没有配置管理器，使用默认比例
+            mobile_data_ratio = self.config.get('mobile_data_ratio', 50)
+            self.current_network_type = 'mobile_data' if random.randint(1, 100) <= mobile_data_ratio else 'wifi'
+
+        # 现在可以安全地打印了
+        print(f"🔧 选择的设备类型: {self.current_device_type.upper()}, 网络类型: {self.current_network_type.upper()}")
+
+        # 获取设备配置
+        config = self.device_profiles.get(self.current_device_type, self.device_profiles['android'])
 
         # 获取UA参数
         if use_file_reading is None:
@@ -51,13 +86,13 @@ class BrowserManager:
             self.use_file_reading = stats['total_lines'] > 1000
 
         if self.use_file_reading:
-            self.current_ua = self.ua_manager.get_random_ua_from_file(device)
+            self.current_ua = self.ua_manager.get_random_ua_from_file(device, self.current_device_type)
             print("🔧 使用文件直接读取模式")
         else:
-            self.current_ua = self.ua_manager.get_random_ua(device)
+            self.current_ua = self.ua_manager.get_random_ua(device, self.current_device_type)
             print("🔧 使用缓存模式")
 
-        logging.info(self.current_ua)
+        logging.info(f"使用UA: {self.current_ua}")
 
         # 基础参数
         browser_args = [
@@ -108,21 +143,19 @@ class BrowserManager:
         ]
 
         # 获取代理配置
-        try:
-            proxy_config = proxy_manager.get_valid_proxy()
-            proxy_url = f"{proxy_config['ip']}:{proxy_config['port']}"
-            print(f"{proxy_config.get("http")}")
-            browser_args.extend([
-                f'--proxy-server=http://{proxy_url}',
-                '--proxy-bypass-list=<-loopback>',  # 绕过本地地址
-            ])
-            print(f"代理ip: {proxy_config['http']}")
-        except Exception as e:
-            print("代理获取失败")
+        # try:
+        #     proxy_config = proxy_manager.get_valid_proxy(None,False if self.current_network_type == 'mobile_data' else True)
+        #     proxy_url = f"{proxy_config['ip']}:{proxy_config['port']}"
+        #     print(f"{proxy_config.get("http")}")
+        #     browser_args.extend([
+        #         f'--proxy-server=http://{proxy_url}',
+        #         '--proxy-bypass-list=<-loopback>',  # 绕过本地地址
+        #     ])
+        #     print(f"代理ip: {proxy_config['http']}")
+        # except Exception as e:
+        #     print("代理获取失败")
 
-
         try:
-            self.is_manual_test = is_manual_test
             logging.info("正在启动浏览器...")
 
             # 启动浏览器
@@ -145,6 +178,46 @@ class BrowserManager:
             logging.error(f"浏览器启动失败: {e}")
             return False
 
+    async def take_screenshot(self, url, config_manager=None, stats_manager=None):
+        """截图并返回成功状态和设备类型"""
+        try:
+            # 应用完整隐身配置（使用随机设备）
+            await self.apply_complete_stealth()
+
+            result = await self.stealth_navigate(url, delay_before=2, delay_after=3, max_retries=2)
+
+            if result['success']:
+                print(f"✓ 访问成功")
+                print(f"  标题: {result['title']}")
+                print(f"  内容长度: {result['content_length']}")
+
+                # 更新统计数据（只在成功时更新, 访问到对应标签的时候才算成功）
+                if stats_manager and self.current_device_type and self.current_network_type:
+                    stats_manager.update_stats(True, self.current_device_type, self.current_network_type)
+
+                return True, self.current_device_type, self.current_network_type
+            else:
+                print(f"✗ 访问失败: {result.get('error', '未知错误')}")
+
+                # 更新统计数据（只在成功时更新）
+                if stats_manager and self.current_device_type and self.current_network_type:
+                    stats_manager.update_stats(False, self.current_device_type, self.current_network_type)
+
+                return False, self.current_device_type, self.current_network_type
+
+        except Exception as e:
+            print(f"访问失败: {e}")
+            import traceback
+            traceback.print_exc()
+
+            # 更新统计数据（只在成功时更新）
+            if stats_manager and self.current_device_type and self.current_network_type:
+                stats_manager.update_stats(False, self.current_device_type, self.current_network_type)
+
+            return False, self.current_device_type, self.current_network_type
+        finally:
+            await self.close_browser()
+
     async def close_browser(self):
         """关闭浏览器 - 手动检测模式下不自动关闭"""
         try:
@@ -161,35 +234,7 @@ class BrowserManager:
         except Exception as e:
             logging.error(f"关闭浏览器失败: {e}")
 
-    async def take_screenshot(self,url):
-
-        try:
-
-            # 应用完整隐身配置（使用随机设备）
-            await self.apply_complete_stealth()
-
-            # 测试隐身效果
-            # await self.test_stealth_effectiveness()
-
-            result = await self.stealth_navigate(url, delay_before=2, delay_after=3,max_retries=2)
-
-            if result['success']:
-                print(f"✓ 访问成功")
-                print(f"  标题: {result['title']}")
-                print(f"  内容长度: {result['content_length']}")
-                return True
-            else:
-                print(f"✗ 访问失败: {result.get('error', '未知错误')}")
-                return False
-
-        except Exception as e:
-            print(f"访问失败: {e}")
-            import traceback
-            traceback.print_exc()
-        finally:
-            await self.close_browser()
-
-    async def stealth_navigate(self, url, delay_before=1, delay_after=3,max_retries = 1):
+    async def stealth_navigate(self, url, delay_before=1, delay_after=3, max_retries=1):
         """隐身导航到指定URL（支持重试）- 修复版本"""
         for attempt in range(max_retries):
             try:
@@ -217,7 +262,7 @@ class BrowserManager:
                     print(f"✅ 访问成功")
                     print(f"   标题: {page_info.get('title', '未知')}")
                     print(f"   内容长度: {page_info.get('bodyContent', 0)}")
-                    #print(f"   使用代理: {self.current_proxy or '无'}")
+                    # print(f"   使用代理: {self.current_proxy or '无'}")
 
                     if delay_after > 0:
                         print(f"⏳ 导航后等待 {delay_after} 秒...")
@@ -228,7 +273,7 @@ class BrowserManager:
                         'title': page_info.get('title', '未知'),
                         'content_length': page_info.get('bodyContent', 0),
                         'url': page_info.get('url', '未知'),
-                        #'proxy': self.current_proxy,
+                        # 'proxy': self.current_proxy,
                         'attempt': attempt + 1
                     }
                 else:
@@ -242,7 +287,7 @@ class BrowserManager:
                     return {
                         'success': False,
                         'error': str(e),
-                        #'proxy': self.current_proxy,
+                        # 'proxy': self.current_proxy,
                         'attempt': attempt + 1
                     }
 
@@ -255,7 +300,6 @@ class BrowserManager:
             await asyncio.sleep(2)
 
         return {'success': False, 'error': '所有重试都失败'}
-
 
     async def get_page_info(self):
         """安全获取页面信息"""
@@ -392,11 +436,18 @@ class BrowserManager:
         await self.hide_cdp_protocol()
 
         print("伪造浏览器指纹...")
-        config = self.device_profiles.get(device, self.device_profiles['random_mobile'])
+        config = self.device_profiles.get(device, self.device_profiles['android'])
         await self.spoof_mobile_fingerprint(config)
 
         print("绕过调试检测...")
         await self.bypass_debug_detection()
+
+        # 新增：绕过CRC检测和协议检测
+        print("绕过CRC检测...")
+        await self.bypass_crc_detection()
+
+        print("绕过协议检测...")
+        await self.bypass_protocol_detection()
 
         print("隐身配置应用完成!")
 
@@ -432,6 +483,14 @@ class BrowserManager:
         except Exception as e:
             print(f"❌ 导航失败: {e}")
             return False
+
+    def get_current_device_type(self):
+        """获取当前设备类型"""
+        return self.current_device_type
+
+    def get_current_network_type(self):
+        """获取当前网络类型"""
+        return self.current_network_type
 
     async def _wait_for_page_load(self, timeout: int = 30):
         """等待页面加载完成"""
@@ -901,3 +960,379 @@ class BrowserManager:
         except Exception as e:
             print(f"等待页面就绪时出错: {e}")
             return False
+
+    async def bypass_crc_detection(self):
+        """绕过Chrome运行时检查(CRC)"""
+        crc_scripts = [
+            # 1. 覆盖Chrome运行时属性
+            """
+            try {
+                // 覆盖runtime属性
+                if (window.chrome && window.chrome.runtime) {
+                    Object.defineProperty(window.chrome.runtime, 'sendMessage', {
+                        value: function() { return Promise.resolve({}); },
+                        configurable: false,
+                        writable: false
+                    });
+
+                    Object.defineProperty(window.chrome.runtime, 'onMessage', {
+                        value: { addListener: function() {} },
+                        configurable: false,
+                        writable: false
+                    });
+                }
+                console.log('CRC运行时属性覆盖成功');
+            } catch(e) {
+                console.log('CRC运行时属性覆盖失败:', e.message);
+            }
+            """,
+
+            # 2. 隐藏Chrome扩展特征
+            """
+            try {
+                // 覆盖chrome对象的方法
+                const originalChrome = window.chrome;
+                if (originalChrome) {
+                    Object.defineProperty(window, 'chrome', {
+                        value: (function() {
+                            const chromeProxy = {};
+                            const properties = Object.getOwnPropertyNames(originalChrome);
+
+                            for (const prop of properties) {
+                                if (prop === 'runtime' || prop === 'loadTimes' || prop === 'csi') {
+                                    // 对这些敏感属性进行特殊处理
+                                    Object.defineProperty(chromeProxy, prop, {
+                                        value: undefined,
+                                        configurable: false,
+                                        enumerable: false
+                                    });
+                                } else {
+                                    // 复制其他属性
+                                    Object.defineProperty(chromeProxy, prop, {
+                                        value: originalChrome[prop],
+                                        configurable: false,
+                                        enumerable: false
+                                    });
+                                }
+                            }
+
+                            // 添加假的runtime对象
+                            Object.defineProperty(chromeProxy, 'runtime', {
+                                value: {
+                                    sendMessage: function() { return Promise.resolve({}); },
+                                    onMessage: { addListener: function() {} },
+                                    getManifest: function() { return {}; },
+                                    id: 'fakechromeid123456'
+                                },
+                                configurable: false,
+                                enumerable: false
+                            });
+
+                            return chromeProxy;
+                        })(),
+                        configurable: false,
+                        writable: false
+                    });
+                }
+                console.log('Chrome扩展特征隐藏成功');
+            } catch(e) {
+                console.log('Chrome扩展特征隐藏失败:', e.message);
+            }
+            """,
+
+            # 3. 覆盖性能时间戳
+            """
+            try {
+                // 覆盖performance.timing相关属性
+                if (window.performance && window.performance.timing) {
+                    const originalTiming = window.performance.timing;
+                    const fakeTiming = {};
+
+                    const timingProps = [
+                        'navigationStart', 'unloadEventStart', 'unloadEventEnd',
+                        'redirectStart', 'redirectEnd', 'fetchStart', 
+                        'domainLookupStart', 'domainLookupEnd', 'connectStart',
+                        'connectEnd', 'secureConnectionStart', 'requestStart',
+                        'responseStart', 'responseEnd', 'domLoading',
+                        'domInteractive', 'domContentLoadedEventStart',
+                        'domContentLoadedEventEnd', 'domComplete', 'loadEventStart',
+                        'loadEventEnd'
+                    ];
+
+                    const baseTime = Date.now() - Math.floor(Math.random() * 10000);
+
+                    for (const prop of timingProps) {
+                        Object.defineProperty(fakeTiming, prop, {
+                            get: function() {
+                                return baseTime + Math.floor(Math.random() * 1000);
+                            },
+                            configurable: false,
+                            enumerable: true
+                        });
+                    }
+
+                    Object.defineProperty(window.performance, 'timing', {
+                        value: fakeTiming,
+                        configurable: false,
+                        writable: false
+                    });
+                }
+                console.log('性能时间戳覆盖成功');
+            } catch(e) {
+                console.log('性能时间戳覆盖失败:', e.message);
+            }
+            """,
+
+            # 4. 覆盖Chrome加载统计
+            """
+            try {
+                // 覆盖chrome.loadTimes和chrome.csi
+                if (window.chrome) {
+                    if (window.chrome.loadTimes) {
+                        Object.defineProperty(window.chrome, 'loadTimes', {
+                            value: function() {
+                                return {
+                                    requestTime: Date.now() / 1000 - Math.random() * 5,
+                                    startLoadTime: Date.now() / 1000 - Math.random() * 5,
+                                    commitLoadTime: Date.now() / 1000 - Math.random() * 3,
+                                    finishDocumentLoadTime: Date.now() / 1000 - Math.random() * 2,
+                                    finishLoadTime: Date.now() / 1000 - Math.random() * 1,
+                                    firstPaintTime: Date.now() / 1000 - Math.random() * 4,
+                                    firstPaintAfterLoadTime: 0,
+                                    navigationType: 'Other',
+                                    wasFetchedViaSpdy: false,
+                                    wasNpnNegotiated: false,
+                                    npnNegotiatedProtocol: 'unknown',
+                                    wasAlternateProtocolAvailable: false,
+                                    connectionInfo: 'unknown'
+                                };
+                            },
+                            configurable: false,
+                            writable: false
+                        });
+                    }
+
+                    if (window.chrome.csi) {
+                        Object.defineProperty(window.chrome, 'csi', {
+                            value: function() {
+                                return {
+                                    onloadT: Date.now() - performance.timing.navigationStart,
+                                    startE: performance.timing.navigationStart,
+                                    pageT: Date.now() - performance.timing.navigationStart + Math.random() * 100,
+                                    tran: 15
+                                };
+                            },
+                            configurable: false,
+                            writable: false
+                        });
+                    }
+                }
+                console.log('Chrome加载统计覆盖成功');
+            } catch(e) {
+                console.log('Chrome加载统计覆盖失败:', e.message);
+            }
+            """
+        ]
+
+        for i, script in enumerate(crc_scripts):
+            try:
+                print(f"执行CRC绕过脚本 {i + 1}/{len(crc_scripts)}...")
+                result = await self.safe_evaluate(script)
+                if result is not None:
+                    print(f"CRC绕过脚本 {i + 1} 执行成功")
+                await asyncio.sleep(0.3)
+            except Exception as e:
+                print(f"CRC绕过脚本 {i + 1} 执行失败: {e}")
+
+    async def bypass_protocol_detection(self):
+        """绕过各种协议检测"""
+        protocol_scripts = [
+            # 1. 覆盖WebRTC泄漏
+            """
+            try {
+                // 覆盖WebRTC相关函数以防止IP泄漏
+                const originalRTCPeerConnection = window.RTCPeerConnection;
+                if (originalRTCPeerConnection) {
+                    window.RTCPeerConnection = function(config) {
+                        if (config && config.iceServers) {
+                            // 清理可能的真实ICE服务器
+                            config.iceServers = config.iceServers.filter(server => {
+                                return server.urls && 
+                                       !server.urls.some(url => url.includes('google') || 
+                                                          url.includes('mozilla') ||
+                                                          url.includes('local'));
+                            });
+                        }
+
+                        const pc = new originalRTCPeerConnection(config);
+
+                        // 覆盖getStats方法
+                        const originalGetStats = pc.getStats.bind(pc);
+                        pc.getStats = function() {
+                            return originalGetStats().then(stats => {
+                                const filteredStats = new Map();
+                                for (const [id, stat] of stats) {
+                                    if (!stat.type.includes('local-candidate') && 
+                                        !stat.type.includes('remote-candidate')) {
+                                        filteredStats.set(id, stat);
+                                    }
+                                }
+                                return filteredStats;
+                            });
+                        };
+
+                        return pc;
+                    };
+
+                    // 复制原型链
+                    window.RTCPeerConnection.prototype = originalRTCPeerConnection.prototype;
+                }
+                console.log('WebRTC泄漏防护成功');
+            } catch(e) {
+                console.log('WebRTC泄漏防护失败:', e.message);
+            }
+            """,
+
+            # 2. 覆盖Canvas指纹
+            """
+            try {
+                // Canvas指纹随机化
+                const originalToDataURL = HTMLCanvasElement.prototype.toDataURL;
+                HTMLCanvasElement.prototype.toDataURL = function(type, quality) {
+                    const context = this.getContext('2d');
+                    if (context) {
+                        // 添加微小随机噪声
+                        const imageData = context.getImageData(0, 0, this.width, this.height);
+                        const data = imageData.data;
+
+                        // 在少量像素上添加噪声
+                        for (let i = 0; i < data.length; i += Math.floor(Math.random() * 100) + 50) {
+                            data[i] = data[i] ^ (Math.random() > 0.5 ? 1 : 0);
+                        }
+
+                        context.putImageData(imageData, 0, 0);
+                    }
+
+                    return originalToDataURL.call(this, type, quality);
+                };
+                console.log('Canvas指纹防护成功');
+            } catch(e) {
+                console.log('Canvas指纹防护失败:', e.message);
+            }
+            """,
+
+            # 3. 覆盖AudioContext指纹
+            """
+            try {
+                // AudioContext指纹防护
+                if (window.AudioContext) {
+                    const originalAudioContext = window.AudioContext;
+                    window.AudioContext = function() {
+                        const audioContext = new originalAudioContext();
+
+                        // 覆盖getChannelData方法添加噪声
+                        const originalGetChannelData = audioContext.createOscillator().constructor.prototype.getChannelData;
+                        if (originalGetChannelData) {
+                            audioContext.createOscillator().constructor.prototype.getChannelData = function() {
+                                const result = originalGetChannelData.apply(this, arguments);
+                                // 添加微小随机噪声
+                                for (let i = 0; i < result.length; i += Math.floor(Math.random() * 100) + 50) {
+                                    result[i] += (Math.random() - 0.5) * 0.0001;
+                                }
+                                return result;
+                            };
+                        }
+
+                        return audioContext;
+                    };
+                    window.AudioContext.prototype = originalAudioContext.prototype;
+                }
+                console.log('AudioContext指纹防护成功');
+            } catch(e) {
+                console.log('AudioContext指纹防护失败:', e.message);
+            }
+            """,
+
+            # 4. 覆盖字体指纹
+            """
+            try {
+                // 字体列表随机化
+                Object.defineProperty(navigator, 'fonts', {
+                    value: {
+                        ready: Promise.resolve(),
+                        query: function() {
+                            return Promise.resolve([
+                                { family: 'Arial', status: 'loaded' },
+                                { family: 'Helvetica', status: 'loaded' },
+                                { family: 'Times New Roman', status: 'loaded' },
+                                { family: 'Courier New', status: 'loaded' },
+                                { family: 'Verdana', status: 'loaded' }
+                            ].sort(() => Math.random() - 0.5));
+                        }
+                    },
+                    configurable: false,
+                    writable: false
+                });
+                console.log('字体指纹防护成功');
+            } catch(e) {
+                console.log('字体指纹防护失败:', e.message);
+            }
+            """,
+
+            # 5. 覆盖WebGL指纹
+            """
+            try {
+                // WebGL指纹防护
+                const originalGetParameter = WebGLRenderingContext.prototype.getParameter;
+                WebGLRenderingContext.prototype.getParameter = function(parameter) {
+                    // 对特定参数返回随机化值
+                    if (parameter === 37445) { // UNMASKED_VENDOR_WEBGL
+                        return 'Google Inc. (Intel)';
+                    }
+                    if (parameter === 37446) { // UNMASKED_RENDERER_WEBGL
+                        return 'Intel Iris OpenGL Engine';
+                    }
+                    if (parameter === 7936) { // VENDOR
+                        return 'WebKit';
+                    }
+                    if (parameter === 7937) { // RENDERER
+                        return 'WebKit WebGL';
+                    }
+                    if (parameter === 7938) { // VERSION
+                        return 'WebGL 1.0 (OpenGL ES 2.0 Chromium)';
+                    }
+
+                    // 对其他参数添加微小变化
+                    const result = originalGetParameter.call(this, parameter);
+                    if (typeof result === 'number' && Math.random() > 0.9) {
+                        return result + (Math.random() - 0.5) * 0.0001;
+                    }
+                    return result;
+                };
+
+                // 覆盖getSupportedExtensions
+                const originalGetSupportedExtensions = WebGLRenderingContext.prototype.getSupportedExtensions;
+                WebGLRenderingContext.prototype.getSupportedExtensions = function() {
+                    const extensions = originalGetSupportedExtensions.call(this) || [];
+                    // 随机移除或添加一些扩展
+                    if (Math.random() > 0.5 && extensions.includes('WEBGL_debug_renderer_info')) {
+                        extensions.splice(extensions.indexOf('WEBGL_debug_renderer_info'), 1);
+                    }
+                    return extensions;
+                };
+                console.log('WebGL指纹防护成功');
+            } catch(e) {
+                console.log('WebGL指纹防护失败:', e.message);
+            }
+            """
+        ]
+
+        for i, script in enumerate(protocol_scripts):
+            try:
+                print(f"执行协议检测绕过脚本 {i + 1}/{len(protocol_scripts)}...")
+                result = await self.safe_evaluate(script)
+                if result is not None:
+                    print(f"协议检测绕过脚本 {i + 1} 执行成功")
+                await asyncio.sleep(0.3)
+            except Exception as e:
+                print(f"协议检测绕过脚本 {i + 1} 执行失败: {e}")

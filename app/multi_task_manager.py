@@ -1,14 +1,312 @@
 import logging
 import os
 import json
+from dataclasses import dataclass, asdict
+from typing import Dict, Any
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
                              QPushButton, QListWidget, QListWidgetItem, QLabel,
                              QSplitter, QGroupBox, QLineEdit, QMessageBox,
-                             QTabWidget, QInputDialog, QToolBar, QAction, QTabBar)
-from PyQt5.QtCore import Qt, pyqtSlot
+                             QTabWidget, QInputDialog, QToolBar, QAction, QTabBar,
+                             QGridLayout, QFrame, QProgressBar)
+from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal
 from PyQt5.QtGui import QIcon, QFont
 
 from app.task_window import TaskWindow
+
+
+@dataclass
+class DeviceStats:
+    """设备统计数据"""
+    total_tests: int = 0
+    successful_tests: int = 0
+    failed_tests: int = 0
+
+    @property
+    def success_rate(self) -> float:
+        if self.total_tests == 0:
+            return 0.0
+        return (self.successful_tests / self.total_tests) * 100
+
+
+@dataclass
+class GlobalStats:
+    """全局统计数据"""
+    android_stats: DeviceStats = None
+    ios_stats: DeviceStats = None
+    total_tests: int = 0
+    successful_tests: int = 0
+    failed_tests: int = 0
+
+    def __post_init__(self):
+        if self.android_stats is None:
+            self.android_stats = DeviceStats()
+        if self.ios_stats is None:
+            self.ios_stats = DeviceStats()
+
+    @property
+    def overall_success_rate(self) -> float:
+        if self.total_tests == 0:
+            return 0.0
+        return (self.successful_tests / self.total_tests) * 100
+
+    @property
+    def android_success_rate(self) -> float:
+        return self.android_stats.success_rate
+
+    @property
+    def ios_success_rate(self) -> float:
+        return self.ios_stats.success_rate
+
+
+class StatsManager:
+    """统计管理器"""
+
+    def __init__(self, stats_file="global_stats.json"):
+        self.stats_file = stats_file
+        self.stats = GlobalStats()
+        self.load_stats()
+
+    def load_stats(self):
+        """加载统计数据"""
+        try:
+            if os.path.exists(self.stats_file):
+                with open(self.stats_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    self.stats = GlobalStats(
+                        android_stats=DeviceStats(**data.get('android_stats', {})),
+                        ios_stats=DeviceStats(**data.get('ios_stats', {})),
+                        total_tests=data.get('total_tests', 0),
+                        successful_tests=data.get('successful_tests', 0),
+                        failed_tests=data.get('failed_tests', 0)
+                    )
+        except Exception as e:
+            print(f"加载统计数据失败: {e}")
+            self.stats = GlobalStats()
+
+    def save_stats(self):
+        """保存统计数据"""
+        try:
+            with open(self.stats_file, 'w', encoding='utf-8') as f:
+                json.dump(asdict(self.stats), f, indent=4, ensure_ascii=False)
+        except Exception as e:
+            print(f"保存统计数据失败: {e}")
+
+    def update_stats(self, success: bool, device_type: str):
+        """更新统计数据"""
+        self.stats.total_tests += 1
+
+        if success:
+            self.stats.successful_tests += 1
+            if device_type == 'android':
+                self.stats.android_stats.total_tests += 1
+                self.stats.android_stats.successful_tests += 1
+            else:  # ios
+                self.stats.ios_stats.total_tests += 1
+                self.stats.ios_stats.successful_tests += 1
+        else:
+            self.stats.failed_tests += 1
+            if device_type == 'android':
+                self.stats.android_stats.total_tests += 1
+                self.stats.android_stats.failed_tests += 1
+            else:  # ios
+                self.stats.ios_stats.total_tests += 1
+                self.stats.ios_stats.failed_tests += 1
+
+        self.save_stats()
+
+    def clear_stats(self):
+        """清空统计数据"""
+        self.stats = GlobalStats()
+        self.save_stats()
+
+    def get_stats_summary(self) -> Dict[str, Any]:
+        """获取统计摘要"""
+        return {
+            'total_tests': self.stats.total_tests,
+            'successful_tests': self.stats.successful_tests,
+            'failed_tests': self.stats.failed_tests,
+            'overall_success_rate': self.stats.overall_success_rate,
+            'android_total': self.stats.android_stats.total_tests,
+            'android_success': self.stats.android_stats.successful_tests,
+            'android_success_rate': self.stats.android_success_rate,
+            'ios_total': self.stats.ios_stats.total_tests,
+            'ios_success': self.stats.ios_stats.successful_tests,
+            'ios_success_rate': self.stats.ios_success_rate
+        }
+
+
+class WelcomeStatsWidget(QWidget):
+    """欢迎页面统计组件"""
+
+    clear_stats_requested = pyqtSignal()
+
+    def __init__(self, stats_manager: StatsManager):
+        super().__init__()
+        self.stats_manager = stats_manager
+        self.init_ui()
+        self.update_display()
+
+    def init_ui(self):
+        """初始化UI"""
+        layout = QVBoxLayout(self)
+
+        # 标题
+        title_label = QLabel("运行统计")
+        title_label.setStyleSheet("QLabel { font-size: 18px; font-weight: bold; color: #333; margin: 10px; }")
+        title_label.setAlignment(Qt.AlignCenter)
+        layout.addWidget(title_label)
+
+        # 总体统计组
+        overall_group = QGroupBox("总体统计")
+        overall_layout = QVBoxLayout(overall_group)
+
+        # 总体成功率
+        overall_success_layout = QHBoxLayout()
+        overall_success_layout.addWidget(QLabel("总体成功率:"))
+        self.overall_success_label = QLabel("0%")
+        self.overall_success_label.setStyleSheet("QLabel { color: #4CAF50; font-weight: bold; font-size: 16px; }")
+        overall_success_layout.addWidget(self.overall_success_label)
+        overall_success_layout.addStretch()
+        overall_layout.addLayout(overall_success_layout)
+
+        # 总体进度条
+        self.overall_progress = QProgressBar()
+        self.overall_progress.setMaximum(100)
+        overall_layout.addWidget(self.overall_progress)
+
+        # 测试次数
+        tests_layout = QHBoxLayout()
+        tests_layout.addWidget(QLabel("总测试次数:"))
+        self.total_tests_label = QLabel("0")
+        tests_layout.addWidget(self.total_tests_label)
+        tests_layout.addStretch()
+
+        tests_layout.addWidget(QLabel("成功:"))
+        self.success_tests_label = QLabel("0")
+        self.success_tests_label.setStyleSheet("QLabel { color: #4CAF50; }")
+        tests_layout.addWidget(self.success_tests_label)
+
+        tests_layout.addWidget(QLabel("失败:"))
+        self.failed_tests_label = QLabel("0")
+        self.failed_tests_label.setStyleSheet("QLabel { color: #F44336; }")
+        tests_layout.addWidget(self.failed_tests_label)
+        overall_layout.addLayout(tests_layout)
+
+        # 设备统计组
+        device_group = QGroupBox("设备统计")
+        device_layout = QVBoxLayout(device_group)
+
+        # 安卓统计
+        android_group = QGroupBox("安卓设备")
+        android_layout = QVBoxLayout(android_group)
+
+        android_success_layout = QHBoxLayout()
+        android_success_layout.addWidget(QLabel("成功率:"))
+        self.android_success_label = QLabel("0%")
+        self.android_success_label.setStyleSheet("QLabel { color: #2196F3; font-weight: bold; }")
+        android_success_layout.addWidget(self.android_success_label)
+        android_success_layout.addStretch()
+        android_layout.addLayout(android_success_layout)
+
+        self.android_progress = QProgressBar()
+        self.android_progress.setMaximum(100)
+        android_layout.addWidget(self.android_progress)
+
+        android_counts_layout = QHBoxLayout()
+        android_counts_layout.addWidget(QLabel("测试:"))
+        self.android_total_label = QLabel("0")
+        android_counts_layout.addWidget(self.android_total_label)
+
+        android_counts_layout.addWidget(QLabel("成功:"))
+        self.android_success_count_label = QLabel("0")
+        self.android_success_count_label.setStyleSheet("QLabel { color: #4CAF50; }")
+        android_counts_layout.addWidget(self.android_success_count_label)
+        android_layout.addLayout(android_counts_layout)
+
+        # iOS统计
+        ios_group = QGroupBox("iOS设备")
+        ios_layout = QVBoxLayout(ios_group)
+
+        ios_success_layout = QHBoxLayout()
+        ios_success_layout.addWidget(QLabel("成功率:"))
+        self.ios_success_label = QLabel("0%")
+        self.ios_success_label.setStyleSheet("QLabel { color: #FF5722; font-weight: bold; }")
+        ios_success_layout.addWidget(self.ios_success_label)
+        ios_success_layout.addStretch()
+        ios_layout.addLayout(ios_success_layout)
+
+        self.ios_progress = QProgressBar()
+        self.ios_progress.setMaximum(100)
+        ios_layout.addWidget(self.ios_progress)
+
+        ios_counts_layout = QHBoxLayout()
+        ios_counts_layout.addWidget(QLabel("测试:"))
+        self.ios_total_label = QLabel("0")
+        ios_counts_layout.addWidget(self.ios_total_label)
+
+        ios_counts_layout.addWidget(QLabel("成功:"))
+        self.ios_success_count_label = QLabel("0")
+        self.ios_success_count_label.setStyleSheet("QLabel { color: #4CAF50; }")
+        ios_counts_layout.addWidget(self.ios_success_count_label)
+        ios_layout.addLayout(ios_counts_layout)
+
+        # 添加到设备布局
+        device_inner_layout = QHBoxLayout()
+        device_inner_layout.addWidget(android_group)
+        device_inner_layout.addWidget(ios_group)
+        device_layout.addLayout(device_inner_layout)
+
+        # 控制按钮
+        control_layout = QHBoxLayout()
+        self.refresh_btn = QPushButton("刷新统计")
+        self.refresh_btn.clicked.connect(self.update_display)
+        control_layout.addWidget(self.refresh_btn)
+
+        self.clear_btn = QPushButton("清空统计")
+        self.clear_btn.clicked.connect(self.clear_stats)
+        control_layout.addWidget(self.clear_btn)
+        control_layout.addStretch()
+
+        # 添加到主布局
+        layout.addWidget(overall_group)
+        layout.addWidget(device_group)
+        layout.addLayout(control_layout)
+        layout.addStretch()
+
+    def update_display(self):
+        """更新显示"""
+        stats = self.stats_manager.get_stats_summary()
+
+        # 更新总体统计
+        self.overall_success_label.setText(f"{stats['overall_success_rate']:.1f}%")
+        self.overall_progress.setValue(int(stats['overall_success_rate']))
+        self.total_tests_label.setText(str(stats['total_tests']))
+        self.success_tests_label.setText(str(stats['successful_tests']))
+        self.failed_tests_label.setText(str(stats['failed_tests']))
+
+        # 更新安卓统计
+        self.android_success_label.setText(f"{stats['android_success_rate']:.1f}%")
+        self.android_progress.setValue(int(stats['android_success_rate']))
+        self.android_total_label.setText(str(stats['android_total']))
+        self.android_success_count_label.setText(str(stats['android_success']))
+
+        # 更新iOS统计
+        self.ios_success_label.setText(f"{stats['ios_success_rate']:.1f}%")
+        self.ios_progress.setValue(int(stats['ios_success_rate']))
+        self.ios_total_label.setText(str(stats['ios_total']))
+        self.ios_success_count_label.setText(str(stats['ios_success']))
+
+    def clear_stats(self):
+        """清空统计"""
+        reply = QMessageBox.question(self, "确认清空",
+                                     "确定要清空所有统计数据吗？此操作不可恢复！",
+                                     QMessageBox.Yes | QMessageBox.No)
+
+        if reply == QMessageBox.Yes:
+            self.stats_manager.clear_stats()
+            self.update_display()
+            self.clear_stats_requested.emit()
+            QMessageBox.information(self, "清空成功", "统计数据已清空")
 
 
 class MultiTaskManager(QMainWindow):
@@ -18,6 +316,7 @@ class MultiTaskManager(QMainWindow):
         super().__init__()
         self.task_windows = {}  # 存储任务窗口 {title: window}
         self.next_task_number = 1
+        self.stats_manager = StatsManager()  # 初始化统计管理器
         self.init_ui()
         self.connect_signals()
         self.load_existing_tasks()  # 启动时加载已存在的任务
@@ -161,36 +460,6 @@ class MultiTaskManager(QMainWindow):
         self.task_list.itemSelectionChanged.connect(self.on_task_selection_changed)
         task_layout.addWidget(self.task_list)
 
-        # 任务统计
-        stats_group = QGroupBox("统计信息")
-        stats_layout = QVBoxLayout(stats_group)
-
-        total_layout = QHBoxLayout()
-        total_layout.addWidget(QLabel("总任务窗口:"))
-        self.total_tasks_label = QLabel("0")
-        self.total_tasks_label.setStyleSheet("QLabel { color: #2196F3; font-weight: bold; font-size: 14px; }")
-        total_layout.addWidget(self.total_tasks_label)
-        total_layout.addStretch()
-        stats_layout.addLayout(total_layout)
-
-        running_layout = QHBoxLayout()
-        running_layout.addWidget(QLabel("运行中:"))
-        self.running_tasks_label = QLabel("0")
-        self.running_tasks_label.setStyleSheet("QLabel { color: #4CAF50; font-weight: bold; font-size: 14px; }")
-        running_layout.addWidget(self.running_tasks_label)
-        running_layout.addStretch()
-        stats_layout.addLayout(running_layout)
-
-        paused_layout = QHBoxLayout()
-        paused_layout.addWidget(QLabel("已暂停:"))
-        self.paused_tasks_label = QLabel("0")
-        self.paused_tasks_label.setStyleSheet("QLabel { color: #FF9800; font-weight: bold; font-size: 14px; }")
-        paused_layout.addWidget(self.paused_tasks_label)
-        paused_layout.addStretch()
-        stats_layout.addLayout(paused_layout)
-
-        task_layout.addWidget(stats_group)
-
         layout.addWidget(task_group)
 
         return widget
@@ -213,50 +482,114 @@ class MultiTaskManager(QMainWindow):
         return widget
 
     def create_welcome_tab(self):
-        """创建欢迎选项卡"""
+        """创建欢迎选项卡 - 集成设备统计"""
         welcome_widget = QWidget()
         layout = QVBoxLayout(welcome_widget)
 
+        # 标题
         welcome_label = QLabel("多任务管理器")
         welcome_label.setAlignment(Qt.AlignCenter)
         welcome_label.setStyleSheet("QLabel { font-size: 28px; color: #333; font-weight: bold; margin: 30px; }")
         layout.addWidget(welcome_label)
 
-        hint_label = QLabel("点击\"添加任务\"按钮来创建新的任务窗口\n每个任务窗口都有独立的配置和运行状态")
-        hint_label.setAlignment(Qt.AlignCenter)
-        hint_label.setStyleSheet("QLabel { font-size: 16px; color: #666; margin: 20px; line-height: 1.5; }")
+        # 使用 WelcomeStatsWidget 来显示设备统计
+        self.stats_widget = WelcomeStatsWidget(self.stats_manager)
+        layout.addWidget(self.stats_widget)
+
+        # 系统功能说明
+        hint_label = QLabel(
+            "系统功能说明:\n\n"
+            "• 多任务管理: 支持同时管理多个独立任务\n"
+            "• 独立配置: 每个任务有独立的参数配置\n"
+            "• 状态监控: 实时监控各任务运行状态\n"
+            "• 批量操作: 支持批量启动/停止任务\n\n"
+            "使用方法:\n"
+            "1. 点击\"添加任务\"创建新任务窗口\n"
+            "2. 在任务窗口中配置参数\n"
+            "3. 启动任务并监控运行状态\n"
+            "4. 使用工具栏进行批量操作"
+        )
+        hint_label.setAlignment(Qt.AlignLeft)
+        hint_label.setStyleSheet(
+            "QLabel { font-size: 14px; color: #555; margin: 20px; line-height: 1.8; background-color: #f5f5f5; padding: 15px; border-radius: 5px; }")
         layout.addWidget(hint_label)
 
-        features_label = QLabel(
-            "功能特点:\n"
-            "• 每个任务窗口独立运行\n"
-            "• 相同的参数配置界面\n"
-            "• 独立的任务管理和状态显示\n"
-            "• 支持同时运行多个任务组\n"
-            "• 自动保存和加载任务配置\n"
-            "• 完善的手动检测功能"
-        )
-        features_label.setAlignment(Qt.AlignLeft)
-        features_label.setStyleSheet(
-            "QLabel { font-size: 14px; color: #555; margin: 20px; line-height: 1.8; background-color: #f5f5f5; padding: 15px; border-radius: 5px; }")
-        layout.addWidget(features_label)
+        # 快速操作按钮区域
+        quick_actions_group = QGroupBox("快速操作")
+        quick_actions_layout = QHBoxLayout(quick_actions_group)
 
+        quick_start_btn = QPushButton("快速创建任务")
+        quick_start_btn.setStyleSheet("""
+            QPushButton { 
+                background-color: #2196F3; 
+                color: white; 
+                font-weight: bold;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #1976D2;
+            }
+        """)
+        quick_start_btn.clicked.connect(self.add_task)
+        quick_actions_layout.addWidget(quick_start_btn)
+
+        refresh_stats_btn = QPushButton("刷新统计")
+        refresh_stats_btn.setStyleSheet("""
+            QPushButton { 
+                background-color: #4CAF50; 
+                color: white; 
+                font-weight: bold;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #45a049;
+            }
+        """)
+        refresh_stats_btn.clicked.connect(self.update_stats_display)
+        quick_actions_layout.addWidget(refresh_stats_btn)
+
+        view_docs_btn = QPushButton("查看使用说明")
+        view_docs_btn.setStyleSheet("""
+            QPushButton { 
+                background-color: #FF9800; 
+                color: white; 
+                font-weight: bold;
+                padding: 10px;
+                border-radius: 5px;
+            }
+            QPushButton:hover {
+                background-color: #F57C00;
+            }
+        """)
+        quick_actions_layout.addWidget(view_docs_btn)
+
+        layout.addWidget(quick_actions_group)
         layout.addStretch()
 
-        # 修改：给欢迎选项卡一个特殊的标识
+        # 添加欢迎选项卡
         self.tab_widget.addTab(welcome_widget, "欢迎")
-        # 修改：使用setMovable而不是setTabEnabled来防止关闭
-        self.tab_widget.setMovable(True)  # 允许选项卡重新排序
+        self.tab_widget.setMovable(True)
 
-        # 设置欢迎选项卡为不可关闭（通过重写tabBar的鼠标事件）
+        # 设置欢迎选项卡为不可关闭
         self.tab_widget.tabBar().setTabButton(0, QTabBar.RightSide, None)
         self.tab_widget.tabBar().setTabButton(0, QTabBar.LeftSide, None)
+
+        # 初始化统计显示
+        self.update_stats_display()
 
     def connect_signals(self):
         """连接信号和槽"""
         self.add_task_btn.clicked.connect(self.add_task)
         self.remove_task_btn.clicked.connect(self.remove_task)
         self.refresh_btn.clicked.connect(self.refresh_task_list)
+
+    def update_stats_display(self):
+        """更新统计显示"""
+        # WelcomeStatsWidget 会自动更新显示，这里只需要确保统计管理器数据是最新的
+        if hasattr(self, 'stats_widget'):
+            self.stats_widget.update_display()
 
     def load_existing_tasks(self):
         """加载已存在的任务配置"""
@@ -282,9 +615,6 @@ class MultiTaskManager(QMainWindow):
                 except Exception as e:
                     logging.error(f"加载任务配置 {config_file} 失败: {e}")
                     continue
-
-            # 更新统计信息
-            self.update_stats()
 
             if self.task_windows:
                 self.statusBar().showMessage(f"已加载 {len(self.task_windows)} 个任务")
@@ -321,8 +651,8 @@ class MultiTaskManager(QMainWindow):
                 logging.warning(f"任务 '{title}' 已存在，跳过加载")
                 return
 
-            # 创建任务窗口
-            task_window = TaskWindow(title)
+            # 创建任务窗口，传递统计管理器
+            task_window = TaskWindow(title, self.stats_manager)
 
             # 存储任务窗口引用
             self.task_windows[title] = task_window
@@ -377,8 +707,8 @@ class MultiTaskManager(QMainWindow):
                 QMessageBox.warning(self, "错误", f"任务窗口标题 '{title}' 已存在")
                 return
 
-            # 创建新任务窗口
-            task_window = TaskWindow(title)
+            # 创建新任务窗口，传递统计管理器
+            task_window = TaskWindow(title, self.stats_manager)
 
             # 存储任务窗口引用
             self.task_windows[title] = task_window
@@ -396,15 +726,12 @@ class MultiTaskManager(QMainWindow):
             # 连接任务窗口的状态信号
             task_window.task_status_changed.connect(self.on_task_status_changed)
 
-            # 更新统计
-            self.update_stats()
-
             # 更新状态栏
             self.statusBar().showMessage(f"已添加任务窗口: {title}")
 
             logging.info(f"添加新任务窗口: {title}")
 
-            # 新增：选中列表中的对应项
+            # 选中列表中的对应项
             self.task_list.setCurrentItem(item)
 
     def remove_task(self):
@@ -446,15 +773,12 @@ class MultiTaskManager(QMainWindow):
                 # 删除配置文件
                 self.delete_task_files(title)
 
-                # 更新统计
-                self.update_stats()
-
                 # 更新状态栏
                 self.statusBar().showMessage(f"已删除任务窗口: {title}")
 
                 logging.info(f"删除任务窗口: {title}")
 
-                # 新增：如果删除后没有任务，切换到欢迎选项卡
+                # 如果删除后没有任务，切换到欢迎选项卡
                 if self.tab_widget.count() == 1:  # 只剩下欢迎选项卡
                     self.tab_widget.setCurrentIndex(0)
                     self.task_list.clearSelection()
@@ -463,6 +787,7 @@ class MultiTaskManager(QMainWindow):
                 logging.error(f"删除任务窗口失败 {title}: {e}")
                 QMessageBox.warning(self, "删除失败", f"删除任务窗口时出错: {e}")
 
+    # 在 multi_task_manager.py 的 delete_task_files 方法中添加统计文件清理
     def delete_task_files(self, title: str):
         """删除任务相关的所有文件"""
         try:
@@ -471,6 +796,12 @@ class MultiTaskManager(QMainWindow):
             if os.path.exists(config_file):
                 os.remove(config_file)
                 logging.info(f"已删除配置文件: {config_file}")
+
+            # 统计文件
+            stats_file = f"task_stats_{title}.json"
+            if os.path.exists(stats_file):
+                os.remove(stats_file)
+                logging.info(f"已删除统计文件: {stats_file}")
 
             # 日志文件（如果有的话）
             log_file = f"task_manager_{title}.log"
@@ -492,7 +823,6 @@ class MultiTaskManager(QMainWindow):
 
         except Exception as e:
             logging.error(f"删除任务文件失败 {title}: {e}")
-            # 不向用户显示这个错误，因为主要功能已经完成
 
     def refresh_task_list(self):
         """刷新任务列表"""
@@ -503,7 +833,6 @@ class MultiTaskManager(QMainWindow):
 
             # 清空当前列表
             self.task_list.clear()
-            # 注意：不要清空 task_windows 和 tab_widget，否则会丢失正在运行的任务
 
             # 重新加载所有配置文件
             config_files = [f for f in os.listdir('.')
@@ -540,10 +869,9 @@ class MultiTaskManager(QMainWindow):
                     item = self.task_list.item(i)
                     if item.data(Qt.UserRole) == current_title:
                         item.setSelected(True)
-                        self.switch_to_task_tab(current_title)  # 新增：切换到对应的选项卡
+                        self.switch_to_task_tab(current_title)
                         break
 
-            self.update_stats()
             self.statusBar().showMessage(f"任务列表已刷新，共 {len(loaded_titles)} 个任务")
 
         except Exception as e:
@@ -552,14 +880,14 @@ class MultiTaskManager(QMainWindow):
 
     def close_tab(self, index):
         """关闭选项卡"""
-        # 修复：欢迎选项卡不能关闭
+        # 欢迎选项卡不能关闭
         if index == 0:
             QMessageBox.information(self, "提示", "欢迎窗口不能关闭")
             return
 
         title = self.tab_widget.tabText(index)
 
-        # 修复：检查是否是欢迎窗口的特殊处理
+        # 检查是否是欢迎窗口的特殊处理
         if title == "欢迎":
             return
 
@@ -589,12 +917,9 @@ class MultiTaskManager(QMainWindow):
                     task_window.task_manager.stop_tasks()
                 del self.task_windows[title]
 
-            # 更新统计
-            self.update_stats()
-
             logging.info(f"关闭任务窗口: {title}")
 
-            # 新增：如果关闭后没有任务选项卡，确保选中欢迎选项卡
+            # 如果关闭后没有任务选项卡，确保选中欢迎选项卡
             if self.tab_widget.count() == 1:  # 只剩下欢迎选项卡
                 self.tab_widget.setCurrentIndex(0)
                 # 清空任务列表选择
@@ -610,7 +935,7 @@ class MultiTaskManager(QMainWindow):
         has_selection = len(self.task_list.selectedItems()) > 0
         self.remove_task_btn.setEnabled(has_selection)
 
-        # 修复：选中任务时联动右侧选项卡
+        # 选中任务时联动右侧选项卡
         if has_selection:
             current_item = self.task_list.currentItem()
             if current_item:
@@ -647,25 +972,9 @@ class MultiTaskManager(QMainWindow):
                     item.setForeground(Qt.black)
                 break
 
-        # 更新统计
-        self.update_stats()
-
     def update_stats(self):
-        """更新统计信息"""
-        total_count = len(self.task_windows)
-        running_count = 0
-        paused_count = 0
-
-        for task_window in self.task_windows.values():
-            if task_window.task_manager.is_running:
-                if task_window.task_manager.is_paused:
-                    paused_count += 1
-                else:
-                    running_count += 1
-
-        self.total_tasks_label.setText(str(total_count))
-        self.running_tasks_label.setText(str(running_count))
-        self.paused_tasks_label.setText(str(paused_count))
+        """更新统计信息 - 保持向后兼容"""
+        self.update_stats_display()
 
     def start_all_tasks(self):
         """开始所有任务"""

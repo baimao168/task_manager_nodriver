@@ -1,5 +1,6 @@
 import json
 import os
+import random
 from dataclasses import dataclass, asdict, field
 from typing import List, Optional
 from enum import Enum
@@ -52,6 +53,14 @@ class TaskConfig:
     # UA设置
     custom_user_agent: str = ""  # 自定义User-Agent
 
+    # 设备比例设置
+    android_ratio: int = 50  # 安卓设备比例（%）
+    ios_ratio: int = 50  # iOS设备比例（%）
+
+    # 网络类型比例设置
+    mobile_data_ratio: int = 50  # 移动数据网络比例（%）
+    wifi_ratio: int = 50  # WiFi网络比例（%）
+
     def to_dict(self):
         data = asdict(self)
         # 转换枚举值为字符串
@@ -103,3 +112,13 @@ class ConfigManager:
                 json.dump(self.current_config.to_dict(), f, indent=4, ensure_ascii=False)
         except Exception as e:
             print(f"保存配置失败: {e}")
+
+    def get_device_type_by_ratio(self) -> str:
+        """根据配置比例选择设备类型"""
+        android_ratio = self.current_config.android_ratio
+        return 'android' if random.randint(1, 100) <= android_ratio else 'ios'
+
+    def get_network_type_by_ratio(self) -> str:
+        """根据配置比例选择网络类型"""
+        mobile_data_ratio = self.current_config.mobile_data_ratio
+        return 'mobile_data' if random.randint(1, 100) <= mobile_data_ratio else 'wifi'

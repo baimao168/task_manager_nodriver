@@ -1,0 +1,15 @@
+{
+    "android_stats": {
+        "total_tests": 4,
+        "successful_tests": 4,
+        "failed_tests": 0
+    },
+    "ios_stats": {
+        "total_tests": 4,
+        "successful_tests": 4,
+        "failed_tests": 0
+    },
+    "total_tests": 8,
+    "successful_tests": 8,
+    "failed_tests": 0
+}
