@@ -6,31 +6,59 @@ import hashlib
 
 
 class OptimizedUserAgentManager:
-    """优化的 User-Agent 管理器（修复缓存和随机性问题）"""
+    """优化的 User-Agent 管理器（修复设备类型匹配问题）"""
 
     def __init__(self, ua_file_path='user_agents.txt', cache_size=1000):
         self.ua_file_path = ua_file_path
         self.cache_size = cache_size
-        self.mobile_cache = []
+
+        # 分类缓存
+        self.mobile_android_cache = []
+        self.mobile_ios_cache = []
+        self.wechat_android_cache = []
+        self.wechat_ios_cache = []
         self.desktop_cache = []
-        self.wechat_cache = []
         self.all_cache = []
+
+        # 统计信息
         self.total_lines = 0
-        self.mobile_count = 0
+        self.mobile_android_count = 0
+        self.mobile_ios_count = 0
+        self.wechat_android_count = 0
+        self.wechat_ios_count = 0
         self.desktop_count = 0
-        self.wechat_count = 0
+
         self.cache_loaded = False
         self.last_refresh_time = 0
         self.cache_ttl = 300
-        self._current_selection_index = 0  # 添加选择索引避免重复
+
+        # 设备类型比例配置
+        self.device_ratios = {
+            'android': 50,  # 安卓比例
+            'ios': 50  # iOS比例
+        }
+
+        # 选择历史记录，避免重复
+        self.selection_history = []
+        self.max_history_size = 50
 
         # 初始化
         self.initialize_ua_system()
 
+    def set_device_ratios(self, android_ratio: int, ios_ratio: int):
+        """设置设备类型比例"""
+        if android_ratio + ios_ratio == 100:
+            self.device_ratios = {
+                'android': android_ratio,
+                'ios': ios_ratio
+            }
+            print(f"✅ 设备比例设置: Android {android_ratio}%, iOS {ios_ratio}%")
+        else:
+            print("❌ 设备比例总和必须为100%")
+
     def _should_refresh_cache(self):
-        """检查是否需要刷新缓存 - 修复逻辑"""
+        """检查是否需要刷新缓存"""
         current_time = time.time()
-        # 只有在缓存未加载或TTL过期时才刷新，不要因为缓存为空就刷新
         if not self.cache_loaded:
             return True
         if current_time - self.last_refresh_time > self.cache_ttl:
@@ -38,10 +66,9 @@ class OptimizedUserAgentManager:
         return False
 
     def refresh_cache_if_needed(self):
-        """如果需要则刷新缓存 - 修复版本"""
+        """如果需要则刷新缓存"""
         if self._should_refresh_cache():
             print("🔄 刷新UA缓存...")
-            # 保存当前缓存状态用于比较
             old_cache_size = len(self.all_cache)
             self.initialize_ua_system()
             self.last_refresh_time = time.time()
@@ -49,17 +76,20 @@ class OptimizedUserAgentManager:
             print(f"🔄 缓存刷新完成: {old_cache_size} -> {new_cache_size} 个UA")
 
     def initialize_ua_system(self):
-        """初始化 UA 系统 - 修复版本"""
+        """初始化 UA 系统"""
         try:
             if not os.path.exists(self.ua_file_path):
                 print(f"⚠️ User-Agent 文件不存在，创建默认文件")
                 self.create_default_ua_file()
 
             # 清空现有缓存
-            self.mobile_cache = []
+            self.mobile_android_cache = []
+            self.mobile_ios_cache = []
+            self.wechat_android_cache = []
+            self.wechat_ios_cache = []
             self.desktop_cache = []
-            self.wechat_cache = []
             self.all_cache = []
+            self.selection_history = []
 
             # 快速统计行数
             self.total_lines = self._count_file_lines()
@@ -71,8 +101,8 @@ class OptimizedUserAgentManager:
                 print(f"🔧 检测到大文件 ({self.total_lines} 行)，启用缓存模式")
                 self._load_sample_to_cache()
 
-            # 打乱缓存以确保随机性
-            self._shuffle_caches()
+            # 彻底打乱所有缓存
+            self._shuffle_all_caches()
 
             self.cache_loaded = True
             print(f"✅ UA系统初始化完成，总缓存数: {len(self.all_cache)}")
@@ -81,13 +111,15 @@ class OptimizedUserAgentManager:
             print(f"❌ 初始化 User-Agent 系统失败: {e}")
             self.create_default_agents()
 
-    def _shuffle_caches(self):
-        """打乱所有缓存以确保随机性"""
-        random.shuffle(self.mobile_cache)
+    def _shuffle_all_caches(self):
+        """彻底打乱所有缓存"""
+        random.shuffle(self.mobile_android_cache)
+        random.shuffle(self.mobile_ios_cache)
+        random.shuffle(self.wechat_android_cache)
+        random.shuffle(self.wechat_ios_cache)
         random.shuffle(self.desktop_cache)
-        random.shuffle(self.wechat_cache)
         random.shuffle(self.all_cache)
-        print("🔀 缓存随机化完成")
+        print("🔀 所有缓存彻底随机化完成")
 
     def _count_file_lines(self):
         """快速统计文件行数"""
@@ -101,7 +133,7 @@ class OptimizedUserAgentManager:
             return 0
 
     def _load_all_agents(self):
-        """全量加载所有 User-Agent（确保移动端不含微信）"""
+        """全量加载所有 User-Agent（精确分类）"""
         try:
             loaded_count = 0
             with open(self.ua_file_path, 'r', encoding='utf-8', errors='ignore') as f:
@@ -110,20 +142,34 @@ class OptimizedUserAgentManager:
                     if line and not line.startswith('#'):
                         loaded_count += 1
                         self.all_cache.append(line)
+
+                        # 精确分类 - 修复逻辑
                         if self._is_wechat_ua(line):
-                            self.wechat_cache.append(line)
-                            self.wechat_count += 1
-                        elif self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                            self.mobile_cache.append(line)
-                            self.mobile_count += 1
-                        elif not self._is_mobile_ua(line) and not self._is_wechat_ua(line):
+                            if self._is_android_ua(line):
+                                self.wechat_android_cache.append(line)
+                                self.wechat_android_count += 1
+                            elif self._is_ios_ua(line):
+                                self.wechat_ios_cache.append(line)
+                                self.wechat_ios_count += 1
+                            # 微信UA不进入移动端缓存
+                        elif self._is_mobile_ua(line):
+                            if self._is_android_ua(line):
+                                self.mobile_android_cache.append(line)
+                                self.mobile_android_count += 1
+                            elif self._is_ios_ua(line):
+                                self.mobile_ios_cache.append(line)
+                                self.mobile_ios_count += 1
+                        else:
+                            # 既不是移动端也不是微信，就是桌面端
                             self.desktop_cache.append(line)
                             self.desktop_count += 1
 
             print(f"✅ 全量加载 {loaded_count} 个 User-Agent")
-            print(f"   📱 纯移动端: {len(self.mobile_cache)} 个")
+            print(f"   📱 安卓移动端: {len(self.mobile_android_cache)} 个")
+            print(f"   📱 iOS移动端: {len(self.mobile_ios_cache)} 个")
+            print(f"   💬 安卓微信: {len(self.wechat_android_cache)} 个")
+            print(f"   💬 iOS微信: {len(self.wechat_ios_cache)} 个")
             print(f"   💻 桌面端: {len(self.desktop_cache)} 个")
-            print(f"   💬 微信浏览器: {len(self.wechat_cache)} 个")
 
         except Exception as e:
             print(f"❌ 加载 User-Agent 失败: {e}")
@@ -132,36 +178,41 @@ class OptimizedUserAgentManager:
     def _load_sample_to_cache(self):
         """加载样本到缓存（用于大文件）"""
         try:
-            # 随机选择一些行加载到缓存
             sample_indices = random.sample(range(1, self.total_lines + 1),
                                            min(self.cache_size, self.total_lines))
-
-            mobile_count = 0
-            desktop_count = 0
-            wechat_count = 0
 
             for line_num in sample_indices:
                 line = linecache.getline(self.ua_file_path, line_num).strip()
                 if line and not line.startswith('#'):
                     self.all_cache.append(line)
-                    if self._is_wechat_ua(line):
-                        self.wechat_cache.append(line)
-                        wechat_count += 1
-                    elif self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                        self.mobile_cache.append(line)
-                        mobile_count += 1
-                    elif not self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                        self.desktop_cache.append(line)
-                        desktop_count += 1
 
-            self.mobile_count = mobile_count
-            self.desktop_count = desktop_count
-            self.wechat_count = wechat_count
+                    # 使用相同的分类逻辑
+                    if self._is_wechat_ua(line):
+                        if self._is_android_ua(line):
+                            self.wechat_android_cache.append(line)
+                        elif self._is_ios_ua(line):
+                            self.wechat_ios_cache.append(line)
+                    elif self._is_mobile_ua(line):
+                        if self._is_android_ua(line):
+                            self.mobile_android_cache.append(line)
+                        elif self._is_ios_ua(line):
+                            self.mobile_ios_cache.append(line)
+                    else:
+                        self.desktop_cache.append(line)
+
+            # 更新统计
+            self.mobile_android_count = len(self.mobile_android_cache)
+            self.mobile_ios_count = len(self.mobile_ios_cache)
+            self.wechat_android_count = len(self.wechat_android_cache)
+            self.wechat_ios_count = len(self.wechat_ios_cache)
+            self.desktop_count = len(self.desktop_cache)
 
             print(f"✅ 缓存加载完成: {len(self.all_cache)} 个样本")
-            print(f"   📱 纯移动端样本: {len(self.mobile_cache)} 个")
+            print(f"   📱 安卓移动端样本: {len(self.mobile_android_cache)} 个")
+            print(f"   📱 iOS移动端样本: {len(self.mobile_ios_cache)} 个")
+            print(f"   💬 安卓微信样本: {len(self.wechat_android_cache)} 个")
+            print(f"   💬 iOS微信样本: {len(self.wechat_ios_cache)} 个")
             print(f"   💻 桌面端样本: {len(self.desktop_cache)} 个")
-            print(f"   💬 微信浏览器样本: {len(self.wechat_cache)} 个")
 
         except Exception as e:
             print(f"❌ 缓存加载失败: {e}")
@@ -169,124 +220,228 @@ class OptimizedUserAgentManager:
 
     def _is_mobile_ua(self, ua):
         """判断是否为移动端 User-Agent（不含微信）"""
+        ua_lower = ua.lower()
         mobile_keywords = ['iphone', 'ipad', 'android', 'mobile', 'tablet']
-        return any(keyword in ua.lower() for keyword in mobile_keywords)
+        wechat_keywords = ['micromessenger']
+
+        # 是移动设备且不是微信
+        is_mobile = any(keyword in ua_lower for keyword in mobile_keywords)
+        is_wechat = any(keyword in ua_lower for keyword in wechat_keywords)
+
+        return is_mobile and not is_wechat
 
     def _is_wechat_ua(self, ua):
         """判断是否为微信浏览器 User-Agent"""
         wechat_keywords = ['micromessenger']
         return any(keyword in ua.lower() for keyword in wechat_keywords)
 
-    def _match_os_type(self, ua, os_type):
-        """判断 User-Agent 是否匹配指定的操作系统类型"""
+    def _is_android_ua(self, ua):
+        """判断是否为安卓设备"""
         ua_lower = ua.lower()
+        return ('android' in ua_lower and
+                'iphone' not in ua_lower and
+                'ipad' not in ua_lower)
 
-        if os_type == 'android':
-            return 'android' in ua_lower and 'iphone' not in ua_lower and 'ipad' not in ua_lower
-        elif os_type == 'ios':
-            return 'iphone' in ua_lower or 'ipad' in ua_lower
-        return True
+    def _is_ios_ua(self, ua):
+        """判断是否为iOS设备"""
+        ua_lower = ua.lower()
+        return (('iphone' in ua_lower or 'ipad' in ua_lower) and
+                'android' not in ua_lower)
 
-    def _select_cache_pool(self, device_type):
-        """选择缓存池 - 修复版本"""
-        if device_type == 'wechat' and self.wechat_cache:
-            return self.wechat_cache
-        elif device_type == 'mobile' and self.mobile_cache:
-            return self.mobile_cache
-        elif device_type == 'desktop' and self.desktop_cache:
-            return self.desktop_cache
-        elif device_type == 'any' and self.all_cache:
-            return self.all_cache
-        else:
-            return None
+    def _is_desktop_ua(self, ua):
+        """判断是否为桌面端 User-Agent"""
+        ua_lower = ua.lower()
+        desktop_keywords = ['windows', 'macintosh', 'x11', 'linux']
+        mobile_keywords = ['iphone', 'ipad', 'android', 'mobile', 'tablet']
+
+        # 包含桌面关键词且不包含移动关键词
+        has_desktop = any(keyword in ua_lower for keyword in desktop_keywords)
+        has_mobile = any(keyword in ua_lower for keyword in mobile_keywords)
+
+        return has_desktop and not has_mobile
+
+    def _select_cache_pool(self, device_type, os_type):
+        """根据设备类型和操作系统选择缓存池 - 修复版本"""
+        cache_pools = {
+            'mobile': {
+                'android': self.mobile_android_cache,
+                'ios': self.mobile_ios_cache,
+                'any': self.mobile_android_cache + self.mobile_ios_cache
+            },
+            'wechat': {
+                'android': self.wechat_android_cache,
+                'ios': self.wechat_ios_cache,
+                'any': self.wechat_android_cache + self.wechat_ios_cache
+            },
+            'desktop': {
+                'any': self.desktop_cache
+            },
+            'any': {
+                'android': self.mobile_android_cache + self.wechat_android_cache,
+                'ios': self.mobile_ios_cache + self.wechat_ios_cache,
+                'any': self.all_cache
+            }
+        }
+
+        # 严格按参数选择，不自动回退到其他类型
+        if device_type in cache_pools:
+            device_pool = cache_pools[device_type]
+            if os_type in device_pool:
+                pool = device_pool[os_type]
+                if pool and len(pool) > 0:
+                    print(f"🎯 选择缓存池: {device_type}.{os_type}, 数量: {len(pool)}")
+                    return pool
+
+        print(f"⚠️ 未找到匹配的缓存池: {device_type}.{os_type}")
+        return None
+
+    def _avoid_recent_selection(self, pool, max_attempts=10):
+        """避免最近选择过的UA"""
+        if not pool or len(pool) <= 1:
+            return random.choice(pool) if pool else None
+
+        for attempt in range(max_attempts):
+            selected_ua = random.choice(pool)
+            ua_hash = hashlib.md5(selected_ua.encode()).hexdigest()
+
+            if ua_hash not in self.selection_history:
+                # 添加到历史记录
+                self.selection_history.append(ua_hash)
+                # 保持历史记录大小
+                if len(self.selection_history) > self.max_history_size:
+                    self.selection_history.pop(0)
+                return selected_ua
+
+        # 如果所有尝试都失败，返回随机一个并清空历史
+        self.selection_history.clear()
+        return random.choice(pool)
 
     def get_random_ua(self, device_type='mobile', os_type='any'):
-        """获取随机 User-Agent（修复版本）"""
-        # 先刷新缓存检查
+        """获取随机 User-Agent - 严格按参数匹配"""
         self.refresh_cache_if_needed()
 
         if not self.cache_loaded:
             print("⚠️ 缓存未加载，使用备用UA")
             return self._get_fallback_ua(device_type, os_type)
 
-        # 根据设备类型选择缓存池
-        cache_pool = self._select_cache_pool(device_type)
+        print(f"🔍 请求UA - 设备: {device_type}, 系统: {os_type}")
+
+        # 严格按参数选择缓存池
+        cache_pool = self._select_cache_pool(device_type, os_type)
 
         if not cache_pool:
-            print(f"⚠️ {device_type} 类型缓存为空，使用备用UA")
+            print(f"❌ {device_type}.{os_type} 类型缓存为空，使用备用UA")
             return self._get_fallback_ua(device_type, os_type)
 
-        # 修复：确保操作系统类型匹配
-        if os_type != 'any':
-            filtered_pool = [ua for ua in cache_pool if self._match_os_type(ua, os_type)]
-            if filtered_pool:
-                # 修复：确保随机选择不同的UA
-                selected_ua = random.choice(filtered_pool)
-                # 记录选择的UA用于调试
-                print(f"🎲 从 {len(filtered_pool)} 个{os_type.upper()} UA中选择")
-            else:
-                print(f"⚠️ 没有匹配 {os_type} 的UA，使用备用池")
-                filtered_pool = cache_pool
-                selected_ua = random.choice(filtered_pool)
+        # 避免重复选择
+        selected_ua = self._avoid_recent_selection(cache_pool)
+
+        if selected_ua:
+            # 验证选择的UA是否符合要求
+            is_valid = self._validate_ua_match(selected_ua, device_type, os_type)
+            if not is_valid:
+                print(f"⚠️ 选择的UA不匹配要求，重新选择")
+                # 从缓存池中移除这个无效的UA
+                if selected_ua in cache_pool:
+                    cache_pool.remove(selected_ua)
+                # 重新选择
+                selected_ua = self._avoid_recent_selection(cache_pool)
+
+            if selected_ua:
+                # 最终验证
+                detected_device = self._detect_device_type(selected_ua)
+                detected_os = self._detect_os_type(selected_ua)
+
+                print(f"✅ 最终选择:")
+                print(f"   要求: {device_type}.{os_type}")
+                print(f"   实际: {detected_device}.{detected_os}")
+                print(f"   UA: {selected_ua[:80]}...")
+
+                return selected_ua
+
+        print("❌ 无法选择有效的UA，使用备用")
+        return self._get_fallback_ua(device_type, os_type)
+
+    def _validate_ua_match(self, ua, device_type, os_type):
+        """验证UA是否匹配要求的设备类型和操作系统"""
+        ua_lower = ua.lower()
+
+        # 验证设备类型
+        if device_type == 'mobile':
+            if not self._is_mobile_ua(ua):
+                return False
+        elif device_type == 'wechat':
+            if not self._is_wechat_ua(ua):
+                return False
+        elif device_type == 'desktop':
+            if not self._is_desktop_ua(ua):
+                return False
+
+        # 验证操作系统
+        if os_type == 'android':
+            if not self._is_android_ua(ua):
+                return False
+        elif os_type == 'ios':
+            if not self._is_ios_ua(ua):
+                return False
+
+        return True
+
+    def _detect_device_type(self, ua):
+        """检测UA的设备类型"""
+        if self._is_wechat_ua(ua):
+            return 'wechat'
+        elif self._is_mobile_ua(ua):
+            return 'mobile'
+        elif self._is_desktop_ua(ua):
+            return 'desktop'
         else:
-            selected_ua = random.choice(cache_pool)
+            return 'unknown'
 
-        # 记录UA信息用于调试
-        ua_lower = selected_ua.lower()
-        detected_os = "ios" if "iphone" in ua_lower or "ipad" in ua_lower else "android" if "android" in ua_lower else "other"
-        print(f"🎲 选择的UA: {selected_ua[:80]}...")
-        print(f"🔍 检测到的操作系统: {detected_os} (请求: {os_type})")
-
-        return selected_ua
+    def _detect_os_type(self, ua):
+        """检测UA的操作系统类型"""
+        if self._is_android_ua(ua):
+            return 'android'
+        elif self._is_ios_ua(ua):
+            return 'ios'
+        else:
+            return 'other'
 
     def get_random_ua_from_file(self, device_type='mobile', os_type='any'):
-        """直接从文件随机读取 User-Agent（修复随机性问题）"""
-        # 刷新文件统计信息
+        """直接从文件随机读取 User-Agent - 严格匹配"""
         try:
             new_line_count = self._count_file_lines()
             if new_line_count != self.total_lines:
                 print(f"🔄 检测到UA文件变化，重新统计行数: {self.total_lines} -> {new_line_count}")
                 self.total_lines = new_line_count
-        except:
-            pass
 
-        try:
-            max_attempts = 100  # 增加尝试次数确保找到匹配的UA
-            valid_attempts = 0
+            max_attempts = 100
+            found_agents = []
 
-            # 记录尝试的设备类型
             print(f"🔍 从文件查找UA - 设备: {device_type}, 系统: {os_type}")
 
             for attempt in range(max_attempts):
-                # 随机选择一行
                 line_num = random.randint(1, self.total_lines)
                 line = linecache.getline(self.ua_file_path, line_num).strip()
 
                 if line and not line.startswith('#'):
-                    valid_attempts += 1
+                    # 严格匹配设备类型和操作系统
+                    if self._validate_ua_match(line, device_type, os_type):
+                        found_agents.append(line)
 
-                    # 设备类型匹配
-                    device_match = False
-                    if device_type == 'wechat' and self._is_wechat_ua(line):
-                        device_match = True
-                    elif device_type == 'mobile' and self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                        device_match = True
-                    elif device_type == 'desktop' and not self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                        device_match = True
-                    elif device_type == 'any':
-                        device_match = True
+                    # 如果找到足够多的UA，提前返回
+                    if len(found_agents) >= 5:
+                        break
 
-                    # 操作系统类型匹配
-                    os_match = self._match_os_type(line, os_type) if device_match else False
+            if found_agents:
+                selected_ua = self._avoid_recent_selection(found_agents)
+                if selected_ua:
+                    detected_device = self._detect_device_type(selected_ua)
+                    detected_os = self._detect_os_type(selected_ua)
+                    print(f"📁 从文件选择的UA (找到 {len(found_agents)} 个): {detected_device}.{detected_os}")
+                    return selected_ua
 
-                    if device_match and os_match:
-                        # 记录找到的UA信息
-                        ua_lower = line.lower()
-                        detected_os = "ios" if "iphone" in ua_lower or "ipad" in ua_lower else "android" if "android" in ua_lower else "other"
-                        print(f"📁 从文件选择的UA (尝试 {attempt + 1}): {detected_os} - {line[:80]}...")
-                        return line
-
-            print(f"⚠️ 文件读取尝试 {valid_attempts} 次后未找到匹配的{os_type} UA，回退到缓存")
+            print(f"❌ 文件读取未找到匹配 {device_type}.{os_type} 的UA，回退到缓存")
             return self.get_random_ua(device_type, os_type)
 
         except Exception as e:
@@ -294,41 +449,116 @@ class OptimizedUserAgentManager:
             return self.get_random_ua(device_type, os_type)
 
     def _get_fallback_ua(self, device_type='mobile', os_type='any'):
-        """获取备用 User-Agent（增强版）"""
-        fallback_agents = {
+        """获取备用 User-Agent"""
+        fallback_agents = self._get_default_agents()
+
+        print(f"🆘 使用备用UA - 设备: {device_type}, 系统: {os_type}")
+
+        if device_type in fallback_agents:
+            if os_type in fallback_agents[device_type]:
+                pool = fallback_agents[device_type][os_type]
+            elif 'any' in fallback_agents[device_type]:
+                pool = fallback_agents[device_type]['any']
+            else:
+                pool = None
+
+            if pool:
+                selected_ua = random.choice(pool)
+                detected_device = self._detect_device_type(selected_ua)
+                detected_os = self._detect_os_type(selected_ua)
+                print(f"🆘 备用UA: {detected_device}.{detected_os} - {selected_ua[:80]}...")
+                return selected_ua
+
+        # 最终回退
+        if device_type == 'mobile' and os_type == 'android':
+            default_ua = "Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36"
+        elif device_type == 'mobile' and os_type == 'ios':
+            default_ua = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+        elif device_type == 'desktop':
+            default_ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        else:
+            default_ua = "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1"
+
+        print(f"🆘 使用默认UA: {default_ua[:80]}...")
+        return default_ua
+
+    def get_ua_stats(self):
+        """获取 User-Agent 统计信息 - 修复版本"""
+        return {
+            'total_lines': self.total_lines,  # 修复：添加这个字段
+            'mobile_android_count': len(self.mobile_android_cache),
+            'mobile_ios_count': len(self.mobile_ios_cache),
+            'wechat_android_count': len(self.wechat_android_cache),
+            'wechat_ios_count': len(self.wechat_ios_cache),
+            'desktop_count': len(self.desktop_cache),
+            'total_cache': len(self.all_cache),
+            'cache_loaded': self.cache_loaded
+        }
+
+    def create_default_ua_file(self):
+        """创建默认 User-Agent 文件"""
+        default_agents = self._get_default_agents()
+        try:
+            with open(self.ua_file_path, 'w', encoding='utf-8') as f:
+                f.write("# User-Agent 数据库 - 精确分类\n")
+                f.write("# 移动端、微信浏览器、桌面端完全分离存储\n\n")
+
+                # 写入安卓移动端
+                f.write("# 安卓移动端 User-Agents\n")
+                for ua in default_agents['mobile']['android']:
+                    f.write(f"{ua}\n")
+
+                # 写入iOS移动端
+                f.write("\n# iOS移动端 User-Agents\n")
+                for ua in default_agents['mobile']['ios']:
+                    f.write(f"{ua}\n")
+
+                # 写入安卓微信
+                f.write("\n# 安卓微信浏览器 User-Agents\n")
+                for ua in default_agents['wechat']['android']:
+                    f.write(f"{ua}\n")
+
+                # 写入iOS微信
+                f.write("\n# iOS微信浏览器 User-Agents\n")
+                for ua in default_agents['wechat']['ios']:
+                    f.write(f"{ua}\n")
+
+                # 写入桌面端
+                f.write("\n# 桌面端 User-Agents\n")
+                for ua in default_agents['desktop']['any']:
+                    f.write(f"{ua}\n")
+
+            print(f"✅ 已创建精确分类的 User-Agent 文件: {self.ua_file_path}")
+            total_lines = (len(default_agents['mobile']['android']) +
+                           len(default_agents['mobile']['ios']) +
+                           len(default_agents['wechat']['android']) +
+                           len(default_agents['wechat']['ios']) +
+                           len(default_agents['desktop']['any']) + 8)
+            self.total_lines = total_lines
+
+        except Exception as e:
+            print(f"❌ 创建 User-Agent 文件失败: {e}")
+
+    def _get_default_agents(self):
+        """获取默认的 User-Agent 列表"""
+        return {
             'mobile': {
                 'android': [
                     'Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+                    'Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
                     'Mozilla/5.0 (Linux; Android 13; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-                    'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                    'Mozilla/5.0 (Linux; Android 13; 2201123G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36'
                 ],
                 'ios': [
                     'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
                     'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
-                    'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-                    'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.7 Mobile/15E148 Safari/604.1'
-                ],
-                'any': [
-                    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
-                    'Mozilla/5.0 (Linux; Android 13; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36'
                 ]
             },
             'wechat': {
                 'android': [
                     'Mozilla/5.0 (Linux; Android 13; SM-G991B Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.42(0x18002a29) WeChat/arm64 Weixin Android Tablet NetType/WIFI Language/zh_CN',
-                    'Mozilla/5.0 (Linux; Android 14; SM-S911B Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0.6099.210 Mobile Safari/537.36 MicroMessenger/8.0.43(0x18002b31) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN',
-                    'Mozilla/5.0 (Linux; Android 13; 2201123C Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.41(0x18002921) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN'
                 ],
                 'ios': [
                     'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.42(0x18002a29) NetType/WIFI Language/zh_CN',
-                    'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.40(0x18002831) NetType/WIFI Language/zh_CN',
-                    'Mozilla/5.0 (iPad; CPU OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.41(0x18002921) NetType/WIFI Language/zh_CN',
-                    'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.38(0x18002621) NetType/WIFI Language/zh_CN'
-                ],
-                'any': [
-                    'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.42(0x18002a29) NetType/WIFI Language/zh_CN',
-                    'Mozilla/5.0 (Linux; Android 13; SM-G991B Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.42(0x18002a29) WeChat/arm64 Weixin Android Tablet NetType/WIFI Language/zh_CN'
                 ]
             },
             'desktop': {
@@ -336,204 +566,50 @@ class OptimizedUserAgentManager:
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                     'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
-                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15'
                 ]
             }
-        }
-
-        if device_type in fallback_agents:
-            if os_type in fallback_agents[device_type]:
-                selected_ua = random.choice(fallback_agents[device_type][os_type])
-            else:
-                selected_ua = random.choice(fallback_agents[device_type]['any'])
-        else:
-            selected_ua = random.choice(fallback_agents['mobile']['any'])
-
-        print(f"🆘 使用备用UA: {selected_ua[:80]}...")
-        return selected_ua
-
-    def create_default_ua_file(self):
-        """创建默认 User-Agent 文件（移动端和微信完全分离）"""
-        default_agents = self._get_default_agents()
-        try:
-            with open(self.ua_file_path, 'w', encoding='utf-8') as f:
-                f.write("# User-Agent 数据库\n")
-                f.write("# 移动端和微信浏览器完全分离存储\n")
-                f.write("# 每行一个 User-Agent\n\n")
-
-                # 写入纯移动端（不含微信）
-                f.write("# 纯移动端 User-Agents (不含微信)\n")
-                for ua in default_agents['mobile']:
-                    f.write(f"{ua}\n")
-
-                # 写入微信浏览器
-                f.write("\n# 微信浏览器 User-Agents (MicroMessenger)\n")
-                for ua in default_agents['wechat']:
-                    f.write(f"{ua}\n")
-
-                # 写入桌面端
-                f.write("\n# 桌面端 User-Agents\n")
-                for ua in default_agents['desktop']:
-                    f.write(f"{ua}\n")
-
-            print(f"✅ 已创建默认 User-Agent 文件: {self.ua_file_path}")
-            total_lines = len(default_agents['mobile']) + len(default_agents['wechat']) + len(
-                default_agents['desktop']) + 6
-            self.total_lines = total_lines
-
-        except Exception as e:
-            print(f"❌ 创建 User-Agent 文件失败: {e}")
-
-    def _get_default_agents(self):
-        """获取默认的 User-Agent 列表（移动端和微信完全分离）"""
-        return {
-            'mobile': [
-                # iPhone Safari
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.7 Mobile/15E148 Safari/604.1',
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Mobile/15E148 Safari/604.1',
-
-                # Android Chrome
-                'Mozilla/5.0 (Linux; Android 14; SM-S911B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 14; SM-S926B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; SM-G996B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36',
-
-                # Google Pixel
-                'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 14; Pixel 8 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-
-                # 小米
-                'Mozilla/5.0 (Linux; Android 14; 2211133G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 14; 2211133C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; 2201123G) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; 2201123C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-
-                # 华为
-                'Mozilla/5.0 (Linux; Android 13; LNA-AL00) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; MNA-AL00) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-
-                # iPad
-                'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1',
-                'Mozilla/5.0 (iPad; CPU OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1',
-                'Mozilla/5.0 (iPad; CPU OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.7 Mobile/15E148 Safari/604.1',
-
-                # OPPO
-                'Mozilla/5.0 (Linux; Android 13; PGFM10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; PHU110) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36',
-
-                # Vivo
-                'Mozilla/5.0 (Linux; Android 14; V2309) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-                'Mozilla/5.0 (Linux; Android 13; V2166A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Mobile Safari/537.36'
-            ],
-            'wechat': [
-                # iPhone 微信
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.42(0x18002a29) NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.40(0x18002831) NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.38(0x18002621) NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.37(0x18002529) NetType/WIFI Language/zh_CN',
-
-                # Android 微信
-                'Mozilla/5.0 (Linux; Android 13; SM-G991B Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.42(0x18002a29) WeChat/arm64 Weixin Android Tablet NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (Linux; Android 14; SM-S911B Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0.6099.210 Mobile Safari/537.36 MicroMessenger/8.0.43(0x18002b31) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (Linux; Android 13; 2201123C Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.41(0x18002921) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (Linux; Android 14; 2211133G Build/UP1A.231005.007; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0.6099.210 Mobile Safari/537.36 MicroMessenger/8.0.43(0x18002b31) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN',
-
-                # iPad 微信
-                'Mozilla/5.0 (iPad; CPU OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.41(0x18002921) NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (iPad; CPU OS 15_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.39(0x18002729) NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (iPad; CPU OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.43(0x18002b31) NetType/WIFI Language/zh_CN',
-
-                # 其他 Android 设备微信
-                'Mozilla/5.0 (Linux; Android 13; Pixel 7 Build/TP1A.220624.014; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.42(0x18002a29) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (Linux; Android 12; M2101K7AG Build/RKQ1.200826.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36 MicroMessenger/8.0.40(0x18002831) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN',
-                'Mozilla/5.0 (Linux; Android 13; LNA-AL00 Build/HONORLNA-AL00; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/119.0.6045.193 Mobile Safari/537.36 MicroMessenger/8.0.42(0x18002a29) WeChat/arm64 Weixin NetType/WIFI Language/zh_CN'
-            ],
-            'desktop': [
-                # Windows Chrome
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
-
-                # Mac Chrome
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
-
-                # Windows Firefox
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:119.0) Gecko/20100101 Firefox/119.0',
-                'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:118.0) Gecko/20100101 Firefox/118.0',
-
-                # Mac Safari
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Safari/605.1.15',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.6.1 Safari/605.1.15',
-                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15',
-
-                # Linux
-                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-                'Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0',
-                'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0'
-            ]
         }
 
     def create_default_agents(self):
         """创建默认的 User-Agent 缓存"""
         default_agents = self._get_default_agents()
-        self.mobile_cache = default_agents['mobile']
-        self.wechat_cache = default_agents['wechat']
-        self.desktop_cache = default_agents['desktop']
-        self.all_cache = self.mobile_cache + self.wechat_cache + self.desktop_cache
-        self.mobile_count = len(self.mobile_cache)
-        self.wechat_count = len(self.wechat_cache)
-        self.desktop_count = len(self.desktop_cache)
+        self.mobile_android_cache = default_agents['mobile']['android']
+        self.mobile_ios_cache = default_agents['mobile']['ios']
+        self.wechat_android_cache = default_agents['wechat']['android']
+        self.wechat_ios_cache = default_agents['wechat']['ios']
+        self.desktop_cache = default_agents['desktop']['any']
+
+        self.all_cache = (self.mobile_android_cache + self.mobile_ios_cache +
+                          self.wechat_android_cache + self.wechat_ios_cache +
+                          self.desktop_cache)
+
         self.cache_loaded = True
         print("✅ 使用默认 User-Agent 缓存")
-
-    def get_ua_stats(self):
-        """获取 User-Agent 统计信息"""
-        return {
-            'total_lines': self.total_lines,
-            'cache_size': len(self.all_cache),
-            'mobile_count': self.mobile_count,
-            'desktop_count': self.desktop_count,
-            'wechat_count': self.wechat_count,
-            'cache_loaded': self.cache_loaded
-        }
 
     def add_user_agent(self, user_agent, device_type='auto'):
         """添加 User-Agent 到文件"""
         try:
-            # 追加到文件
             with open(self.ua_file_path, 'a', encoding='utf-8') as f:
                 f.write(f"{user_agent}\n")
 
-            # 更新统计
             self.total_lines += 1
 
-            # 如果缓存已加载，也添加到缓存
             if self.cache_loaded and len(self.all_cache) < self.cache_size:
                 self.all_cache.append(user_agent)
-                if device_type == 'wechat' or (device_type == 'auto' and self._is_wechat_ua(user_agent)):
-                    self.wechat_cache.append(user_agent)
-                    self.wechat_count += 1
-                elif device_type == 'mobile' or (
-                        device_type == 'auto' and self._is_mobile_ua(user_agent) and not self._is_wechat_ua(
-                    user_agent)):
-                    self.mobile_cache.append(user_agent)
-                    self.mobile_count += 1
+
+                # 自动分类
+                if self._is_wechat_ua(user_agent):
+                    if self._is_android_ua(user_agent):
+                        self.wechat_android_cache.append(user_agent)
+                    elif self._is_ios_ua(user_agent):
+                        self.wechat_ios_cache.append(user_agent)
+                elif self._is_mobile_ua(user_agent):
+                    if self._is_android_ua(user_agent):
+                        self.mobile_android_cache.append(user_agent)
+                    elif self._is_ios_ua(user_agent):
+                        self.mobile_ios_cache.append(user_agent)
                 else:
                     self.desktop_cache.append(user_agent)
-                    self.desktop_count += 1
 
             print(f"✅ 已添加 User-Agent，文件总行数: {self.total_lines}")
             return True

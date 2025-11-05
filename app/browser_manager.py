@@ -58,117 +58,124 @@ class BrowserManager:
         self.config_manager = config_manager
         self.stats_manager = stats_manager
 
+
+        # 根据配置比例选择设备类型
+        if config_manager:
+            self.current_device_type = config_manager.get_device_type_by_ratio()
+        else:
+            android_ratio = self.config.get('android_ratio', 50)
+            self.current_device_type = 'android' if random.randint(1, 100) <= android_ratio else 'ios'
+
+        # 根据配置比例选择网络类型
+        if config_manager:
+            self.current_network_type = config_manager.get_network_type_by_ratio()
+        else:
+            mobile_data_ratio = self.config.get('mobile_data_ratio', 50)
+            self.current_network_type = 'mobile_data' if random.randint(1, 100) <= mobile_data_ratio else 'wifi'
+
+        print(
+            f"🔧 选择的设备类型: {self.current_device_type.upper()}, 网络类型: {self.current_network_type.upper()}")
+
+        # 获取设备配置
+        config = self.device_profiles.get(self.current_device_type, self.device_profiles['android'])
+
+        # 获取UA参数 - 修复逻辑
+        if use_file_reading is None:
+            stats = self.ua_manager.get_ua_stats()
+            self.use_file_reading = stats['total_lines'] > 1000
+            print(f"🔧 自动选择{'文件读取' if self.use_file_reading else '缓存'}模式")
+
+        # 修复：确保每次启动都获取新的随机UA
+        print(f"🔄 正在获取{self.current_device_type.upper()}设备的UA...")
+
+        if self.use_file_reading:
+            self.current_ua = self.ua_manager.get_random_ua_from_file(device, self.current_device_type)
+        else:
+            self.current_ua = self.ua_manager.get_random_ua(device, self.current_device_type)
+
+        # 验证UA与设备类型匹配
+        if self.current_ua:
+            ua_lower = self.current_ua.lower()
+            # 检测实际的设备类型
+            if "iphone" in ua_lower or "ipad" in ua_lower:
+                detected_device = "ios"
+            elif "android" in ua_lower:
+                detected_device = "android"
+            else:
+                detected_device = "unknown"
+
+            if detected_device != self.current_device_type:
+                print(f"⚠️ 警告: 选择的UA设备类型({detected_device})与请求的设备类型({self.current_device_type})不匹配")
+                # 强制重新获取匹配的UA
+                print("🔄 重新获取匹配的UA...")
+                if self.use_file_reading:
+                    self.current_ua = self.ua_manager.get_random_ua_from_file('mobile', self.current_device_type)
+                else:
+                    self.current_ua = self.ua_manager.get_random_ua('mobile', self.current_device_type)
+        else:
+            print("❌ 无法获取User-Agent，使用备用UA")
+            self.current_ua = self.ua_manager._get_fallback_ua('mobile', self.current_device_type)
+
+        # 最终验证
+        if self.current_ua:
+            ua_lower = self.current_ua.lower()
+            final_device = "ios" if "iphone" in ua_lower or "ipad" in ua_lower else "android" if "android" in ua_lower else "unknown"
+            print(f"✅ 最终UA设备类型: {final_device}, 长度: {len(self.current_ua)}")
+
+        logging.info(f"使用UA: {self.current_ua}")
+
+        # 基础参数
+        browser_args = [
+            '--no-sandbox',
+            '--disable-dev-shm-usage',
+            '--disable-blink-features=AutomationControlled',
+            '--disable-features=TranslateUI,VizDisplayCompositor',
+            '--disable-ipc-flooding-protection',
+            '--disable-renderer-backgrounding',
+            '--disable-backgrounding-occluded-windows',
+            '--disable-background-timer-throttling',
+            '--disable-component-extensions-with-background-pages',
+            '--disable-default-apps',
+            '--disable-extensions',
+            '--disable-plugins',
+            '--disable-translate',
+            '--no-first-run',
+            '--no-default-browser-check',
+            '--disable-background-networking',
+            '--disable-sync',
+            '--metrics-recording-only',
+            '--safebrowsing-disable-auto-update',
+            '--remote-debugging-port=0',
+            '--disable-remote-fonts',
+            '--disable-logging',
+            '--disable-crash-reporter',
+            f'--user-agent={self.current_ua}',
+            f'--window-size={config["viewport"][0]},{config["viewport"][1]}',
+            f'--device-scale-factor={config["device_scale_factor"]}',
+            '--hide-scrollbars',
+            '--disable-web-security',
+            '--disable-popup-blocking',
+            '--disable-hang-monitor',
+            '--disable-client-side-phishing-detection',
+        ]
+
+        # 代理配置（注释部分保持不变）
+        # try:
+        #     proxy_config = proxy_manager.get_valid_proxy(None,True if self.current_network_type == 'mobile_data' else False)
+        #     proxy_url = f"{proxy_config['ip']}:{proxy_config['port']}"
+        #     print(f"{proxy_config.get("http")}")
+        #     browser_args.extend([
+        #         f'--proxy-server=http://{proxy_url}',
+        #         '--proxy-bypass-list=<-loopback>',  # 绕过本地地址
+        #     ])
+        #     print(f"代理ip: {proxy_config['http']}")
+        # except Exception as e:
+        #     print("代理获取失败")
+
+        logging.info("正在启动浏览器...")
+
+
         try:
-            # 根据配置比例选择设备类型
-            if config_manager:
-                self.current_device_type = config_manager.get_device_type_by_ratio()
-            else:
-                android_ratio = self.config.get('android_ratio', 50)
-                self.current_device_type = 'android' if random.randint(1, 100) <= android_ratio else 'ios'
-
-            # 根据配置比例选择网络类型
-            if config_manager:
-                self.current_network_type = config_manager.get_network_type_by_ratio()
-            else:
-                mobile_data_ratio = self.config.get('mobile_data_ratio', 50)
-                self.current_network_type = 'mobile_data' if random.randint(1, 100) <= mobile_data_ratio else 'wifi'
-
-            print(
-                f"🔧 选择的设备类型: {self.current_device_type.upper()}, 网络类型: {self.current_network_type.upper()}")
-
-            # 获取设备配置
-            config = self.device_profiles.get(self.current_device_type, self.device_profiles['android'])
-
-            # 获取UA参数 - 修复逻辑
-            if use_file_reading is None:
-                stats = self.ua_manager.get_ua_stats()
-                self.use_file_reading = stats['total_lines'] > 1000
-                print(f"🔧 自动选择{'文件读取' if self.use_file_reading else '缓存'}模式")
-
-            # 修复：确保每次启动都获取新的随机UA
-            print(f"🔄 正在获取{self.current_device_type.upper()}设备的UA...")
-
-            if self.use_file_reading:
-                self.current_ua = self.ua_manager.get_random_ua_from_file(device, self.current_device_type)
-            else:
-                self.current_ua = self.ua_manager.get_random_ua(device, self.current_device_type)
-
-            # 验证UA与设备类型匹配
-            if self.current_ua:
-                ua_lower = self.current_ua.lower()
-                detected_device = "ios" if "iphone" in ua_lower or "ipad" in ua_lower else "android" if "android" in ua_lower else "unknown"
-
-                if detected_device != self.current_device_type:
-                    print(
-                        f"⚠️ 警告: 选择的UA设备类型({detected_device})与请求的设备类型({self.current_device_type})不匹配")
-                    # 强制重新获取匹配的UA
-                    print("🔄 重新获取匹配的UA...")
-                    if self.use_file_reading:
-                        self.current_ua = self.ua_manager.get_random_ua_from_file(device, self.current_device_type)
-                    else:
-                        self.current_ua = self.ua_manager.get_random_ua(device, self.current_device_type)
-            else:
-                print("❌ 无法获取User-Agent，使用备用UA")
-                self.current_ua = self.ua_manager._get_fallback_ua(device, self.current_device_type)
-
-            # 最终验证
-            if self.current_ua:
-                ua_lower = self.current_ua.lower()
-                final_device = "ios" if "iphone" in ua_lower or "ipad" in ua_lower else "android" if "android" in ua_lower else "unknown"
-                print(f"✅ 最终UA设备类型: {final_device}, 长度: {len(self.current_ua)}")
-
-            logging.info(f"使用UA: {self.current_ua}")
-
-            # 基础参数
-            browser_args = [
-                '--no-sandbox',
-                '--disable-dev-shm-usage',
-                '--disable-blink-features=AutomationControlled',
-                '--disable-features=TranslateUI,VizDisplayCompositor',
-                '--disable-ipc-flooding-protection',
-                '--disable-renderer-backgrounding',
-                '--disable-backgrounding-occluded-windows',
-                '--disable-background-timer-throttling',
-                '--disable-component-extensions-with-background-pages',
-                '--disable-default-apps',
-                '--disable-extensions',
-                '--disable-plugins',
-                '--disable-translate',
-                '--no-first-run',
-                '--no-default-browser-check',
-                '--disable-background-networking',
-                '--disable-sync',
-                '--metrics-recording-only',
-                '--safebrowsing-disable-auto-update',
-                '--remote-debugging-port=0',
-                '--disable-remote-fonts',
-                '--disable-logging',
-                '--disable-crash-reporter',
-                f'--user-agent={self.current_ua}',
-                f'--window-size={config["viewport"][0]},{config["viewport"][1]}',
-                f'--device-scale-factor={config["device_scale_factor"]}',
-                '--hide-scrollbars',
-                '--disable-web-security',
-                '--disable-popup-blocking',
-                '--disable-hang-monitor',
-                '--disable-client-side-phishing-detection',
-            ]
-
-            # 代理配置（注释部分保持不变）
-            # try:
-            #     proxy_config = proxy_manager.get_valid_proxy(None,True if self.current_network_type == 'mobile_data' else False)
-            #     proxy_url = f"{proxy_config['ip']}:{proxy_config['port']}"
-            #     print(f"{proxy_config.get("http")}")
-            #     browser_args.extend([
-            #         f'--proxy-server=http://{proxy_url}',
-            #         '--proxy-bypass-list=<-loopback>',  # 绕过本地地址
-            #     ])
-            #     print(f"代理ip: {proxy_config['http']}")
-            # except Exception as e:
-            #     print("代理获取失败")
-
-            logging.info("正在启动浏览器...")
-
             # 启动浏览器
             self.browser = await uc.start(
                 headless=self.config.get('headless_mode', False) and not is_manual_test,
