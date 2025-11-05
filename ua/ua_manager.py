@@ -1,49 +1,93 @@
 import linecache
 import os
 import random
+import time
+import hashlib
 
 
 class OptimizedUserAgentManager:
-    """优化的 User-Agent 管理器（移动端和微信完全分离，支持操作系统控制）"""
+    """优化的 User-Agent 管理器（修复缓存和随机性问题）"""
 
     def __init__(self, ua_file_path='user_agents.txt', cache_size=1000):
         self.ua_file_path = ua_file_path
         self.cache_size = cache_size
-        self.mobile_cache = []  # 纯移动端 UA（不含微信）
-        self.desktop_cache = []  # 桌面端 UA
-        self.wechat_cache = []  # 微信浏览器 UA
-        self.all_cache = []  # 所有 UA（用于 any 类型）
+        self.mobile_cache = []
+        self.desktop_cache = []
+        self.wechat_cache = []
+        self.all_cache = []
         self.total_lines = 0
         self.mobile_count = 0
         self.desktop_count = 0
         self.wechat_count = 0
         self.cache_loaded = False
+        self.last_refresh_time = 0
+        self.cache_ttl = 300
+        self._current_selection_index = 0  # 添加选择索引避免重复
 
         # 初始化
         self.initialize_ua_system()
 
+    def _should_refresh_cache(self):
+        """检查是否需要刷新缓存 - 修复逻辑"""
+        current_time = time.time()
+        # 只有在缓存未加载或TTL过期时才刷新，不要因为缓存为空就刷新
+        if not self.cache_loaded:
+            return True
+        if current_time - self.last_refresh_time > self.cache_ttl:
+            return True
+        return False
+
+    def refresh_cache_if_needed(self):
+        """如果需要则刷新缓存 - 修复版本"""
+        if self._should_refresh_cache():
+            print("🔄 刷新UA缓存...")
+            # 保存当前缓存状态用于比较
+            old_cache_size = len(self.all_cache)
+            self.initialize_ua_system()
+            self.last_refresh_time = time.time()
+            new_cache_size = len(self.all_cache)
+            print(f"🔄 缓存刷新完成: {old_cache_size} -> {new_cache_size} 个UA")
+
     def initialize_ua_system(self):
-        """初始化 UA 系统"""
+        """初始化 UA 系统 - 修复版本"""
         try:
             if not os.path.exists(self.ua_file_path):
-                print(f"⚠️  User-Agent 文件不存在，创建默认文件")
+                print(f"⚠️ User-Agent 文件不存在，创建默认文件")
                 self.create_default_ua_file()
+
+            # 清空现有缓存
+            self.mobile_cache = []
+            self.desktop_cache = []
+            self.wechat_cache = []
+            self.all_cache = []
 
             # 快速统计行数
             self.total_lines = self._count_file_lines()
             print(f"📊 User-Agent 文件行数: {self.total_lines}")
 
             if self.total_lines <= self.cache_size:
-                # 文件较小，直接全量加载
                 self._load_all_agents()
             else:
-                # 大文件，使用缓存策略
                 print(f"🔧 检测到大文件 ({self.total_lines} 行)，启用缓存模式")
                 self._load_sample_to_cache()
+
+            # 打乱缓存以确保随机性
+            self._shuffle_caches()
+
+            self.cache_loaded = True
+            print(f"✅ UA系统初始化完成，总缓存数: {len(self.all_cache)}")
 
         except Exception as e:
             print(f"❌ 初始化 User-Agent 系统失败: {e}")
             self.create_default_agents()
+
+    def _shuffle_caches(self):
+        """打乱所有缓存以确保随机性"""
+        random.shuffle(self.mobile_cache)
+        random.shuffle(self.desktop_cache)
+        random.shuffle(self.wechat_cache)
+        random.shuffle(self.all_cache)
+        print("🔀 缓存随机化完成")
 
     def _count_file_lines(self):
         """快速统计文件行数"""
@@ -59,26 +103,24 @@ class OptimizedUserAgentManager:
     def _load_all_agents(self):
         """全量加载所有 User-Agent（确保移动端不含微信）"""
         try:
+            loaded_count = 0
             with open(self.ua_file_path, 'r', encoding='utf-8', errors='ignore') as f:
                 for line in f:
                     line = line.strip()
                     if line and not line.startswith('#'):
+                        loaded_count += 1
                         self.all_cache.append(line)
                         if self._is_wechat_ua(line):
-                            # 微信浏览器
                             self.wechat_cache.append(line)
                             self.wechat_count += 1
                         elif self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                            # 纯移动端（不含微信）
                             self.mobile_cache.append(line)
                             self.mobile_count += 1
                         elif not self._is_mobile_ua(line) and not self._is_wechat_ua(line):
-                            # 桌面端
                             self.desktop_cache.append(line)
                             self.desktop_count += 1
 
-            self.cache_loaded = True
-            print(f"✅ 全量加载 {len(self.all_cache)} 个 User-Agent")
+            print(f"✅ 全量加载 {loaded_count} 个 User-Agent")
             print(f"   📱 纯移动端: {len(self.mobile_cache)} 个")
             print(f"   💻 桌面端: {len(self.desktop_cache)} 个")
             print(f"   💬 微信浏览器: {len(self.wechat_cache)} 个")
@@ -115,7 +157,6 @@ class OptimizedUserAgentManager:
             self.mobile_count = mobile_count
             self.desktop_count = desktop_count
             self.wechat_count = wechat_count
-            self.cache_loaded = True
 
             print(f"✅ 缓存加载完成: {len(self.all_cache)} 个样本")
             print(f"   📱 纯移动端样本: {len(self.mobile_cache)} 个")
@@ -146,56 +187,84 @@ class OptimizedUserAgentManager:
             return 'iphone' in ua_lower or 'ipad' in ua_lower
         return True
 
-    def get_random_ua(self, device_type='mobile', os_type='any'):
-        """获取随机 User-Agent（增强版）
+    def _select_cache_pool(self, device_type):
+        """选择缓存池 - 修复版本"""
+        if device_type == 'wechat' and self.wechat_cache:
+            return self.wechat_cache
+        elif device_type == 'mobile' and self.mobile_cache:
+            return self.mobile_cache
+        elif device_type == 'desktop' and self.desktop_cache:
+            return self.desktop_cache
+        elif device_type == 'any' and self.all_cache:
+            return self.all_cache
+        else:
+            return None
 
-        参数:
-            device_type: 设备类型
-                - 'mobile': 纯移动端（不含微信）
-                - 'wechat': 微信浏览器
-                - 'desktop': 桌面端
-                - 'any': 任意类型
-            os_type: 操作系统类型
-                - 'android': 安卓设备
-                - 'ios': 苹果设备(iPhone/iPad)
-                - 'any': 任意操作系统
-        """
+    def get_random_ua(self, device_type='mobile', os_type='any'):
+        """获取随机 User-Agent（修复版本）"""
+        # 先刷新缓存检查
+        self.refresh_cache_if_needed()
+
         if not self.cache_loaded:
+            print("⚠️ 缓存未加载，使用备用UA")
             return self._get_fallback_ua(device_type, os_type)
 
         # 根据设备类型选择缓存池
-        if device_type == 'wechat' and self.wechat_cache:
-            cache_pool = self.wechat_cache
-        elif device_type == 'mobile' and self.mobile_cache:
-            cache_pool = self.mobile_cache
-        elif device_type == 'desktop' and self.desktop_cache:
-            cache_pool = self.desktop_cache
-        elif device_type == 'any' and self.all_cache:
-            cache_pool = self.all_cache
-        else:
+        cache_pool = self._select_cache_pool(device_type)
+
+        if not cache_pool:
+            print(f"⚠️ {device_type} 类型缓存为空，使用备用UA")
             return self._get_fallback_ua(device_type, os_type)
 
-        # 根据操作系统类型过滤
+        # 修复：确保操作系统类型匹配
         if os_type != 'any':
             filtered_pool = [ua for ua in cache_pool if self._match_os_type(ua, os_type)]
             if filtered_pool:
-                return random.choice(filtered_pool)
+                # 修复：确保随机选择不同的UA
+                selected_ua = random.choice(filtered_pool)
+                # 记录选择的UA用于调试
+                print(f"🎲 从 {len(filtered_pool)} 个{os_type.upper()} UA中选择")
             else:
-                # 如果没有匹配的，回退到不按操作系统过滤
-                return random.choice(cache_pool) if cache_pool else self._get_fallback_ua(device_type, os_type)
+                print(f"⚠️ 没有匹配 {os_type} 的UA，使用备用池")
+                filtered_pool = cache_pool
+                selected_ua = random.choice(filtered_pool)
         else:
-            return random.choice(cache_pool) if cache_pool else self._get_fallback_ua(device_type, os_type)
+            selected_ua = random.choice(cache_pool)
+
+        # 记录UA信息用于调试
+        ua_lower = selected_ua.lower()
+        detected_os = "ios" if "iphone" in ua_lower or "ipad" in ua_lower else "android" if "android" in ua_lower else "other"
+        print(f"🎲 选择的UA: {selected_ua[:80]}...")
+        print(f"🔍 检测到的操作系统: {detected_os} (请求: {os_type})")
+
+        return selected_ua
 
     def get_random_ua_from_file(self, device_type='mobile', os_type='any'):
-        """直接从文件随机读取 User-Agent（不加载到内存）"""
+        """直接从文件随机读取 User-Agent（修复随机性问题）"""
+        # 刷新文件统计信息
         try:
-            max_attempts = 100  # 最大尝试次数
-            for _ in range(max_attempts):
+            new_line_count = self._count_file_lines()
+            if new_line_count != self.total_lines:
+                print(f"🔄 检测到UA文件变化，重新统计行数: {self.total_lines} -> {new_line_count}")
+                self.total_lines = new_line_count
+        except:
+            pass
+
+        try:
+            max_attempts = 100  # 增加尝试次数确保找到匹配的UA
+            valid_attempts = 0
+
+            # 记录尝试的设备类型
+            print(f"🔍 从文件查找UA - 设备: {device_type}, 系统: {os_type}")
+
+            for attempt in range(max_attempts):
                 # 随机选择一行
                 line_num = random.randint(1, self.total_lines)
                 line = linecache.getline(self.ua_file_path, line_num).strip()
 
                 if line and not line.startswith('#'):
+                    valid_attempts += 1
+
                     # 设备类型匹配
                     device_match = False
                     if device_type == 'wechat' and self._is_wechat_ua(line):
@@ -211,9 +280,13 @@ class OptimizedUserAgentManager:
                     os_match = self._match_os_type(line, os_type) if device_match else False
 
                     if device_match and os_match:
+                        # 记录找到的UA信息
+                        ua_lower = line.lower()
+                        detected_os = "ios" if "iphone" in ua_lower or "ipad" in ua_lower else "android" if "android" in ua_lower else "other"
+                        print(f"📁 从文件选择的UA (尝试 {attempt + 1}): {detected_os} - {line[:80]}...")
                         return line
 
-            # 如果没找到合适的，回退到缓存
+            print(f"⚠️ 文件读取尝试 {valid_attempts} 次后未找到匹配的{os_type} UA，回退到缓存")
             return self.get_random_ua(device_type, os_type)
 
         except Exception as e:
@@ -270,11 +343,14 @@ class OptimizedUserAgentManager:
 
         if device_type in fallback_agents:
             if os_type in fallback_agents[device_type]:
-                return random.choice(fallback_agents[device_type][os_type])
+                selected_ua = random.choice(fallback_agents[device_type][os_type])
             else:
-                return random.choice(fallback_agents[device_type]['any'])
+                selected_ua = random.choice(fallback_agents[device_type]['any'])
         else:
-            return random.choice(fallback_agents['mobile']['any'])
+            selected_ua = random.choice(fallback_agents['mobile']['any'])
+
+        print(f"🆘 使用备用UA: {selected_ua[:80]}...")
+        return selected_ua
 
     def create_default_ua_file(self):
         """创建默认 User-Agent 文件（移动端和微信完全分离）"""
@@ -465,33 +541,3 @@ class OptimizedUserAgentManager:
         except Exception as e:
             print(f"❌ 添加 User-Agent 失败: {e}")
             return False
-
-
-# 使用示例
-if __name__ == "__main__":
-    # 初始化管理器
-    ua_manager = OptimizedUserAgentManager()
-
-    # 获取安卓纯移动端 UA
-    android_mobile_ua = ua_manager.get_random_ua(device_type='mobile', os_type='android')
-    print(f"📱 安卓纯移动端: {android_mobile_ua}")
-
-    # 获取苹果微信 UA
-    ios_wechat_ua = ua_manager.get_random_ua(device_type='wechat', os_type='ios')
-    print(f"💬 苹果微信: {ios_wechat_ua}")
-
-    # 获取任意移动端 UA（不区分操作系统）
-    any_mobile_ua = ua_manager.get_random_ua(device_type='mobile', os_type='any')
-    print(f"📱 任意移动端: {any_mobile_ua}")
-
-    # 获取桌面端 UA（桌面端不区分安卓/iOS）
-    desktop_ua = ua_manager.get_random_ua(device_type='desktop', os_type='any')
-    print(f"💻 桌面端: {desktop_ua}")
-
-    # 获取安卓微信 UA
-    android_wechat_ua = ua_manager.get_random_ua(device_type='wechat', os_type='android')
-    print(f"💬 安卓微信: {android_wechat_ua}")
-
-    # 获取苹果纯移动端 UA
-    ios_mobile_ua = ua_manager.get_random_ua(device_type='mobile', os_type='ios')
-    print(f"📱 苹果纯移动端: {ios_mobile_ua}")

@@ -24,5 +24,7 @@
     "proxy_password": "",
     "custom_user_agent": "",
     "android_ratio": 50,
-    "ios_ratio": 50
+    "ios_ratio": 50,
+    "mobile_data_ratio": 50,
+    "wifi_ratio": 50
 }
