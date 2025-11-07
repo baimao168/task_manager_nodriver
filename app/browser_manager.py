@@ -160,17 +160,17 @@ class BrowserManager:
         ]
 
         # 代理配置（注释部分保持不变）
-        # try:
-        #     proxy_config = proxy_manager.get_valid_proxy(None,True if self.current_network_type == 'mobile_data' else False)
-        #     proxy_url = f"{proxy_config['ip']}:{proxy_config['port']}"
-        #     print(f"{proxy_config.get("http")}")
-        #     browser_args.extend([
-        #         f'--proxy-server=http://{proxy_url}',
-        #         '--proxy-bypass-list=<-loopback>',  # 绕过本地地址
-        #     ])
-        #     print(f"代理ip: {proxy_config['http']}")
-        # except Exception as e:
-        #     print("代理获取失败")
+        try:
+            proxy_config = proxy_manager.get_valid_proxy(None,True if self.current_network_type == 'mobile_data' else False)
+            proxy_url = f"{proxy_config['ip']}:{proxy_config['port']}"
+            print(f"{proxy_config.get("http")}")
+            browser_args.extend([
+                f'--proxy-server=http://{proxy_url}',
+                '--proxy-bypass-list=<-loopback>',  # 绕过本地地址
+            ])
+            print(f"代理ip: {proxy_config['http']}")
+        except Exception as e:
+            print("代理获取失败")
 
         logging.info("正在启动浏览器...")
 
