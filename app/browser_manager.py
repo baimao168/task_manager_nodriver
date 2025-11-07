@@ -453,6 +453,10 @@ class BrowserManager:
         except:
             pass
 
+        # 清除浏览器缓存
+        print("清除浏览器缓存...")
+        await self.clear_browser_cache()
+
         print("应用CDP协议隐藏...")
         await self.hide_cdp_protocol()
 
@@ -471,6 +475,107 @@ class BrowserManager:
         await self.bypass_protocol_detection()
 
         print("隐身配置应用完成!")
+
+    async def clear_browser_cache(self):
+        """清除浏览器缓存"""
+        try:
+            # 使用JavaScript清除浏览器存储数据
+            clear_scripts = [
+                # 清除localStorage
+                """
+                try {
+                    localStorage.clear();
+                    console.log('localStorage清除成功');
+                    return 'localStorage cleared';
+                } catch(e) {
+                    console.log('localStorage清除失败:', e.message);
+                    return 'localStorage clear failed: ' + e.message;
+                }
+                """,
+
+                # 清除sessionStorage
+                """
+                try {
+                    sessionStorage.clear();
+                    console.log('sessionStorage清除成功');
+                    return 'sessionStorage cleared';
+                } catch(e) {
+                    console.log('sessionStorage清除失败:', e.message);
+                    return 'sessionStorage clear failed: ' + e.message;
+                }
+                """,
+
+                # 清除cookies
+                """
+                try {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i];
+                        const eqPos = cookie.indexOf('=');
+                        const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+                        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+                        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=' + window.location.hostname + '; path=/';
+                        document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT; domain=.' + window.location.hostname + '; path=/';
+                    }
+                    console.log('Cookies清除成功');
+                    return 'cookies cleared';
+                } catch(e) {
+                    console.log('Cookies清除失败:', e.message);
+                    return 'cookies clear failed: ' + e.message;
+                }
+                """,
+
+                # 清除IndexedDB
+                """
+                try {
+                    if (window.indexedDB) {
+                        const dbs = await window.indexedDB.databases();
+                        for (const db of dbs) {
+                            window.indexedDB.deleteDatabase(db.name);
+                        }
+                        console.log('IndexedDB清除成功');
+                        return 'indexedDB cleared';
+                    }
+                    return 'indexedDB not available';
+                } catch(e) {
+                    console.log('IndexedDB清除失败:', e.message);
+                    return 'indexedDB clear failed: ' + e.message;
+                }
+                """,
+
+                # 清除缓存存储
+                """
+                try {
+                    if (window.caches) {
+                        const cacheNames = await window.caches.keys();
+                        await Promise.all(cacheNames.map(name => window.caches.delete(name)));
+                        console.log('CacheStorage清除成功');
+                        return 'cacheStorage cleared';
+                    }
+                    return 'cacheStorage not available';
+                } catch(e) {
+                    console.log('CacheStorage清除失败:', e.message);
+                    return 'cacheStorage clear failed: ' + e.message;
+                }
+                """
+            ]
+
+            for i, script in enumerate(clear_scripts):
+                try:
+                    print(f"执行缓存清除脚本 {i + 1}/{len(clear_scripts)}...")
+                    result = await self.safe_evaluate(script)
+                    if result is not None:
+                        print(f"缓存清除脚本 {i + 1} 执行成功: {result}")
+                    else:
+                        print(f"缓存清除脚本 {i + 1} 执行返回空结果")
+                    await asyncio.sleep(0.2)
+                except Exception as e:
+                    print(f"缓存清除脚本 {i + 1} 执行失败: {e}")
+
+            print("浏览器缓存清除完成")
+
+        except Exception as e:
+            print(f"清除浏览器缓存时发生错误: {e}")
 
     async def navigate_to_url(self, url: str) -> bool:
         """安全导航到URL - 修复 page.get() 返回列表的问题"""
