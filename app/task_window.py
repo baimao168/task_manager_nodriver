@@ -185,6 +185,7 @@ class TaskWindow(QWidget):
         super().__init__()
         self.title = title
         self.task_manager = TaskManager()
+        # 获取默认配置项
         self.config_manager = ConfigManager(f"config_{title}.json")
         self.current_config = TaskConfig()
         self.global_stats_manager = stats_manager  # 全局统计管理器（可选）
@@ -978,6 +979,10 @@ class TaskWindow(QWidget):
 
         if not self.validate_config(config, is_manual_test=True):
             return
+
+        # 更新json配置项
+        self.config_manager.save_config(config)
+        self.current_config = config
 
         # 更新UI状态
         self.manual_test_btn.setEnabled(False)

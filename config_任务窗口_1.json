@@ -1,7 +1,7 @@
 {
     "target_url": "http://www.baidu.com",
     "platform": "平台1",
-    "thread_count": 2,
+    "thread_count": 1,
     "random_stay_time": false,
     "min_stay_time": 5,
     "max_stay_time": 30,
@@ -12,7 +12,7 @@
     "ua_type": "浏览器",
     "auto_click_ratio": 50,
     "auto_message_ratio": 50,
-    "total_processes": 30,
+    "total_processes": 1,
     "total_minutes": 15,
     "headless_mode": false,
     "browser_timeout": 30,
@@ -23,8 +23,8 @@
     "proxy_username": "",
     "proxy_password": "",
     "custom_user_agent": "",
-    "android_ratio": 50,
-    "ios_ratio": 50,
+    "android_ratio": 70,
+    "ios_ratio": 30,
     "mobile_data_ratio": 50,
     "wifi_ratio": 50
 }
