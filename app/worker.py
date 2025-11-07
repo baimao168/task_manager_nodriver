@@ -5,7 +5,8 @@ import asyncio
 from PyQt5.QtCore import QObject, pyqtSignal, QThread
 from typing import Dict, Any, List
 
-from app.browser_manager import BrowserManager
+from app.browser_manager import BrowserManager  # nodriver - 手动检测
+from app.browser_manager_playwright import PlaywrightBrowserManager  # Playwright - 自动任务
 
 
 class Worker(QObject):
@@ -29,6 +30,7 @@ class Worker(QObject):
         self.current_step = 0
         self.should_stop = False
         self.browser_manager = None
+        # 默认的配置，我们需要用到任务设置配置
         self.config_manager = config_manager
         self.stats_manager = stats_manager
 
@@ -53,54 +55,64 @@ class Worker(QObject):
         try:
             self.progress.emit(self.task_id, "任务开始执行")
 
-            # 初始化浏览器管理器
-            self.browser_manager = BrowserManager(self.config)
-
             # 检查是否为手动检测模式
             is_manual_test = self.config.get('is_manual_test', False)
 
-            # 步骤1: 启动浏览器
-            await self._start_browser(is_manual_test)
-            if self.should_stop:
-                return
-
-            # 如果是手动检测模式，只验证页面访问
+            # 根据模式选择浏览器引擎
             if is_manual_test:
+                # 手动检测模式使用 nodriver
+                self.browser_manager = BrowserManager(self.config)
+                self.progress.emit(self.task_id, "使用 nodriver 引擎 (手动检测模式)")
+
+                # 步骤1: 启动浏览器
+                await self._start_browser(is_manual_test)
+                if self.should_stop:
+                    return
+
                 await self._manual_test_only()
-                return
+            else:
+                # 自动任务模式使用 Playwright
+                self.browser_manager = PlaywrightBrowserManager(self.config)
+                self.progress.emit(self.task_id, "使用 Playwright 引擎 (自动任务模式)")
 
-            # 步骤2: 访问目标网址
-            await self._visit_target()
-            if self.should_stop:
-                return
-
-            # 步骤3: 执行自动点击链接（根据比例）
-            if self.config.get('auto_click_links', False):
-                await self._auto_click_links()
+                # 步骤1: 启动浏览器
+                await self._start_browser(is_manual_test)
                 if self.should_stop:
                     return
 
-            # 步骤4: 执行自动发送消息（根据比例）
-            if self.config.get('auto_send_messages', False):
-                await self._auto_send_messages()
+                # 步骤2: 访问目标网址
+                await self._visit_target()
                 if self.should_stop:
                     return
+
+                # 步骤3: 执行自动点击链接
+                # if self.config.get('auto_click_links', False):
+                #     await self._auto_click_links()
+                #     if self.should_stop:
+                #         return
+
+
+            # 步骤4: 执行自动发送消息
+            # if self.config.get('auto_send_messages', False):
+            #     await self._auto_send_messages()
+            #     if self.should_stop:
+            #         return
 
             # 步骤5: 执行随机停留时间
-            if self.config.get('random_stay_time', False):
-                await self._random_stay()
-                if self.should_stop:
-                    return
+            # if self.config.get('random_stay_time', False):
+            #     await self._random_stay()
+            #     if self.should_stop:
+            #         return
 
             # 步骤6: 执行验证过程
-            await self._handle_verification()
-            if self.should_stop:
-                return
+            # await self._handle_verification()
+            # if self.should_stop:
+            #     return
 
             # 步骤7: 执行平台特定操作
-            await self._platform_specific_operations()
-            if self.should_stop:
-                return
+            # await self._platform_specific_operations()
+            # if self.should_stop:
+            #     return
 
             self.progress.emit(self.task_id, "任务执行完成")
             self.finished.emit(self.task_id, True)
@@ -110,9 +122,8 @@ class Worker(QObject):
             self.error.emit(self.task_id, str(e))
             self.finished.emit(self.task_id, False)
         finally:
-            # 手动检测模式下不自动关闭浏览器
-            is_manual_test = self.config.get('is_manual_test', False)
-            if not is_manual_test and self.browser_manager:
+            # 关闭浏览器
+            if self.browser_manager:
                 await self.browser_manager.close_browser()
 
     async def _start_browser(self, is_manual_test: bool = False):
@@ -120,6 +131,10 @@ class Worker(QObject):
         self.current_step = 1
 
         ua_type = self.config.get('ua_type', 'mobile')
+        if ua_type == "浏览器":
+            ua_type = 'mobile'
+        else:
+            ua_type = 'wechat'
         success = await self.browser_manager.start_browser(
             ua_type,
             is_manual_test,

@@ -60,7 +60,7 @@ class BrowserManager:
 
 
         # 根据配置比例选择设备类型
-        if config_manager:
+        if self.config_manager:
             self.current_device_type = config_manager.get_device_type_by_ratio()
         else:
             android_ratio = self.config.get('android_ratio', 50)
