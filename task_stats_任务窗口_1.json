@@ -1,7 +1,7 @@
 {
     "android_stats": {
-        "total_tests": 10,
-        "successful_tests": 10,
+        "total_tests": 11,
+        "successful_tests": 11,
         "failed_tests": 0
     },
     "ios_stats": {
@@ -10,8 +10,8 @@
         "failed_tests": 1
     },
     "mobile_data_stats": {
-        "total_tests": 10,
-        "successful_tests": 9,
+        "total_tests": 11,
+        "successful_tests": 10,
         "failed_tests": 1
     },
     "wifi_stats": {
@@ -19,7 +19,7 @@
         "successful_tests": 6,
         "failed_tests": 0
     },
-    "total_tests": 16,
-    "successful_tests": 15,
+    "total_tests": 17,
+    "successful_tests": 16,
     "failed_tests": 1
 }
