@@ -465,7 +465,7 @@ class BrowserManager:
         await self.spoof_mobile_fingerprint(config)
 
         print("绕过调试检测...")
-        await self.bypass_debug_detection()
+        # await self.bypass_debug_detection()
 
         # 新增：绕过CRC检测和协议检测
         print("绕过CRC检测...")

@@ -1,25 +1,25 @@
 {
     "android_stats": {
+        "total_tests": 22,
+        "successful_tests": 19,
+        "failed_tests": 3
+    },
+    "ios_stats": {
+        "total_tests": 8,
+        "successful_tests": 7,
+        "failed_tests": 1
+    },
+    "mobile_data_stats": {
+        "total_tests": 19,
+        "successful_tests": 15,
+        "failed_tests": 4
+    },
+    "wifi_stats": {
         "total_tests": 11,
         "successful_tests": 11,
         "failed_tests": 0
     },
-    "ios_stats": {
-        "total_tests": 6,
-        "successful_tests": 5,
-        "failed_tests": 1
-    },
-    "mobile_data_stats": {
-        "total_tests": 11,
-        "successful_tests": 10,
-        "failed_tests": 1
-    },
-    "wifi_stats": {
-        "total_tests": 6,
-        "successful_tests": 6,
-        "failed_tests": 0
-    },
-    "total_tests": 17,
-    "successful_tests": 16,
-    "failed_tests": 1
+    "total_tests": 30,
+    "successful_tests": 26,
+    "failed_tests": 4
 }
