@@ -101,8 +101,6 @@ class ProxyManager:
                 'https': proxy_config['https']
             }
 
-            auth_key = "fdasfasdfsadf"
-
             print(proxy_config.get('http'))
 
             auth = None
@@ -122,7 +120,7 @@ class ProxyManager:
 
                 print(ip_address)
                 # 验证代码是否是移动代理，家庭宽带，通过第三方离线库，或者api接口
-                ip_address_url = f"https://api.ipplus360.com/ip/info/v1/scene/?key{auth_key}=&ip={ip_address}&lang=cn"
+                ip_address_url = f"https://api.ipplus360.com/ip/info/v1/scene/?key=xESpXp0MruowKbxqAlcqkKkt6KGiyGm8dUQf2y9h6vdh69bvDtkkQ7eEM5E9e0Zf&ip={ip_address}&lang=cn"
 
                 ip_address_response = requests.get(test_url)
 
@@ -138,7 +136,7 @@ class ProxyManager:
                         return False
                         print("获取数据失败")
 
-                ip_address_risk_url = f"https://api.ipplus360.com/ip/info/v3/portrait/?key={auth_key}&ip={ip_address_url}&coordsys=WGS84"
+                ip_address_risk_url = f"https://api.ipplus360.com/ip/info/v3/portrait/?key=poQvB8tJrgfBgsZsTHxNFDCKQr4HSBqYmGcaNIxk4jvfGztZ0twtKnJqHiqVOW8E&ip={ip_address_url}&coordsys=WGS84"
 
                 ip_address_risk_response = requests.get(ip_address_risk_url)
 
