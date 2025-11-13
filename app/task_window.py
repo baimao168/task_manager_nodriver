@@ -53,6 +53,7 @@ class TaskStats:
     total_tests: int = 0
     successful_tests: int = 0
     failed_tests: int = 0
+    ip_address_list: list = None
 
     def __post_init__(self):
         if self.android_stats is None:
@@ -93,7 +94,8 @@ class TaskStatsManager:
                         wifi_stats=TaskNetworkStats(**data.get('wifi_stats', {})),
                         total_tests=data.get('total_tests', 0),
                         successful_tests=data.get('successful_tests', 0),
-                        failed_tests=data.get('failed_tests', 0)
+                        failed_tests=data.get('failed_tests', 0),
+                        ip_address_list=data.get('ip_address_list',[])
                     )
         except Exception as e:
             print(f"加载任务统计数据失败: {e}")
@@ -171,7 +173,8 @@ class TaskStatsManager:
             'mobile_data_success_rate': self.stats.mobile_data_stats.success_rate,
             'wifi_total': self.stats.wifi_stats.total_tests,
             'wifi_success': self.stats.wifi_stats.successful_tests,
-            'wifi_success_rate': self.stats.wifi_stats.success_rate
+            'wifi_success_rate': self.stats.wifi_stats.success_rate,
+            'ip_address_list': self.stats.ip_address_list,
         }
 
 
