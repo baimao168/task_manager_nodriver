@@ -88,10 +88,20 @@ class BrowserManager:
         # 修复：确保每次启动都获取新的随机UA
         print(f"🔄 正在获取{self.current_device_type.upper()}设备的UA...")
 
-        if self.use_file_reading:
-            self.current_ua = self.ua_manager.get_random_ua_from_file(device, self.current_device_type)
+        ua_type = ""
+        if self.config_manager.current_config.ua_type.name == "all":
+            strings = ["mobile","wechat"]
+            random.choice(strings)
         else:
-            self.current_ua = self.ua_manager.get_random_ua(device, self.current_device_type)
+            ua_type = self.config_manager.current_config.ua_type.name
+
+
+        if self.use_file_reading:
+            print(f"二维码类型{ua_type}")
+            self.current_ua = self.ua_manager.get_random_ua_from_file(ua_type, self.current_device_type)
+        else:
+            print(f"二维码类型{ua_type}")
+            self.current_ua = self.ua_manager.get_random_ua(ua_type, self.current_device_type)
 
         # 验证UA与设备类型匹配
         if self.current_ua:

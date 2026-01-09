@@ -25,14 +25,14 @@ class ProxyManager:
             logger.error(f"代理池 {pool_name} 不存在")
             return None
 
-        # pool_config = self.proxy_pools[pool_name]
+        pool_config = self.proxy_pools[pool_name]
 
-        if is_mobile:
-            pool_config = self.proxy_pools['qm_proxy']
-            print("使用的移动数据代理")
-        else:
-            pool_config = self.proxy_pools[pool_name]
-            print("使用的家庭宽带")
+        # if is_mobile:
+        #     pool_config = self.proxy_pools['qm_proxy']
+        #     print("使用的移动数据代理")
+        # else:
+        #     pool_config = self.proxy_pools[pool_name]
+        #     print("使用的家庭宽带")
 
         try:
             headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
@@ -240,7 +240,7 @@ class ProxyManager:
 
     def get_valid_proxy(self, pool_name: str = None,is_mobile=False,stats_manager=None) -> Optional[Dict]:
         """获取有效的代理"""
-        max_retries = 2
+        max_retries = 10
 
         self.ip_list = stats_manager.stats.ip_address_list
 

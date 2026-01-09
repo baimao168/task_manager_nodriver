@@ -324,7 +324,7 @@ class MultiTaskManager(QMainWindow):
     def init_ui(self):
         """初始化用户界面"""
         self.setWindowTitle("多任务管理器 - 可管理多个独立任务窗口")
-        self.setGeometry(100, 100, 1400, 900)
+        self.setGeometry(100, 100, 500, 500)
 
         # 创建工具栏
         self.create_toolbar()
@@ -497,22 +497,22 @@ class MultiTaskManager(QMainWindow):
         layout.addWidget(self.stats_widget)
 
         # 系统功能说明
-        hint_label = QLabel(
-            "系统功能说明:\n\n"
-            "• 多任务管理: 支持同时管理多个独立任务\n"
-            "• 独立配置: 每个任务有独立的参数配置\n"
-            "• 状态监控: 实时监控各任务运行状态\n"
-            "• 批量操作: 支持批量启动/停止任务\n\n"
-            "使用方法:\n"
-            "1. 点击\"添加任务\"创建新任务窗口\n"
-            "2. 在任务窗口中配置参数\n"
-            "3. 启动任务并监控运行状态\n"
-            "4. 使用工具栏进行批量操作"
-        )
-        hint_label.setAlignment(Qt.AlignLeft)
-        hint_label.setStyleSheet(
-            "QLabel { font-size: 14px; color: #555; margin: 20px; line-height: 1.8; background-color: #f5f5f5; padding: 15px; border-radius: 5px; }")
-        layout.addWidget(hint_label)
+        # hint_label = QLabel(
+        #     "系统功能说明:\n\n"
+        #     "• 多任务管理: 支持同时管理多个独立任务\n"
+        #     "• 独立配置: 每个任务有独立的参数配置\n"
+        #     "• 状态监控: 实时监控各任务运行状态\n"
+        #     "• 批量操作: 支持批量启动/停止任务\n\n"
+        #     "使用方法:\n"
+        #     "1. 点击\"添加任务\"创建新任务窗口\n"
+        #     "2. 在任务窗口中配置参数\n"
+        #     "3. 启动任务并监控运行状态\n"
+        #     "4. 使用工具栏进行批量操作"
+        # )
+        # hint_label.setAlignment(Qt.AlignLeft)
+        # hint_label.setStyleSheet(
+        #     "QLabel { font-size: 14px; color: #555; margin: 20px; line-height: 1.8; background-color: #f5f5f5; padding: 15px; border-radius: 5px; }")
+        # layout.addWidget(hint_label)
 
         # 快速操作按钮区域
         quick_actions_group = QGroupBox("快速操作")

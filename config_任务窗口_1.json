@@ -9,7 +9,7 @@
     "auto_click_links": false,
     "auto_send_messages": false,
     "message_list": [],
-    "ua_type": "浏览器",
+    "ua_type": "微信",
     "auto_click_ratio": 50,
     "auto_message_ratio": 50,
     "total_processes": 1,

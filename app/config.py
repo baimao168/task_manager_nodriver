@@ -13,6 +13,7 @@ class Platform(Enum):
 
 
 class UAType(Enum):
+    all = "所有"
     mobile = "浏览器"
     wechat = "微信"
 
@@ -30,7 +31,7 @@ class TaskConfig:
     auto_click_links: bool = False
     auto_send_messages: bool = False
     message_list: List[str] = field(default_factory=list)
-    ua_type: UAType = UAType.mobile
+    ua_type: UAType = UAType.all
 
     # 精简后的新参数
     auto_click_ratio: int = 50  # 自动点击链接比例（%）

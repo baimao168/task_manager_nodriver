@@ -996,6 +996,7 @@ class TaskWindow(QWidget):
         self.log_message("开始手动检测...")
         self.log_message(f"检测目标: {config.target_url}")
         self.log_message(f"平台类型: {config.platform.value}")
+        self.log_message(f"UA类型：{config.ua_type.value}")
         self.log_message(f"设备比例: 安卓{config.android_ratio}% / iOS{config.ios_ratio}%")
         self.log_message(f"网络比例: 移动数据{config.mobile_data_ratio}% / WIFI{config.wifi_ratio}%")
 

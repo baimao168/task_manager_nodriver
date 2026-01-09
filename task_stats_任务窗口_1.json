@@ -1,33 +1,39 @@
 {
     "android_stats": {
-        "total_tests": 34,
+        "total_tests": 39,
         "successful_tests": 30,
-        "failed_tests": 4
+        "failed_tests": 9
     },
     "ios_stats": {
-        "total_tests": 12,
+        "total_tests": 13,
         "successful_tests": 11,
-        "failed_tests": 1
+        "failed_tests": 2
     },
     "mobile_data_stats": {
-        "total_tests": 29,
+        "total_tests": 30,
         "successful_tests": 25,
-        "failed_tests": 4
+        "failed_tests": 5
     },
     "wifi_stats": {
-        "total_tests": 17,
+        "total_tests": 22,
         "successful_tests": 16,
-        "failed_tests": 1
+        "failed_tests": 6
     },
-    "total_tests": 46,
+    "total_tests": 52,
     "successful_tests": 41,
-    "failed_tests": 5,
+    "failed_tests": 11,
     "ip_address_list": [
         "120.211.204.15",
         "116.162.56.134",
         "111.26.240.122",
         "120.238.220.65",
         "112.9.100.211",
-        "112.97.202.199"
+        "112.97.202.199",
+        "124.152.1.76",
+        "182.90.218.147",
+        "112.224.157.206",
+        "111.31.20.81",
+        "123.168.226.169",
+        "39.144.128.105"
     ]
 }
